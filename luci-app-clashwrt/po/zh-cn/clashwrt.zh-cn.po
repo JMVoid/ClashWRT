@@ -92,11 +92,11 @@ msgstr "生成日志"
 msgid "Click to Generate"
 msgstr "点击生成"
 
-msgid "Start OpenClash"
-msgstr "启动 OpenClash"
+msgid "Start ClashWRT"
+msgstr "启动 ClashWRT"
 
-msgid "Stop OpenClash"
-msgstr "关闭 OpenClash"
+msgid "Stop ClashWRT"
+msgstr "关闭 ClashWRT"
 
 msgid "Commit Settings"
 msgstr "保存配置"
@@ -137,7 +137,7 @@ msgstr "Redir-Host（TUN-混合）模式【UDP-TUN，TCP-转发】"
 msgid "fake-ip-mix(tun mix mode)"
 msgstr "Fake-IP（TUN-混合）模式【UDP-TUN，TCP-转发】"
 
-msgid "Select Mode For OpenClash Work, Try Flush DNS Cache If Network Error"
+msgid "Select Mode For ClashWRT Work, Try Flush DNS Cache If Network Error"
 msgstr "选择运行模式，如客户端的网络异常请尝试清除DNS缓存"
 
 msgid "Proxy Mode"
@@ -204,7 +204,7 @@ msgid "Redirect Local DNS Setting"
 msgstr "*本地DNS劫持"
 
 msgid "Set Local DNS Redirect"
-msgstr "默认启用，将自动设置Dnsmasq的上游服务器，如和其他插件冲突可停用，但须将OpenClash作为冲突插件的唯一上游服务器"
+msgstr "默认启用，将自动设置Dnsmasq的上游服务器，如和其他插件冲突可停用，但须将ClashWRT作为冲突插件的唯一上游服务器"
 
 msgid "Disable Dnsmasq's DNS Cache"
 msgstr "禁止Dnsmasq缓存DNS"
@@ -255,7 +255,7 @@ msgstr "每行请只填写一个规则，列表中的域名将使用指定的DNS
 msgid "Fake-IP-Filter List Update"
 msgstr "更新Fake-IP域名黑名单"
 
-msgid "Set OpenClash Upstream DNS Resolve Server"
+msgid "Set ClashWRT Upstream DNS Resolve Server"
 msgstr "启用将覆盖配置文件内的设置，请先在下方配置好服务器"
 
 msgid "DNS Server Group"
@@ -402,8 +402,8 @@ msgstr "，仅支持未被接管的设置"
 msgid "Default Config File With Correct Template"
 msgstr "参考配置文件，方便您查询各项参数注释和正确的设置、顺序"
 
-msgid "Config File Edited By OpenClash For Running"
-msgstr "OpenClash修改后用于启动的配置文件"
+msgid "Config File Edited By ClashWRT For Running"
+msgstr "ClashWRT修改后用于启动的配置文件"
 
 msgid "Dashboard Secret"
 msgstr "管理页面登录密钥"
@@ -603,17 +603,17 @@ msgstr "<可更新>"
 msgid "Update Core File"
 msgstr "更新内核"
 
-msgid "Download Form https://github.com/vernesong/OpenClash/releases/tag/Clash If Fail"
+msgid "Download Form https://github.com/JMVoid/ClashWRT/releases/tag/Clash If Fail"
 msgstr ""
-"如下载失败可前往 https://github.com/vernesong/OpenClash/releases/tag/Clash 手动下载并上传"
+"如下载失败可前往 https://github.com/JMVoid/ClashWRT/releases/tag/Clash 手动下载并上传"
 
-msgid "Last OpenClash Version"
+msgid "Last ClashWRT Version"
 msgstr "最新客户端版本"
 
-msgid "Current OpenClash Version"
+msgid "Current ClashWRT Version"
 msgstr "当前客户端版本"
 
-msgid "Update OpenClash"
+msgid "Update ClashWRT"
 msgstr "更新客户端"
 
 msgid "Only For IPK Install Type Or Not Release Memory"
@@ -1109,8 +1109,8 @@ msgstr "在线订阅转换功能由tindy X通过subconverter提供支持"
 msgid "Small Flash Memory"
 msgstr "小闪存模式"
 
-msgid "Move Core And GEOIP Data File To /tmp/etc/openclash For Small Flash Memory Device"
-msgstr "针对闪存空间不够的设备，移动内核和GEOIP数据库文件到 /tmp/etc/openclash 文件夹"
+msgid "Move Core And GEOIP Data File To /tmp/etc/ClashWRT For Small Flash Memory Device"
+msgstr "针对闪存空间不够的设备，移动内核和GEOIP数据库文件到 /tmp/etc/clashwrt 文件夹"
 
 msgid "Round-robin"
 msgstr "轮询（轮流使用全部代理）"
@@ -1254,7 +1254,7 @@ msgid "Save Nodes Selection Failed"
 msgstr "备份失败"
 
 msgid "Tip: after started, please wait patiently until the connection is normal"
-msgstr "Tip: OpenClash 成功启动后请耐心等待下方网站访问检查连接正常后再使用"
+msgstr "Tip: ClashWRT 成功启动后请耐心等待下方网站访问检查连接正常后再使用"
 
 msgid "Tip: You can modify the profile on the profile page (for content that is not taken over)"
 msgstr "Tip: 您可以在配置文件页面直接修改配置文件（适用于没被接管的内容）"
@@ -1274,8 +1274,8 @@ msgstr "Tip: 使用 Fake-IP 模式可以获得更加快速的访问体验"
 msgid "Tip: query DNS by TLS & TCP & HTTPS can get better anti pollution effect"
 msgstr "Tip: 使用 TLS & TCP & HTTPS 方式查询DNS可以获得更好的抗污染效果"
 
-msgid "Tip: openlash will check the configuration file parameters to ensure that it works properly"
-msgstr "Tip: OpenClash 启动时会检查配置文件参数【服务器（策略）组、规则、DNS设置】以确保能够正常工作"
+msgid "Tip: ClashWRT will check the configuration file parameters to ensure that it works properly"
+msgstr "Tip: ClashWRT 启动时会检查配置文件参数【服务器（策略）组、规则、DNS设置】以确保能够正常工作"
 
 msgid "Tip: the nameserver group must have at least one server set when using custom DNS"
 msgstr "Tip: 使用自定义DNS上游服务器时NameServer组必须设置至少一个服务器"
@@ -1469,7 +1469,7 @@ msgstr "备注"
 msgid "Auto Restart"
 msgstr "定时重启"
 
-msgid "Auto Restart OpenClash"
+msgid "Auto Restart ClashWRT"
 msgstr "定时重启插件"
 
 msgid "Restart Time (Every Week)"
@@ -1542,7 +1542,7 @@ msgid "Download Successful, Start Pre Update Test..."
 msgstr "下载成功，开始进行更新前测试..."
 
 msgid "Pre Update Test Failed, The File is Saved in /tmp/opencrash.ipk, Please Try to Update Manually!"
-msgstr "更新前测试失败，文件保存在/tmp/openclash.ipk，请尝试手动更新！"
+msgstr "更新前测试失败，文件保存在/tmp/clashwrt.ipk，请尝试手动更新！"
 
 msgid "Pre Update Test Passed, Ready to Update and Please Do not Refresh The Page and Other Operations..."
 msgstr "更新前测试通过，准备开始更新，更新过程请不要刷新页面和进行其他操作..."
@@ -1553,11 +1553,11 @@ msgstr "正在卸载旧版本，更新过程请不要刷新页面和进行其他
 msgid "Installing The New Version, Please Do Not Refresh The Page or Do Other Operations..."
 msgstr "正在安装新版本，更新过程请不要刷新页面和进行其他操作..."
 
-msgid "OpenClash Update Successful, About To Restart!"
-msgstr "OpenClash 更新成功，即将进行重启！"
+msgid "ClashWRT Update Successful, About To Restart!"
+msgstr "ClashWRT 更新成功，即将进行重启！"
 
-msgid "OpenClash Update Failed, The File is Saved in /tmp/openclash.ipk, Please Try to Update Manually!"
-msgstr "OpenClash 更新失败，文件保存在/tmp/openclash.ipk，请尝试手动更新！"
+msgid "ClashWRT Update Failed, The File is Saved in /tmp/ClashWRT.ipk, Please Try to Update Manually!"
+msgstr "ClashWRT 更新失败，文件保存在/tmp/clashwrt.ipk，请尝试手动更新！"
 
 msgid "Download Failed, Please Check The Network or Try Again Later!"
 msgstr "下载失败，请检查网络或稍后再试！"
@@ -1565,8 +1565,8 @@ msgstr "下载失败，请检查网络或稍后再试！"
 msgid "Failed to Get Version Information, Please Try Again Later..."
 msgstr "获取版本信息失败，请稍后再试..."
 
-msgid "OpenClash Has not Been Updated, Stop Continuing!"
-msgstr "OpenClash 没有更新，停止继续操作！"
+msgid "ClashWRT Has not Been Updated, Stop Continuing!"
+msgstr "ClashWRT 没有更新，停止继续操作！"
 
 msgid "Core Version Check Error, Please Try Again Later..."
 msgstr "内核最新版本检测失败，请稍后再试..."
@@ -1616,8 +1616,8 @@ msgstr "错误：更新的第三方规则文件"
 msgid "Has No Rules Field, Update Exit..."
 msgstr "规则部分校验失败，请稍后再试..."
 
-msgid "Has Incompatible Proxy-Group, Update Exit, Please Wait For OpenClash Update To Adapt..."
-msgstr "含有未支持的新策略组，更新停止，请等待OpenClash版本更新适配..."
+msgid "Has Incompatible Proxy-Group, Update Exit, Please Wait For ClashWRT Update To Adapt..."
+msgstr "含有未支持的新策略组，更新停止，请等待ClashWRT版本更新适配..."
 
 msgid "Check The Downloaded Rule File For Updates..."
 msgstr "检查下载的规则文件是否有更新..."
@@ -1889,29 +1889,29 @@ msgstr "错误：Capsh异常，请尝试重新安装依赖【libcap】和相应�
 msgid "Tip: You Could Download And Re-Install The libcap & libcap-bin Library From The Address Give"
 msgstr "提示: 你可以尝试从给出的地址中查找、下载并重新安装架构对应的 libcap 和 libcap-bin 依赖"
 
-msgid "Error: Get DNS 'listen' Option Error, OpenClash Can Not Start With Raw Config File"
-msgstr "错误: 无法获取DNS部分的监听端口设置, OpenClash 使用原始配置文件启动失败"
+msgid "Error: Get DNS 'listen' Option Error, ClashWRT Can Not Start With Raw Config File"
+msgstr "错误: 无法获取DNS部分的监听端口设置, ClashWRT 使用原始配置文件启动失败"
 
-msgid "Error: Get DNS 'enhanced-mode' Option Error, OpenClash Can Not Start With Raw Config File"
-msgstr "错误: 无法获取DNS部分的运行模式设置, OpenClash 使用原始配置文件启动失败"
+msgid "Error: Get DNS 'enhanced-mode' Option Error, ClashWRT Can Not Start With Raw Config File"
+msgstr "错误: 无法获取DNS部分的运行模式设置, ClashWRT 使用原始配置文件启动失败"
 
-msgid "Error: Get General 'redir-port' Option Error, OpenClash Can Not Start With Raw Config File"
-msgstr "错误: 无法获取General部分的转发端口设置, OpenClash 使用原始配置文件启动失败"
+msgid "Error: Get General 'redir-port' Option Error, ClashWRT Can Not Start With Raw Config File"
+msgstr "错误: 无法获取General部分的转发端口设置, ClashWRT 使用原始配置文件启动失败"
 
-msgid "Error: OpenClash Can Not Start, Please Check The Error Info And Try Again!"
-msgstr "错误: OpenClash 启动失败，请到日志页面查看详细错误信息！"
+msgid "Error: ClashWRT Can Not Start, Please Check The Error Info And Try Again!"
+msgstr "错误: ClashWRT 启动失败，请到日志页面查看详细错误信息！"
 
-msgid "Error: OpenClash Can Not Start, Try Use Raw Config Restart Again..."
-msgstr "错误: OpenClash 启动失败，尝试使用原始配置文件启动..."
+msgid "Error: ClashWRT Can Not Start, Try Use Raw Config Restart Again..."
+msgstr "错误: ClashWRT 启动失败，尝试使用原始配置文件启动..."
 
-msgid "Error: OpenClash Can Not Start, Try Use Backup Rules Start Again..."
-msgstr "错误: OpenClash 启动失败，尝试还原第三方规则并重新启动 Clash 主程序..."
+msgid "Error: ClashWRT Can Not Start, Try Use Backup Rules Start Again..."
+msgstr "错误: ClashWRT 启动失败，尝试还原第三方规则并重新启动 Clash 主程序..."
 
 msgid "Found 53 Port Hijacked, Clean Up Firewall Rules..."
 msgstr "发现53端口被劫持，清理防火墙规则..."
 
-msgid "OpenClash Start Running..."
-msgstr "OpenClash 开始启动..."
+msgid "ClashWRT Start Running..."
+msgstr "ClashWRT 开始启动..."
 
 msgid "Step 1: Get The Configuration..."
 msgstr "第一步: 获取配置..."
@@ -1943,26 +1943,26 @@ msgstr "第九步: 重启 Dnsmasq 程序..."
 msgid "Step 10: Add Cron Rules, Start Daemons..."
 msgstr "第十步: 添加计划任务,启动进程守护程序..."
 
-msgid "OpenClash Start Successful!"
-msgstr "OpenClash 启动成功，请等待服务器上线！"
+msgid "ClashWRT Start Successful!"
+msgstr "ClashWRT 启动成功，请等待服务器上线！"
 
-msgid "Warning: OpenClash Start Successful, Please Note That Network May Abnormal With IPv6's DHCP Server"
-msgstr "警告：OpenClash 启动成功，检测到您启用了IPv6的DHCP服务，可能会造成连接异常！"
+msgid "Warning: ClashWRT Start Successful, Please Note That Network May Abnormal With IPv6's DHCP Server"
+msgstr "警告：ClashWRT 启动成功，检测到您启用了IPv6的DHCP服务，可能会造成连接异常！"
 
-msgid "Warning: OpenClash Start Successful With Raw Config File, Please Note That It's Restricted Mode Now"
-msgstr "警告：OpenClash 使用原始配置文件启动成功，部分设置可能未生效！"
+msgid "Warning: ClashWRT Start Successful With Raw Config File, Please Note That It's Restricted Mode Now"
+msgstr "警告：ClashWRT 使用原始配置文件启动成功，部分设置可能未生效！"
 
-msgid "OpenClash Stoping..."
-msgstr "OpenClash 开始关闭..."
+msgid "ClashWRT Stoping..."
+msgstr "ClashWRT 开始关闭..."
 
 msgid "Step 1: Backup The Current Groups State..."
 msgstr "第一步: 备份当前策略组状态..."
 
-msgid "Step 2: Delete OpenClash Firewall Rules..."
-msgstr "第二步: 删除 OpenClash 防火墙规则..."
+msgid "Step 2: Delete ClashWRT Firewall Rules..."
+msgstr "第二步: 删除 ClashWRT 防火墙规则..."
 
-msgid "Step 3: Close The OpenClash Daemons..."
-msgstr "第三步: 关闭 OpenClash 守护程序..."
+msgid "Step 3: Close The ClashWRT Daemons..."
+msgstr "第三步: 关闭 ClashWRT 守护程序..."
 
 msgid "Step 4: Close The Clash Core Process..."
 msgstr "第四步: 关闭 Clash 主程序..."
@@ -1970,20 +1970,20 @@ msgstr "第四步: 关闭 Clash 主程序..."
 msgid "Step 5: Restart Dnsmasq..."
 msgstr "第五步: 重启 Dnsmasq 程序..."
 
-msgid "Step 6: Delete OpenClash Residue File..."
-msgstr "第六步：删除 OpenClash 残留文件..."
+msgid "Step 6: Delete ClashWRT Residue File..."
+msgstr "第六步：删除 ClashWRT 残留文件..."
 
-msgid "OpenClash Already Stop!"
-msgstr "OpenClash 关闭成功！"
+msgid "ClashWRT Already Stop!"
+msgstr "ClashWRT 关闭成功！"
 
-msgid "Reload OpenClash Firewall Rules..."
-msgstr "重置 OpenClash 防火墙规则..."
+msgid "Reload ClashWRT Firewall Rules..."
+msgstr "重置 ClashWRT 防火墙规则..."
 
-msgid "Warning: OpenClash Now Disabled, Need Start From Luci Page, Exit..."
-msgstr "警告：OpenClash 目前处于未启用状态，请从插件页面启动本插件，脚本退出..."
+msgid "Warning: ClashWRT Now Disabled, Need Start From Luci Page, Exit..."
+msgstr "警告：ClashWRT 目前处于未启用状态，请从插件页面启动本插件，脚本退出..."
 
 msgid "Warning: Multiple Restart Scripts Running, Exit..."
-msgstr "警告：多个 OpenClash 启动脚本运行中，此脚本退出..."
+msgstr "警告：多个 ClashWRT 启动脚本运行中，此脚本退出..."
 
 msgid "Watchdog: Multiple Clash Processes, Kill All..."
 msgstr "守护程序：检测到多个 Clash 内核运行，清理中..."
@@ -1992,7 +1992,7 @@ msgid "Watchdog: Clash Core Problem, Restart..."
 msgstr "守护程序：检测到 Clash 内核崩溃，重启中..."
 
 msgid "Watchdog: Already Restart 3 Times With Clash Core Problem, Auto-Exit..."
-msgstr "守护程序：已尝试自动重启三次 Clash 内核，为防止频繁重启造成严重后果，OpenClash 将停止运行..."
+msgstr "守护程序：已尝试自动重启三次 Clash 内核，为防止频繁重启造成严重后果，ClashWRT 将停止运行..."
 
 msgid "Watchdog: Log Size Limit, Clean Up All Log Records..."
 msgstr "守护程序：因日志大小限制，清理所有日志内容..."
@@ -2052,7 +2052,7 @@ msgid "If you need to customize the external configuration file (subscription co
 msgstr "如需自定义外部配置文件(订阅转换模板)，请按照说明编写后上传至外部网络可访问的位置，并在使用时正确填写地址"
 
 msgid "If you have a recommended external configuration file (subscription conversion template), you can modify by following The file format of /usr/share/opencrash/res/sub_ini.list and pr"
-msgstr "如您有值得推荐的外部配置文件(订阅转换模板)，可以按照 /usr/share/openclash/res/sub_ini.list 的文件格式修改后提交PR"
+msgstr "如您有值得推荐的外部配置文件(订阅转换模板)，可以按照 /usr/share/clashwrt/res/sub_ini.list 的文件格式修改后提交PR"
 
 msgid "To restore the default configuration, try accessing:"
 msgstr "如遇到配置丢失或者需要还原默认配置，请尝试访问地址:"
@@ -2342,8 +2342,8 @@ msgstr "备份文件"
 msgid "Backup File Restore Successful!"
 msgstr "备份文件恢复成功！"
 
-msgid "Backup OpenClash"
-msgstr "备份 OpenClash"
+msgid "Backup ClashWRT"
+msgstr "备份 ClashWRT"
 
 msgid "Not Select"
 msgstr "未选择"
@@ -2360,7 +2360,7 @@ msgstr "3. 可能是DNS未劫持成功，导致Clash无法正确反推出域名�
 msgid "4. It may be that the filled address cannot be resolved and connected"
 msgstr "4. 可能是所填地址无法进行解析和连接"
 
-msgid "OpenClash Log"
+msgid "ClashWRT Log"
 msgstr "插件日志"
 
 msgid "Core Log"
@@ -2420,8 +2420,8 @@ msgstr "存储Fake-IP的DNS解析记录到文件，提升内核启动后的反�
 msgid "About to open fast.com"
 msgstr "确认后将打开 fast.com 进行测速"
 
-msgid "Please make sure the OpenClash works normally"
-msgstr "请确保 OpenClash 已在正常运行"
+msgid "Please make sure the ClashWRT works normally"
+msgstr "请确保 ClashWRT 已在正常运行"
 
 msgid "The domains catch time is one minute"
 msgstr "域名抓取功能运行时间为一分钟"
@@ -2447,8 +2447,8 @@ msgstr "启动后会立即执行一次，间隔无需太短（修改后保存配
 msgid "Test failed"
 msgstr "检测失败"
 
-msgid "OpenClash Start Failed"
-msgstr "OpenClash 启动失败"
+msgid "ClashWRT Start Failed"
+msgstr "ClashWRT 启动失败"
 
 msgid "interface-name"
 msgstr "指定出口网卡"

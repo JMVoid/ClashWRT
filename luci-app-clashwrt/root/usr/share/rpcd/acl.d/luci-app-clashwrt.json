@@ -1,0 +1,15 @@
+{
+	"luci-app-clashwrt": {
+		"description": "Grant UCI access for luci-app-clashwrt",
+		"read": {
+			"uci": [
+				"clashwrt"
+			]
+		},
+		"write": {
+			"uci": [
+				"clashwrt"
+			]
+		}
+	}
+}

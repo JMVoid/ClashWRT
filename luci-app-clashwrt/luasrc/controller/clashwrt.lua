@@ -7,76 +7,78 @@ function index()
 
 	local page
 	
-	page = entry({"admin", "services", "clashwrt"}, alias("admin", "services", "openclash", "client"), _("OpenClash"), 50)
+	page = entry({"admin", "services", "clashwrt"}, alias("admin", "services", "clashwrt", "client"), _("ClashWRT"), 50)
 	page.dependent = true
 	page.acl_depends = { "luci-app-clashwrt" }
-	entry({"admin", "services", "openclash", "client"},form("openclash/client"),_("Overviews"), 20).leaf = true
-	entry({"admin", "services", "openclash", "status"},call("action_status")).leaf=true
-	entry({"admin", "services", "openclash", "state"},call("action_state")).leaf=true
-	entry({"admin", "services", "openclash", "startlog"},call("action_start")).leaf=true
-	entry({"admin", "services", "openclash", "refresh_log"},call("action_refresh_log"))
-	entry({"admin", "services", "openclash", "del_log"},call("action_del_log"))
-	entry({"admin", "services", "openclash", "del_start_log"},call("action_del_start_log"))
-	entry({"admin", "services", "openclash", "close_all_connection"},call("action_close_all_connection"))
-	entry({"admin", "services", "openclash", "reload_firewall"},call("action_reload_firewall"))
-	entry({"admin", "services", "openclash", "update_subscribe"},call("action_update_subscribe"))
-	entry({"admin", "services", "openclash", "update_other_rules"},call("action_update_other_rules"))
-	entry({"admin", "services", "openclash", "update_geoip"},call("action_update_geoip"))
-	entry({"admin", "services", "openclash", "currentversion"},call("action_currentversion"))
-	entry({"admin", "services", "openclash", "lastversion"},call("action_lastversion"))
-	entry({"admin", "services", "openclash", "save_corever_branch"},call("action_save_corever_branch"))
-	entry({"admin", "services", "openclash", "update"},call("action_update"))
-	entry({"admin", "services", "openclash", "update_ma"},call("action_update_ma"))
-	entry({"admin", "services", "openclash", "opupdate"},call("action_opupdate"))
-	entry({"admin", "services", "openclash", "coreupdate"},call("action_coreupdate"))
-	entry({"admin", "services", "openclash", "ping"}, call("act_ping"))
-	entry({"admin", "services", "openclash", "download_rule"}, call("action_download_rule"))
-	entry({"admin", "services", "openclash", "download_netflix_domains"}, call("action_download_netflix_domains"))
-	entry({"admin", "services", "openclash", "download_disney_domains"}, call("action_download_disney_domains"))
-	entry({"admin", "services", "openclash", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
-	entry({"admin", "services", "openclash", "write_netflix_domains"}, call("action_write_netflix_domains"))
-	entry({"admin", "services", "openclash", "restore"}, call("action_restore_config"))
-	entry({"admin", "services", "openclash", "backup"}, call("action_backup"))
-	entry({"admin", "services", "openclash", "remove_all_core"}, call("action_remove_all_core"))
-	entry({"admin", "services", "openclash", "one_key_update"}, call("action_one_key_update"))
-	entry({"admin", "services", "openclash", "one_key_update_check"}, call("action_one_key_update_check"))
-	entry({"admin", "services", "openclash", "switch_mode"}, call("action_switch_mode"))
-	entry({"admin", "services", "openclash", "op_mode"}, call("action_op_mode"))
-	entry({"admin", "services", "openclash", "dler_info"}, call("action_dler_info"))
-	entry({"admin", "services", "openclash", "dler_checkin"}, call("action_dler_checkin"))
-	entry({"admin", "services", "openclash", "dler_logout"}, call("action_dler_logout"))
-	entry({"admin", "services", "openclash", "dler_login"}, call("action_dler_login"))
-	entry({"admin", "services", "openclash", "dler_login_info_save"}, call("action_dler_login_info_save"))
-	entry({"admin", "services", "openclash", "sub_info_get"}, call("sub_info_get"))
-	entry({"admin", "services", "openclash", "config_name"}, call("action_config_name"))
-	entry({"admin", "services", "openclash", "switch_config"}, call("action_switch_config"))
-	entry({"admin", "services", "openclash", "toolbar_show"}, call("action_toolbar_show"))
-	entry({"admin", "services", "openclash", "toolbar_show_sys"}, call("action_toolbar_show_sys"))
-	entry({"admin", "services", "openclash", "diag_connection"}, call("action_diag_connection"))
-	entry({"admin", "services", "openclash", "gen_debug_logs"}, call("action_gen_debug_logs"))
-	entry({"admin", "services", "openclash", "log_level"}, call("action_log_level"))
-	entry({"admin", "services", "openclash", "switch_log"}, call("action_switch_log"))
-	entry({"admin", "services", "openclash", "rule_mode"}, call("action_rule_mode"))
-	entry({"admin", "services", "openclash", "switch_rule_mode"}, call("action_switch_rule_mode"))
-	entry({"admin", "services", "openclash", "switch_run_mode"}, call("action_switch_run_mode"))
-	entry({"admin", "services", "openclash", "get_run_mode"}, call("action_get_run_mode"))
-	entry({"admin", "services", "openclash", "settings"},cbi("openclash/settings"),_("Global Settings"), 30).leaf = true
-	entry({"admin", "services", "openclash", "servers"},cbi("openclash/servers"),_("Servers and Groups"), 40).leaf = true
-	entry({"admin", "services", "openclash", "other-rules-edit"},cbi("openclash/other-rules-edit"), nil).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-settings"},cbi("openclash/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
-	entry({"admin", "services", "openclash", "game-rules-manage"},form("openclash/game-rules-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-manage"},form("openclash/rule-providers-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "proxy-provider-file-manage"},form("openclash/proxy-provider-file-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-file-manage"},form("openclash/rule-providers-file-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "game-rules-file-manage"},form("openclash/game-rules-file-manage"), nil).leaf = true
-	entry({"admin", "services", "openclash", "config-subscribe"},cbi("openclash/config-subscribe"),_("Config Update"), 60).leaf = true
-	entry({"admin", "services", "openclash", "config-subscribe-edit"},cbi("openclash/config-subscribe-edit"), nil).leaf = true
-	entry({"admin", "services", "openclash", "servers-config"},cbi("openclash/servers-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "groups-config"},cbi("openclash/groups-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "proxy-provider-config"},cbi("openclash/proxy-provider-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "rule-providers-config"},cbi("openclash/rule-providers-config"), nil).leaf = true
-	entry({"admin", "services", "openclash", "config"},form("openclash/config"),_("Config Manage"), 70).leaf = true
-	entry({"admin", "services", "openclash", "log"},cbi("openclash/log"),_("Server Logs"), 80).leaf = true
+	entry({"admin", "services", "clashwrt", "client"},form("clashwrt/client"),_("Overviews"), 20).leaf = true
+	entry({"admin", "services", "clashwrt", "status"},call("action_status")).leaf=true
+	entry({"admin", "services", "clashwrt", "state"},call("action_state")).leaf=true
+	entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
+	
+	entry({"admin", "services", "clashwrt", "startlog"},call("action_start")).leaf=true
+	entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
+	entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
+	entry({"admin", "services", "clashwrt", "del_start_log"},call("action_del_start_log"))
+	entry({"admin", "services", "clashwrt", "close_all_connection"},call("action_close_all_connection"))
+	entry({"admin", "services", "clashwrt", "reload_firewall"},call("action_reload_firewall"))
+	entry({"admin", "services", "clashwrt", "update_subscribe"},call("action_update_subscribe"))
+	entry({"admin", "services", "clashwrt", "update_other_rules"},call("action_update_other_rules"))
+	entry({"admin", "services", "clashwrt", "update_geoip"},call("action_update_geoip"))
+	entry({"admin", "services", "clashwrt", "currentversion"},call("action_currentversion"))
+	entry({"admin", "services", "clashwrt", "lastversion"},call("action_lastversion"))
+	entry({"admin", "services", "clashwrt", "save_corever_branch"},call("action_save_corever_branch"))
+	entry({"admin", "services", "clashwrt", "update"},call("action_update"))
+	entry({"admin", "services", "clashwrt", "update_ma"},call("action_update_ma"))
+	entry({"admin", "services", "clashwrt", "opupdate"},call("action_opupdate"))
+	entry({"admin", "services", "clashwrt", "coreupdate"},call("action_coreupdate"))
+	entry({"admin", "services", "clashwrt", "ping"}, call("act_ping"))
+	entry({"admin", "services", "clashwrt", "download_rule"}, call("action_download_rule"))
+	entry({"admin", "services", "clashwrt", "download_netflix_domains"}, call("action_download_netflix_domains"))
+	entry({"admin", "services", "clashwrt", "download_disney_domains"}, call("action_download_disney_domains"))
+	entry({"admin", "services", "clashwrt", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
+	entry({"admin", "services", "clashwrt", "write_netflix_domains"}, call("action_write_netflix_domains"))
+	entry({"admin", "services", "clashwrt", "restore"}, call("action_restore_config"))
+	entry({"admin", "services", "clashwrt", "backup"}, call("action_backup"))
+	entry({"admin", "services", "clashwrt", "remove_all_core"}, call("action_remove_all_core"))
+	entry({"admin", "services", "clashwrt", "one_key_update"}, call("action_one_key_update"))
+	entry({"admin", "services", "clashwrt", "one_key_update_check"}, call("action_one_key_update_check"))
+	entry({"admin", "services", "clashwrt", "switch_mode"}, call("action_switch_mode"))
+	entry({"admin", "services", "clashwrt", "op_mode"}, call("action_op_mode"))
+	entry({"admin", "services", "clashwrt", "dler_info"}, call("action_dler_info"))
+	entry({"admin", "services", "clashwrt", "dler_checkin"}, call("action_dler_checkin"))
+	entry({"admin", "services", "clashwrt", "dler_logout"}, call("action_dler_logout"))
+	entry({"admin", "services", "clashwrt", "dler_login"}, call("action_dler_login"))
+	entry({"admin", "services", "clashwrt", "dler_login_info_save"}, call("action_dler_login_info_save"))
+	entry({"admin", "services", "clashwrt", "sub_info_get"}, call("sub_info_get"))
+	entry({"admin", "services", "clashwrt", "config_name"}, call("action_config_name"))
+	entry({"admin", "services", "clashwrt", "switch_config"}, call("action_switch_config"))
+	entry({"admin", "services", "clashwrt", "toolbar_show"}, call("action_toolbar_show"))
+	entry({"admin", "services", "clashwrt", "toolbar_show_sys"}, call("action_toolbar_show_sys"))
+	entry({"admin", "services", "clashwrt", "diag_connection"}, call("action_diag_connection"))
+	entry({"admin", "services", "clashwrt", "gen_debug_logs"}, call("action_gen_debug_logs"))
+	entry({"admin", "services", "clashwrt", "log_level"}, call("action_log_level"))
+	entry({"admin", "services", "clashwrt", "switch_log"}, call("action_switch_log"))
+	entry({"admin", "services", "clashwrt", "rule_mode"}, call("action_rule_mode"))
+	entry({"admin", "services", "clashwrt", "switch_rule_mode"}, call("action_switch_rule_mode"))
+	entry({"admin", "services", "clashwrt", "switch_run_mode"}, call("action_switch_run_mode"))
+	entry({"admin", "services", "clashwrt", "get_run_mode"}, call("action_get_run_mode"))
+	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"),_("Global Settings"), 30).leaf = true
+	entry({"admin", "services", "clashwrt", "servers"},cbi("clashwrt/servers"),_("Servers and Groups"), 40).leaf = true
+	entry({"admin", "services", "clashwrt", "other-rules-edit"},cbi("clashwrt/other-rules-edit"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "rule-providers-settings"},cbi("clashwrt/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
+	entry({"admin", "services", "clashwrt", "game-rules-manage"},form("clashwrt/game-rules-manage"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "rule-providers-manage"},form("clashwrt/rule-providers-manage"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "proxy-provider-file-manage"},form("clashwrt/proxy-provider-file-manage"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "rule-providers-file-manage"},form("clashwrt/rule-providers-file-manage"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "game-rules-file-manage"},form("clashwrt/game-rules-file-manage"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "config-subscribe"},cbi("clashwrt/config-subscribe"),_("Config Update"), 60).leaf = true
+	entry({"admin", "services", "clashwrt", "config-subscribe-edit"},cbi("clashwrt/config-subscribe-edit"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "servers-config"},cbi("clashwrt/servers-config"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "groups-config"},cbi("clashwrt/groups-config"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "proxy-provider-config"},cbi("clashwrt/proxy-provider-config"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "rule-providers-config"},cbi("clashwrt/rule-providers-config"), nil).leaf = true
+	entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
+	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 80).leaf = true
 
 end
 local fs = require "luci.clashwrt"
@@ -89,8 +91,8 @@ if core_path_mode ~= "1" then
 	dev_core_path="/etc/clashwrt/core/clash"
 	tun_core_path="/etc/clashwrt/core/clash_tun"
 else
-	dev_core_path="/tmp/etc/openclash/core/clash"
-	tun_core_path="/tmp/etc/openclash/core/clash_tun"
+	dev_core_path="/tmp/etc/clashwrt/core/clash"
+	tun_core_path="/tmp/etc/clashwrt/core/clash_tun"
 end
 
 local function is_running()
@@ -102,44 +104,44 @@ local function is_web()
 end
 
 local function restricted_mode()
-	return uci:get("openclash", "config", "restricted_mode")
+	return uci:get("clashwrt", "config", "restricted_mode")
 end
 
 local function is_watchdog()
 	local ps_version = luci.sys.exec("ps --version 2>&1 |grep -c procps-ng |tr -d '\n'")
 	if ps_version == "1" then
-		return luci.sys.call("ps -efw |grep openclash_watchdog.sh |grep -v grep >/dev/null") == 0
+		return luci.sys.call("ps -efw |grep clashwrt_watchdog.sh |grep -v grep >/dev/null") == 0
 	else
-		return luci.sys.call("ps -w |grep openclash_watchdog.sh |grep -v grep >/dev/null") == 0
+		return luci.sys.call("ps -w |grep clashwrt_watchdog.sh |grep -v grep >/dev/null") == 0
 	end
 end
 
 local function cn_port()
-	return uci:get("openclash", "config", "cn_port")
+	return uci:get("clashwrt", "config", "cn_port")
 end
 
 local function mode()
-	return uci:get("openclash", "config", "en_mode")
+	return uci:get("clashwrt", "config", "en_mode")
 end
 
 local function ipdb()
-	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/openclash/Country.mmdb"))
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/clashwrt/Country.mmdb"))
 end
 
 local function lhie1()
-	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/usr/share/openclash/res/lhie1.yaml"))
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/usr/share/clashwrt/res/lhie1.yaml"))
 end
 
 local function ConnersHua()
-	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/usr/share/openclash/res/ConnersHua.yaml"))
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/usr/share/clashwrt/res/ConnersHua.yaml"))
 end
 
 local function ConnersHua_return()
-	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/usr/share/openclash/res/ConnersHua_return.yaml"))
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/usr/share/clashwrt/res/ConnersHua_return.yaml"))
 end
 
 local function chnroute()
-	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/openclash/rule_provider/ChinaIP.yaml"))
+	return os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/etc/clashwrt/rule_provider/ChinaIP.yaml"))
 end
 
 local function daip()
@@ -151,31 +153,31 @@ local function daip()
 end
 
 local function dase()
-	return uci:get("openclash", "config", "dashboard_password")
+	return uci:get("clashwrt", "config", "dashboard_password")
 end
 
 local function db_foward_domain()
-	return uci:get("openclash", "config", "dashboard_forward_domain")
+	return uci:get("clashwrt", "config", "dashboard_forward_domain")
 end
 
 local function db_foward_port()
-	return uci:get("openclash", "config", "dashboard_forward_port")
+	return uci:get("clashwrt", "config", "dashboard_forward_port")
 end
 
 local function check_lastversion()
-	luci.sys.exec("sh /usr/share/openclash/openclash_version.sh 2>/dev/null")
-	return luci.sys.exec("sed -n '/^https:/,$p' /tmp/openclash_last_version 2>/dev/null")
+	luci.sys.exec("sh /usr/share/clashwrt/clashwrt_version.sh 2>/dev/null")
+	return luci.sys.exec("sed -n '/^https:/,$p' /tmp/clashwrt_last_version 2>/dev/null")
 end
 
 local function check_currentversion()
-	return luci.sys.exec("sed -n '/^data:image/,$p' /usr/share/openclash/res/openclash_version 2>/dev/null")
+	return luci.sys.exec("sed -n '/^data:image/,$p' /usr/share/clashwrt/res/clashwrt_version 2>/dev/null")
 end
 
 local function startlog()
 	local info = ""
 	local line_trans = ""
-	if nixio.fs.access("/tmp/openclash_start.log") then
-		info = luci.sys.exec("sed -n '$p' /tmp/openclash_start.log 2>/dev/null")
+	if nixio.fs.access("/tmp/clashwrt_start.log") then
+		info = luci.sys.exec("sed -n '$p' /tmp/clashwrt_start.log 2>/dev/null")
 		line_trans = info
 		if string.len(info) > 0 then
 			if not string.find (info, "【") and not string.find (info, "】") then
@@ -241,51 +243,51 @@ end
 end
 
 local function corelv()
-	luci.sys.call("sh /usr/share/openclash/clash_version.sh")
+	luci.sys.call("sh /usr/share/clashwrt/clash_version.sh")
 	local core_lv = luci.sys.exec("sed -n 1p /tmp/clash_last_version 2>/dev/null")
 	local core_tun_lv = luci.sys.exec("sed -n 2p /tmp/clash_last_version 2>/dev/null")
 	return core_lv .. "," .. core_tun_lv
 end
 
 local function opcv()
-	return luci.sys.exec("sed -n 1p /usr/share/openclash/res/openclash_version 2>/dev/null")
+	return luci.sys.exec("sed -n 1p /usr/share/clashwrt/res/clashwrt_version 2>/dev/null")
 end
 
 local function oplv()
-	 local new = luci.sys.call(string.format("sh /usr/share/openclash/openclash_version.sh"))
-	 local oplv = luci.sys.exec("sed -n 1p /tmp/openclash_last_version 2>/dev/null")
+	 local new = luci.sys.call(string.format("sh /usr/share/clashwrt/clashwrt_version.sh"))
+	 local oplv = luci.sys.exec("sed -n 1p /tmp/clashwrt_last_version 2>/dev/null")
    return oplv .. "," .. new
 end
 
 local function opup()
-   luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/openclash_version.sh >/dev/null 2>&1")
-   return luci.sys.call("sh /usr/share/openclash/openclash_update.sh >/dev/null 2>&1 &")
+   luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/clashwrt_version.sh >/dev/null 2>&1")
+   return luci.sys.call("sh /usr/share/clashwrt/clashwrt_update.sh >/dev/null 2>&1 &")
 end
 
 local function coreup()
-	uci:set("openclash", "config", "enable", "1")
-	uci:commit("openclash")
+	uci:set("clashwrt", "config", "enable", "1")
+	uci:commit("clashwrt")
 	local type = luci.http.formvalue("core_type")
-	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/openclash/clash_version.sh >/dev/null 2>&1")
-	return luci.sys.call(string.format("/usr/share/openclash/openclash_core.sh '%s' >/dev/null 2>&1 &", type))
+	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/clash_version.sh >/dev/null 2>&1")
+	return luci.sys.call(string.format("/usr/share/clashwrt/clashwrt_core.sh '%s' >/dev/null 2>&1 &", type))
 end
 
 local function corever()
-	return uci:get("openclash", "config", "core_version")
+	return uci:get("clashwrt", "config", "core_version")
 end
 
 local function release_branch()
-	return uci:get("openclash", "config", "release_branch")
+	return uci:get("clashwrt", "config", "release_branch")
 end
 
 local function save_corever_branch()
 	if luci.http.formvalue("core_ver") then
-		uci:set("openclash", "config", "core_version", luci.http.formvalue("core_ver"))
+		uci:set("clashwrt", "config", "core_version", luci.http.formvalue("core_ver"))
 	end
 	if luci.http.formvalue("release_branch") then
-		uci:set("openclash", "config", "release_branch", luci.http.formvalue("release_branch"))
+		uci:set("clashwrt", "config", "release_branch", luci.http.formvalue("release_branch"))
 	end
-	uci:commit("openclash")
+	uci:commit("clashwrt")
 	return "success"
 end
 
@@ -293,7 +295,7 @@ local function upchecktime()
    local corecheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/clash_last_version"))
    local opcheck
    if not corecheck or corecheck == "" then
-      opcheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/openclash_last_version"))
+      opcheck = os.date("%Y-%m-%d %H:%M:%S",fs.mtime("/tmp/clashwrt_last_version"))
       if not opcheck or opcheck == "" then
          return "1"
       else
@@ -305,10 +307,10 @@ local function upchecktime()
 end
 
 local function historychecktime()
-	local CONFIG_FILE = uci:get("openclash", "config", "config_path")
+	local CONFIG_FILE = uci:get("clashwrt", "config", "config_path")
 	if not CONFIG_FILE then return "0" end
-  local HISTORY_PATH_OLD = "/etc/openclash/history/" .. fs.filename(fs.basename(CONFIG_FILE))
-  local HISTORY_PATH = "/etc/openclash/history/" .. fs.filename(fs.basename(CONFIG_FILE)) .. ".db"
+  local HISTORY_PATH_OLD = "/etc/clashwrt/history/" .. fs.filename(fs.basename(CONFIG_FILE))
+  local HISTORY_PATH = "/etc/clashwrt/history/" .. fs.filename(fs.basename(CONFIG_FILE)) .. ".db"
 	if not nixio.fs.access(HISTORY_PATH) and not nixio.fs.access(HISTORY_PATH_OLD) then
   	return "0"
 	else
@@ -318,58 +320,58 @@ end
 
 function download_rule()
 	local filename = luci.http.formvalue("filename")
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',filename))
+  local state = luci.sys.call(string.format('/usr/share/clashwrt/clashwrt_download_rule_list.sh "%s" >/dev/null 2>&1',filename))
   return state
 end
 
 function download_disney_domains()
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"disney_domains"))
+  local state = luci.sys.call(string.format('/usr/share/clashwrt/clashwrt_download_rule_list.sh "%s" >/dev/null 2>&1',"disney_domains"))
   return state
 end
 
 function download_netflix_domains()
-  local state = luci.sys.call(string.format('/usr/share/openclash/openclash_download_rule_list.sh "%s" >/dev/null 2>&1',"netflix_domains"))
+  local state = luci.sys.call(string.format('/usr/share/clashwrt/clashwrt_download_rule_list.sh "%s" >/dev/null 2>&1',"netflix_domains"))
   return state
 end
 
 function action_restore_config()
-	uci:set("openclash", "config", "enable", "0")
-	uci:commit("openclash")
-	luci.sys.call("/etc/init.d/openclash stop >/dev/null 2>&1")
-	luci.sys.call("cp '/usr/share/openclash/backup/openclash' '/etc/config/openclash' >/dev/null 2>&1 &")
-	luci.sys.call("cp /usr/share/openclash/backup/openclash_custom* /etc/openclash/custom/ >/dev/null 2>&1 &")
-	luci.http.redirect(luci.dispatcher.build_url('admin/services/openclash/settings'))
+	uci:set("clashwrt", "config", "enable", "0")
+	uci:commit("clashwrt")
+	luci.sys.call("/etc/init.d/clashwrt stop >/dev/null 2>&1")
+	luci.sys.call("cp '/usr/share/clashwrt/backup/clashwrt' '/etc/config/clashwrt' >/dev/null 2>&1 &")
+	luci.sys.call("cp /usr/share/clashwrt/backup/clashwrt_custom* /etc/clashwrt/custom/ >/dev/null 2>&1 &")
+	luci.http.redirect(luci.dispatcher.build_url('admin/services/clashwrt/settings'))
 end
 
 function action_remove_all_core()
-	luci.sys.call("rm -rf /etc/openclash/core/* >/dev/null 2>&1")
+	luci.sys.call("rm -rf /etc/clashwrt/core/* >/dev/null 2>&1")
 end
 
 function action_one_key_update()
-  return luci.sys.call("sh /usr/share/openclash/openclash_update.sh 'one_key_update' >/dev/null 2>&1 &")
+  return luci.sys.call("sh /usr/share/clashwrt/clashwrt_update.sh 'one_key_update' >/dev/null 2>&1 &")
 end
 
 local function dler_login_info_save()
-	uci:set("openclash", "config", "dler_email", luci.http.formvalue("email"))
-	uci:set("openclash", "config", "dler_passwd", luci.http.formvalue("passwd"))
-	uci:set("openclash", "config", "dler_checkin", luci.http.formvalue("checkin"))
-	uci:set("openclash", "config", "dler_checkin_interval", luci.http.formvalue("interval"))
+	uci:set("clashwrt", "config", "dler_email", luci.http.formvalue("email"))
+	uci:set("clashwrt", "config", "dler_passwd", luci.http.formvalue("passwd"))
+	uci:set("clashwrt", "config", "dler_checkin", luci.http.formvalue("checkin"))
+	uci:set("clashwrt", "config", "dler_checkin_interval", luci.http.formvalue("interval"))
 	if tonumber(luci.http.formvalue("multiple")) > 50 then
-		uci:set("openclash", "config", "dler_checkin_multiple", "50")
+		uci:set("clashwrt", "config", "dler_checkin_multiple", "50")
 	elseif tonumber(luci.http.formvalue("multiple")) < 1 or not tonumber(luci.http.formvalue("multiple")) then
-		uci:set("openclash", "config", "dler_checkin_multiple", "1")
+		uci:set("clashwrt", "config", "dler_checkin_multiple", "1")
 	else
-		uci:set("openclash", "config", "dler_checkin_multiple", luci.http.formvalue("multiple"))
+		uci:set("clashwrt", "config", "dler_checkin_multiple", luci.http.formvalue("multiple"))
 	end
-	uci:commit("openclash")
+	uci:commit("clashwrt")
 	return "success"
 end
 
 local function dler_login()
 	local info, token, get_sub, sub_info, sub_key, sub_match
 	local sub_path = "/tmp/dler_sub"
-	local email = uci:get("openclash", "config", "dler_email")
-	local passwd = uci:get("openclash", "config", "dler_passwd")
+	local email = uci:get("clashwrt", "config", "dler_email")
+	local passwd = uci:get("clashwrt", "config", "dler_passwd")
 	if email and passwd then
 		info = luci.sys.exec(string.format("curl -sL -H 'Content-Type: application/json' -d '{\"email\":\"%s\", \"passwd\":\"%s\"}' -X POST https://dler.cloud/api/v1/login", email, passwd))
 		if info then
@@ -377,8 +379,8 @@ local function dler_login()
 		end
 		if info and info.ret == 200 then
 			token = info.data.token
-			uci:set("openclash", "config", "dler_token", token)
-			uci:commit("openclash")
+			uci:set("clashwrt", "config", "dler_token", token)
+			uci:commit("clashwrt")
 			get_sub = string.format("curl -sL -H 'Content-Type: application/json' -d '{\"access_token\":\"%s\"}' -X POST https://dler.cloud/api/v1/managed/clash -o %s", token, sub_path)
 			luci.sys.exec(get_sub)
 			sub_info = fs.readfile(sub_path)
@@ -390,32 +392,32 @@ local function dler_login()
 				for _,v in ipairs(sub_key) do
 					while true do
 						sub_match = false
-						uci:foreach("openclash", "config_subscribe",
+						uci:foreach("clashwrt", "config_subscribe",
 						function(s)
 							if s.name == "Dler Cloud - " .. v and s.address == sub_info[v] then
 			   				sub_match = true
 							end
 						end)
 						if sub_match then break end
-						luci.sys.exec(string.format('sid=$(uci -q add openclash config_subscribe) && uci -q set openclash."$sid".name="Dler Cloud - %s" && uci -q set openclash."$sid".address="%s"', v, sub_info[v]))
-						uci:commit("openclash")
+						luci.sys.exec(string.format('sid=$(uci -q add clashwrt config_subscribe) && uci -q set clashwrt."$sid".name="Dler Cloud - %s" && uci -q set clashwrt."$sid".address="%s"', v, sub_info[v]))
+						uci:commit("clashwrt")
 						break
 					end
-					luci.sys.exec(string.format('curl -sL -m 3 --retry 2 --user-agent "clash" "%s" -o "/etc/openclash/config/Dler Cloud - %s.yaml" >/dev/null 2>&1', sub_info[v], v))
+					luci.sys.exec(string.format('curl -sL -m 3 --retry 2 --user-agent "clash" "%s" -o "/etc/clashwrt/config/Dler Cloud - %s.yaml" >/dev/null 2>&1', sub_info[v], v))
 				end
 			end
 			return info.ret
 		else
-			uci:delete("openclash", "config", "dler_token")
-			uci:commit("openclash")
+			uci:delete("clashwrt", "config", "dler_token")
+			uci:commit("clashwrt")
 			fs.unlink(sub_path)
 			fs.unlink("/tmp/dler_checkin")
 			fs.unlink("/tmp/dler_info")
 			return "402"
 		end
 	else
-		uci:delete("openclash", "config", "dler_token")
-		uci:commit("openclash")
+		uci:delete("clashwrt", "config", "dler_token")
+		uci:commit("clashwrt")
 		fs.unlink(sub_path)
 		fs.unlink("/tmp/dler_checkin")
 		fs.unlink("/tmp/dler_info")
@@ -425,18 +427,18 @@ end
 
 local function dler_logout()
 	local info, token
-	local token = uci:get("openclash", "config", "dler_token")
+	local token = uci:get("clashwrt", "config", "dler_token")
 	if token then
 		info = luci.sys.exec(string.format("curl -sL -H 'Content-Type: application/json' -d '{\"access_token\":\"%s\"}' -X POST https://dler.cloud/api/v1/logout", token))
 		if info then
 			info = json.parse(info)
 		end
 		if info and info.ret == 200 then
-			uci:delete("openclash", "config", "dler_token")
-			uci:delete("openclash", "config", "dler_checkin")
-			uci:delete("openclash", "config", "dler_checkin_interval")
-			uci:delete("openclash", "config", "dler_checkin_multiple")
-			uci:commit("openclash")
+			uci:delete("clashwrt", "config", "dler_token")
+			uci:delete("clashwrt", "config", "dler_checkin")
+			uci:delete("clashwrt", "config", "dler_checkin_interval")
+			uci:delete("clashwrt", "config", "dler_checkin_multiple")
+			uci:commit("clashwrt")
 			fs.unlink("/tmp/dler_sub")
 			fs.unlink("/tmp/dler_checkin")
 			fs.unlink("/tmp/dler_info")
@@ -451,9 +453,9 @@ end
 
 local function dler_info()
 	local info, path, get_info
-	local token = uci:get("openclash", "config", "dler_token")
-	local email = uci:get("openclash", "config", "dler_email")
-	local passwd = uci:get("openclash", "config", "dler_passwd")
+	local token = uci:get("clashwrt", "config", "dler_token")
+	local email = uci:get("clashwrt", "config", "dler_email")
+	local passwd = uci:get("clashwrt", "config", "dler_passwd")
 	path = "/tmp/dler_info"
 	if token and email and passwd then
 		get_info = string.format("curl -sL -H 'Content-Type: application/json' -d '{\"email\":\"%s\", \"passwd\":\"%s\"}' -X POST https://dler.cloud/api/v1/information -o %s", email, passwd, path)
@@ -476,7 +478,7 @@ local function dler_info()
 			return info.data
 		else
 			fs.unlink(path)
-			luci.sys.exec(string.format("echo -e %s Dler Cloud Account Login Failed! Please Check And Try Again... >> /tmp/openclash.log", os.date("%Y-%m-%d %H:%M:%S")))
+			luci.sys.exec(string.format("echo -e %s Dler Cloud Account Login Failed! Please Check And Try Again... >> /tmp/clashwrt.log", os.date("%Y-%m-%d %H:%M:%S")))
 			return "error"
 		end
 	else
@@ -487,10 +489,10 @@ end
 local function dler_checkin()
 	local info
 	local path = "/tmp/dler_checkin"
-	local token = uci:get("openclash", "config", "dler_token")
-	local email = uci:get("openclash", "config", "dler_email")
-	local passwd = uci:get("openclash", "config", "dler_passwd")
-	local multiple = uci:get("openclash", "config", "dler_checkin_multiple") or 1
+	local token = uci:get("clashwrt", "config", "dler_token")
+	local email = uci:get("clashwrt", "config", "dler_email")
+	local passwd = uci:get("clashwrt", "config", "dler_passwd")
+	local multiple = uci:get("clashwrt", "config", "dler_checkin_multiple") or 1
 	if token and email and passwd then
 		info = luci.sys.exec(string.format("curl -sL -H 'Content-Type: application/json' -d '{\"email\":\"%s\", \"passwd\":\"%s\", \"multiple\":\"%s\"}' -X POST https://dler.cloud/api/v1/checkin", email, passwd, multiple))
 		if info then
@@ -499,13 +501,13 @@ local function dler_checkin()
 		if info and info.ret == 200 then
 			fs.unlink("/tmp/dler_info")
 			fs.writefile(path, info)
-			luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Successful, Result:【%s】 >> /tmp/openclash.log", os.date("%Y-%m-%d %H:%M:%S"), info.data.checkin))
+			luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Successful, Result:【%s】 >> /tmp/clashwrt.log", os.date("%Y-%m-%d %H:%M:%S"), info.data.checkin))
 			return info
 		else
 			if info and info.msg then
-				luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Failed, Result:【%s】 >> /tmp/openclash.log", os.date("%Y-%m-%d %H:%M:%S"), info.msg))
+				luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Failed, Result:【%s】 >> /tmp/clashwrt.log", os.date("%Y-%m-%d %H:%M:%S"), info.msg))
 			else
-				luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Failed! Please Check And Try Again... >> /tmp/openclash.log",os.date("%Y-%m-%d %H:%M:%S")))
+				luci.sys.exec(string.format("echo -e %s Dler Cloud Checkin Failed! Please Check And Try Again... >> /tmp/clashwrt.log",os.date("%Y-%m-%d %H:%M:%S")))
 			end
 			return info
 		end
@@ -516,7 +518,7 @@ end
 
 local function config_name()
 	local e,a={}
-	for t,o in ipairs(fs.glob("/etc/openclash/config/*"))do
+	for t,o in ipairs(fs.glob("/etc/clashwrt/config/*"))do
 		a=fs.stat(o)
 		if a then
 			e[t]={}
@@ -527,16 +529,16 @@ local function config_name()
 end
 
 local function config_path()
-	if uci:get("openclash", "config", "config_path") then
-		return string.sub(uci:get("openclash", "config", "config_path"), 23, -1)
+	if uci:get("clashwrt", "config", "config_path") then
+		return string.sub(uci:get("clashwrt", "config", "config_path"), 23, -1)
 	else
 		 return ""
 	end
 end
 
 function action_switch_config()
-	uci:set("openclash", "config", "config_path", "/etc/openclash/config/"..luci.http.formvalue("config_name"))
-	uci:commit("openclash")
+	uci:set("clashwrt", "config", "config_path", "/etc/clashwrt/config/"..luci.http.formvalue("config_name"))
+	uci:commit("clashwrt")
 end
 
 function sub_info_get()
@@ -544,7 +546,7 @@ function sub_info_get()
 	filename = luci.http.formvalue("filename")
 	sub_info = ""
 	if filename then
-		uci:foreach("openclash", "config_subscribe",
+		uci:foreach("clashwrt", "config_subscribe",
 			function(s)
 				if s.name == filename and s.address then
 			  	sub_url = s.address
@@ -594,10 +596,10 @@ function action_rule_mode()
 		if info then
 			mode = info["mode"]
 		else
-			mode = uci:get("openclash", "config", "proxy_mode") or "rule"
+			mode = uci:get("clashwrt", "config", "proxy_mode") or "rule"
 		end
 	else
-		mode = uci:get("openclash", "config", "proxy_mode") or "rule"
+		mode = uci:get("clashwrt", "config", "proxy_mode") or "rule"
 	end
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
@@ -643,14 +645,14 @@ function action_switch_run_mode()
 	local mode, operation_mode
 	if is_running() then
 		mode = luci.http.formvalue("run_mode")
-		operation_mode = uci:get("openclash", "config", "operation_mode")
+		operation_mode = uci:get("clashwrt", "config", "operation_mode")
 		if operation_mode == "redir-host" then
-			uci:set("openclash", "config", "en_mode", "redir-host"..mode)
+			uci:set("clashwrt", "config", "en_mode", "redir-host"..mode)
 		elseif operation_mode == "fake-ip" then
-			uci:set("openclash", "config", "en_mode", "fake-ip"..mode)
+			uci:set("clashwrt", "config", "en_mode", "fake-ip"..mode)
 		end
-		uci:commit("openclash")
-		luci.sys.exec("/etc/init.d/openclash restart >/dev/null 2>&1 &")
+		uci:commit("clashwrt")
+		luci.sys.exec("/etc/init.d/clashwrt restart >/dev/null 2>&1 &")
 	else
 		luci.http.status(500, "Switch Faild")
 		return
@@ -668,10 +670,10 @@ function action_log_level()
 		if info then
 			level = info["log-level"]
 		else
-			level = uci:get("openclash", "config", "log_level") or "info"
+			level = uci:get("clashwrt", "config", "log_level") or "info"
 		end
 	else
-		level = uci:get("openclash", "config", "log_level") or "info"
+		level = uci:get("clashwrt", "config", "log_level") or "info"
 	end
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
@@ -845,7 +847,7 @@ function action_one_key_update_check()
 end
 
 function action_op_mode()
-	local op_mode = uci:get("openclash", "config", "operation_mode")
+	local op_mode = uci:get("clashwrt", "config", "operation_mode")
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
 	  op_mode = op_mode;
@@ -853,13 +855,13 @@ function action_op_mode()
 end
 
 function action_switch_mode()
-	local switch_mode = uci:get("openclash", "config", "operation_mode")
+	local switch_mode = uci:get("clashwrt", "config", "operation_mode")
 	if switch_mode == "redir-host" then
-		uci:set("openclash", "config", "operation_mode", "fake-ip")
-		uci:commit("openclash")
+		uci:set("clashwrt", "config", "operation_mode", "fake-ip")
+		uci:commit("clashwrt")
 	else
-		uci:set("openclash", "config", "operation_mode", "redir-host")
-		uci:commit("openclash")
+		uci:set("clashwrt", "config", "operation_mode", "redir-host")
+		uci:commit("clashwrt")
 	end
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
@@ -954,24 +956,24 @@ function action_coreupdate()
 end
 
 function action_close_all_connection()
-	return luci.sys.call("sh /usr/share/openclash/openclash_history_get.sh 'close_all_conection'")
+	return luci.sys.call("sh /usr/share/clashwrt/clashwrt_history_get.sh 'close_all_conection'")
 end
 
 function action_reload_firewall()
-	return luci.sys.call("/etc/init.d/openclash reload")
+	return luci.sys.call("/etc/init.d/clashwrt reload")
 end
 
 function action_update_subscribe()
 	fs.unlink("/tmp/Proxy_Group")
-	return luci.sys.call("/usr/share/openclash/openclash.sh >/dev/null 2>&1")
+	return luci.sys.call("/usr/share/clashwrt/clashwrt.sh >/dev/null 2>&1")
 end
 
 function action_update_other_rules()
-	return luci.sys.call("/usr/share/openclash/openclash_rule.sh >/dev/null 2>&1")
+	return luci.sys.call("/usr/share/clashwrt/clashwrt_rule.sh >/dev/null 2>&1")
 end
 
 function action_update_geoip()
-	return luci.sys.call("/usr/share/openclash/openclash_ipdb.sh >/dev/null 2>&1")
+	return luci.sys.call("/usr/share/clashwrt/clashwrt_ipdb.sh >/dev/null 2>&1")
 end
 
 function act_ping()
@@ -1005,7 +1007,7 @@ end
 
 function action_refresh_log()
 	luci.http.prepare_content("application/json")
-	local logfile="/tmp/openclash.log"
+	local logfile="/tmp/clashwrt.log"
 	local file = io.open(logfile, "r+")
 	local info, len, line, lens, cache, ex_match, line_trans
 	local data = ""
@@ -1095,12 +1097,12 @@ function action_refresh_log()
 end
 
 function action_del_log()
-	luci.sys.exec(": > /tmp/openclash.log")
+	luci.sys.exec(": > /tmp/clashwrt.log")
 	return
 end
 
 function action_del_start_log()
-	luci.sys.exec(": > /tmp/openclash_start.log")
+	luci.sys.exec(": > /tmp/clashwrt_start.log")
 	return
 end
 
@@ -1132,7 +1134,7 @@ end
 
 function action_write_netflix_domains()
 	local domains = luci.http.formvalue("domains")
-	local dustom_file = "/etc/openclash/custom/openclash_custom_netflix_domains.list"
+	local dustom_file = "/etc/clashwrt/custom/clashwrt_custom_netflix_domains.list"
 	local file = io.open(dustom_file, "a+")
 	file:seek("set")
 	local domain = file:read("*a")
@@ -1146,7 +1148,7 @@ function action_write_netflix_domains()
 end
 
 function action_catch_netflix_domains()
-	local cmd = "/usr/share/openclash/openclash_debug_getcon.lua 'netflix-nflxvideo'"
+	local cmd = "/usr/share/clashwrt/clashwrt_debug_getcon.lua 'netflix-nflxvideo'"
 	luci.http.prepare_content("text/plain")
 	local util = io.popen(cmd)
 	if util and util ~= "" then
@@ -1165,7 +1167,7 @@ end
 function action_diag_connection()
 	local addr = luci.http.formvalue("addr")
 	if addr and datatype.hostname(addr) or datatype.ipaddr(addr) then
-		local cmd = string.format("/usr/share/openclash/openclash_debug_getcon.lua %s", addr)
+		local cmd = string.format("/usr/share/clashwrt/clashwrt_debug_getcon.lua %s", addr)
 		luci.http.prepare_content("text/plain")
 		local util = io.popen(cmd)
 		if util and util ~= "" then
@@ -1183,9 +1185,9 @@ function action_diag_connection()
 end
 
 function action_gen_debug_logs()
-	local gen_log = luci.sys.call("/usr/share/openclash/openclash_debug.sh")
+	local gen_log = luci.sys.call("/usr/share/clashwrt/clashwrt_debug.sh")
 	if not gen_log then return end
-	local logfile = "/tmp/openclash_debug.log"
+	local logfile = "/tmp/clashwrt_debug.log"
 	if not fs.access(logfile) then
 		return
 	end
@@ -1205,11 +1207,11 @@ function action_gen_debug_logs()
 end
 
 function action_backup()
-	local config = luci.sys.call("cp /etc/config/openclash /etc/openclash/openclash >/dev/null 2>&1")
-	local reader = ltn12_popen("tar -C '/etc/openclash/' -cz . 2>/dev/null")
+	local config = luci.sys.call("cp /etc/config/clashwrt /etc/clashwrt/clashwrt >/dev/null 2>&1")
+	local reader = ltn12_popen("tar -C '/etc/clashwrt/' -cz . 2>/dev/null")
 
 	luci.http.header(
-		'Content-Disposition', 'attachment; filename="Backup-OpenClash-%s.tar.gz"' %{
+		'Content-Disposition', 'attachment; filename="Backup-clashwrt-%s.tar.gz"' %{
 			os.date("%Y-%m-%d-%H-%M-%S")
 		})
 

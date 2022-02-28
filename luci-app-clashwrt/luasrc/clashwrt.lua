@@ -34,7 +34,7 @@ local type  = type
 local string  = string
 
 --- LuCI filesystem library.
-module "luci.openclash"
+module "luci.clashwrt"
 
 --- Test for file access permission on given path.
 -- @class		function
