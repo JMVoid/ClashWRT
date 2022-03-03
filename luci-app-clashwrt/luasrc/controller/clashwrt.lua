@@ -13,72 +13,75 @@ function index()
 	entry({"admin", "services", "clashwrt", "client"},form("clashwrt/client"),_("Overviews"), 20).leaf = true
 	entry({"admin", "services", "clashwrt", "status"},call("action_status")).leaf=true
 	entry({"admin", "services", "clashwrt", "state"},call("action_state")).leaf=true
-	entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
-	
 	entry({"admin", "services", "clashwrt", "startlog"},call("action_start")).leaf=true
-	entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
-	entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
-	entry({"admin", "services", "clashwrt", "del_start_log"},call("action_del_start_log"))
-	entry({"admin", "services", "clashwrt", "close_all_connection"},call("action_close_all_connection"))
-	entry({"admin", "services", "clashwrt", "reload_firewall"},call("action_reload_firewall"))
-	entry({"admin", "services", "clashwrt", "update_subscribe"},call("action_update_subscribe"))
-	entry({"admin", "services", "clashwrt", "update_other_rules"},call("action_update_other_rules"))
-	entry({"admin", "services", "clashwrt", "update_geoip"},call("action_update_geoip"))
-	entry({"admin", "services", "clashwrt", "currentversion"},call("action_currentversion"))
-	entry({"admin", "services", "clashwrt", "lastversion"},call("action_lastversion"))
-	entry({"admin", "services", "clashwrt", "save_corever_branch"},call("action_save_corever_branch"))
-	entry({"admin", "services", "clashwrt", "update"},call("action_update"))
-	entry({"admin", "services", "clashwrt", "update_ma"},call("action_update_ma"))
-	entry({"admin", "services", "clashwrt", "opupdate"},call("action_opupdate"))
-	entry({"admin", "services", "clashwrt", "coreupdate"},call("action_coreupdate"))
-	entry({"admin", "services", "clashwrt", "ping"}, call("act_ping"))
-	entry({"admin", "services", "clashwrt", "download_rule"}, call("action_download_rule"))
-	entry({"admin", "services", "clashwrt", "download_netflix_domains"}, call("action_download_netflix_domains"))
-	entry({"admin", "services", "clashwrt", "download_disney_domains"}, call("action_download_disney_domains"))
-	entry({"admin", "services", "clashwrt", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
-	entry({"admin", "services", "clashwrt", "write_netflix_domains"}, call("action_write_netflix_domains"))
-	entry({"admin", "services", "clashwrt", "restore"}, call("action_restore_config"))
-	entry({"admin", "services", "clashwrt", "backup"}, call("action_backup"))
-	entry({"admin", "services", "clashwrt", "remove_all_core"}, call("action_remove_all_core"))
-	entry({"admin", "services", "clashwrt", "one_key_update"}, call("action_one_key_update"))
+
+	entry({"admin", "services", "clashwrt", "op_mode"},cbi("clashwrt/op_mode"), _("Operation Mode"), 30).leaf=true
+	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 30).leaf=true
+	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 30).leaf=true
+
+	-- entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
+	-- entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
+	-- entry({"admin", "services", "clashwrt", "del_start_log"},call("action_del_start_log"))
+	-- entry({"admin", "services", "clashwrt", "close_all_connection"},call("action_close_all_connection"))
+	-- entry({"admin", "services", "clashwrt", "reload_firewall"},call("action_reload_firewall"))
+	-- entry({"admin", "services", "clashwrt", "update_subscribe"},call("action_update_subscribe"))
+	-- entry({"admin", "services", "clashwrt", "update_other_rules"},call("action_update_other_rules"))
+	-- entry({"admin", "services", "clashwrt", "update_geoip"},call("action_update_geoip"))
+	-- entry({"admin", "services", "clashwrt", "currentversion"},call("action_currentversion"))
+	-- entry({"admin", "services", "clashwrt", "lastversion"},call("action_lastversion"))
+	-- entry({"admin", "services", "clashwrt", "save_corever_branch"},call("action_save_corever_branch"))
+	-- entry({"admin", "services", "clashwrt", "update"},call("action_update"))
+	-- entry({"admin", "services", "clashwrt", "update_ma"},call("action_update_ma"))
+	-- entry({"admin", "services", "clashwrt", "opupdate"},call("action_opupdate"))
+	-- entry({"admin", "services", "clashwrt", "coreupdate"},call("action_coreupdate"))
+	-- entry({"admin", "services", "clashwrt", "ping"}, call("act_ping"))
+	-- entry({"admin", "services", "clashwrt", "download_rule"}, call("action_download_rule"))
+	-- entry({"admin", "services", "clashwrt", "download_netflix_domains"}, call("action_download_netflix_domains"))
+	-- entry({"admin", "services", "clashwrt", "download_disney_domains"}, call("action_download_disney_domains"))
+	-- entry({"admin", "services", "clashwrt", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
+	-- entry({"admin", "services", "clashwrt", "write_netflix_domains"}, call("action_write_netflix_domains"))
+	-- entry({"admin", "services", "clashwrt", "restore"}, call("action_restore_config"))
+	-- entry({"admin", "services", "clashwrt", "backup"}, call("action_backup"))
+	-- entry({"admin", "services", "clashwrt", "remove_all_core"}, call("action_remove_all_core"))
+	-- entry({"admin", "services", "clashwrt", "one_key_update"}, call("action_one_key_update"))
 	entry({"admin", "services", "clashwrt", "one_key_update_check"}, call("action_one_key_update_check"))
-	entry({"admin", "services", "clashwrt", "switch_mode"}, call("action_switch_mode"))
-	entry({"admin", "services", "clashwrt", "op_mode"}, call("action_op_mode"))
-	entry({"admin", "services", "clashwrt", "dler_info"}, call("action_dler_info"))
-	entry({"admin", "services", "clashwrt", "dler_checkin"}, call("action_dler_checkin"))
-	entry({"admin", "services", "clashwrt", "dler_logout"}, call("action_dler_logout"))
-	entry({"admin", "services", "clashwrt", "dler_login"}, call("action_dler_login"))
-	entry({"admin", "services", "clashwrt", "dler_login_info_save"}, call("action_dler_login_info_save"))
+	-- entry({"admin", "services", "clashwrt", "switch_mode"}, call("action_switch_mode"))
+	-- entry({"admin", "services", "clashwrt", "op_mode"}, call("action_op_mode"))
+	-- entry({"admin", "services", "clashwrt", "dler_info"}, call("action_dler_info"))
+	-- entry({"admin", "services", "clashwrt", "dler_checkin"}, call("action_dler_checkin"))
+	-- entry({"admin", "services", "clashwrt", "dler_logout"}, call("action_dler_logout"))
+	-- entry({"admin", "services", "clashwrt", "dler_login"}, call("action_dler_login"))
+	-- entry({"admin", "services", "clashwrt", "dler_login_info_save"}, call("action_dler_login_info_save"))
 	entry({"admin", "services", "clashwrt", "sub_info_get"}, call("sub_info_get"))
-	entry({"admin", "services", "clashwrt", "config_name"}, call("action_config_name"))
-	entry({"admin", "services", "clashwrt", "switch_config"}, call("action_switch_config"))
+	-- entry({"admin", "services", "clashwrt", "config_name"}, call("action_config_name"))
+	-- entry({"admin", "services", "clashwrt", "switch_config"}, call("action_switch_config"))
 	entry({"admin", "services", "clashwrt", "toolbar_show"}, call("action_toolbar_show"))
 	entry({"admin", "services", "clashwrt", "toolbar_show_sys"}, call("action_toolbar_show_sys"))
-	entry({"admin", "services", "clashwrt", "diag_connection"}, call("action_diag_connection"))
-	entry({"admin", "services", "clashwrt", "gen_debug_logs"}, call("action_gen_debug_logs"))
-	entry({"admin", "services", "clashwrt", "log_level"}, call("action_log_level"))
-	entry({"admin", "services", "clashwrt", "switch_log"}, call("action_switch_log"))
+	-- entry({"admin", "services", "clashwrt", "diag_connection"}, call("action_diag_connection"))
+	-- entry({"admin", "services", "clashwrt", "gen_debug_logs"}, call("action_gen_debug_logs"))
+	-- entry({"admin", "services", "clashwrt", "log_level"}, call("action_log_level"))
+	-- entry({"admin", "services", "clashwrt", "switch_log"}, call("action_switch_log"))
 	entry({"admin", "services", "clashwrt", "rule_mode"}, call("action_rule_mode"))
 	entry({"admin", "services", "clashwrt", "switch_rule_mode"}, call("action_switch_rule_mode"))
 	entry({"admin", "services", "clashwrt", "switch_run_mode"}, call("action_switch_run_mode"))
 	entry({"admin", "services", "clashwrt", "get_run_mode"}, call("action_get_run_mode"))
-	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"),_("Global Settings"), 30).leaf = true
-	entry({"admin", "services", "clashwrt", "servers"},cbi("clashwrt/servers"),_("Servers and Groups"), 40).leaf = true
-	entry({"admin", "services", "clashwrt", "other-rules-edit"},cbi("clashwrt/other-rules-edit"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "rule-providers-settings"},cbi("clashwrt/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
-	entry({"admin", "services", "clashwrt", "game-rules-manage"},form("clashwrt/game-rules-manage"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "rule-providers-manage"},form("clashwrt/rule-providers-manage"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "proxy-provider-file-manage"},form("clashwrt/proxy-provider-file-manage"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "rule-providers-file-manage"},form("clashwrt/rule-providers-file-manage"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "game-rules-file-manage"},form("clashwrt/game-rules-file-manage"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "config-subscribe"},cbi("clashwrt/config-subscribe"),_("Config Update"), 60).leaf = true
-	entry({"admin", "services", "clashwrt", "config-subscribe-edit"},cbi("clashwrt/config-subscribe-edit"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "servers-config"},cbi("clashwrt/servers-config"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "groups-config"},cbi("clashwrt/groups-config"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "proxy-provider-config"},cbi("clashwrt/proxy-provider-config"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "rule-providers-config"},cbi("clashwrt/rule-providers-config"), nil).leaf = true
-	entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
-	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 80).leaf = true
+	-- entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"),_("Global Settings"), 30).leaf = true
+	-- entry({"admin", "services", "clashwrt", "servers"},cbi("clashwrt/servers"),_("Servers and Groups"), 40).leaf = true
+	-- entry({"admin", "services", "clashwrt", "other-rules-edit"},cbi("clashwrt/other-rules-edit"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "rule-providers-settings"},cbi("clashwrt/rule-providers-settings"),_("Rule Providers and Groups"), 50).leaf = true
+	-- entry({"admin", "services", "clashwrt", "game-rules-manage"},form("clashwrt/game-rules-manage"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "rule-providers-manage"},form("clashwrt/rule-providers-manage"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "proxy-provider-file-manage"},form("clashwrt/proxy-provider-file-manage"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "rule-providers-file-manage"},form("clashwrt/rule-providers-file-manage"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "game-rules-file-manage"},form("clashwrt/game-rules-file-manage"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "config-subscribe"},cbi("clashwrt/config-subscribe"),_("Config Update"), 60).leaf = true
+	-- entry({"admin", "services", "clashwrt", "config-subscribe-edit"},cbi("clashwrt/config-subscribe-edit"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "servers-config"},cbi("clashwrt/servers-config"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "groups-config"},cbi("clashwrt/groups-config"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "proxy-provider-config"},cbi("clashwrt/proxy-provider-config"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "rule-providers-config"},cbi("clashwrt/rule-providers-config"), nil).leaf = true
+	-- entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
+	-- entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 80).leaf = true
 
 end
 local fs = require "luci.clashwrt"

@@ -135,13 +135,6 @@ config dns_servers
 	option enabled '0'
 
 config dns_servers
-	option type 'udp'
-	option group 'fallback'
-	option ip '2001:da8::666'
-	option port '53'
-	option enabled '1'
-
-config dns_servers
 	option group 'fallback'
 	option type 'https'
 	option ip 'public.dns.iij.jp/dns-query'

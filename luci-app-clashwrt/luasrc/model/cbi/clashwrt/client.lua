@@ -11,7 +11,7 @@ m.description = translate("A Clash Client For OpenWrt")
 m.reset = false
 m.submit = false
 
-m.section(SimpleSection).template = "clashwrt/status"
+m:section(SimpleSection).template = "clashwrt/status"
 
 function IsYamlFile(e)
 	e=e or""
@@ -170,11 +170,17 @@ btnrm.write=function(a,t)
 end
 -- end of section config file list
 
--- begin of section start/stop clash instance
+-- begin of ip test section
 s = SimpleForm("clashwrt")
 s.reset = false
 s.submit = false
 s:section(SimpleSection).template  = "clashwrt/myip"
+-- end of ip test section
+
+-- begin of section start/stop clash instance
+local t = {
+    {enable, disable}
+}
 
 ap = SimpleForm("clashwrt")
 ap.reset = false
@@ -204,8 +210,11 @@ end
 
 -- begin of developer section
 
-d = SimpleForm("openclash")
+d = SimpleForm("clashwrt")
 d.title = translate("Credits")
 d.reset = false
 d.submit = false
 d:section(SimpleSection).template  = "clashwrt/developer"
+
+
+return m, form, s, ap, d

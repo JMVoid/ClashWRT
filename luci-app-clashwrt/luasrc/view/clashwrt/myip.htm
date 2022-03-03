@@ -143,6 +143,10 @@
                   ><span class="ip-result" id="ip-ipify"></span>
                   <span class="ip-geo" id="ip-ipify-ipip"></span>
                 </p>
+                <p>
+                  <span class="ip-state_title">YouTube:</span
+                  ><span id="http-youtube"></span>
+                </p>
               </div>
               <div style="width: 49%">
                 <h3><%:Website Access Check%></h3>
@@ -157,10 +161,6 @@
                 <p>
                   <span class="ip-state_title">GitHub:</span
                   ><span id="http-github"></span>
-                </p>
-                <p>
-                  <span class="ip-state_title">YouTube:</span
-                  ><span id="http-youtube"></span>
                 </p>
               </div>
             </div>
@@ -313,7 +313,7 @@
     };
 
     HTTP.runcheck();
-    IP.getIpipnetIP();
+    // IP.getIpipnetIP();
     IP.getIpifyIP();
 
     function getPcolIP(data) {
@@ -324,19 +324,19 @@
       ).innerHTML = `${data.pro} ${data.city} ${data.region} ${pcisp[1]}`;
     }
 
-    function getIpsbIP(data) {
-      $$.getElementById("ip-ipsb").innerHTML = data.ip;
-      IP.parseIPIpip(data.ip, "ip-ipsb-geo");
-    }
+    // function getIpsbIP(data) {
+    //   $$.getElementById("ip-ipsb").innerHTML = data.ip;
+    //   IP.parseIPIpip(data.ip, "ip-ipsb-geo");
+    // }
 
     window.onload = myip_Load();
 
     function myip_Load() {
       var pcip = document.getElementsByTagName("HEAD").item(0);
-      //  var pcipScript= document.createElement("script");
-      //  pcipScript.defer = "defer";
-      //  pcipScript.src='https://whois.pconline.com.cn/ipJson.jsp?callback=getPcolIP';
-      //  pcip.appendChild(pcipScript);
+       var pcipScript= document.createElement("script");
+       pcipScript.defer = "defer";
+       pcipScript.src='https://whois.pconline.com.cn/ipJson.jsp?callback=getPcolIP';
+       pcip.appendChild(pcipScript);
 
       //  var sbip = document.getElementsByTagName('HEAD').item(0);
       //  var sbipScript= document.createElement("script");
@@ -358,14 +358,14 @@
         ).innerHTML = `${data.pro} ${data.city} ${data.region} ${pcisp[1]}`;
       }
 
-      //   function getIpsbIP(data) {
-      //     $$.getElementById("ip-ipsb").innerHTML = data.ip;
-      //     IP.parseIPIpip(data.ip, "ip-ipsb-geo");
-      //   }
+        function getIpsbIP(data) {
+          $$.getElementById("ip-ipsb").innerHTML = data.ip;
+          IP.parseIPIpip(data.ip, "ip-ipsb-geo");
+        }
 
       setTimeout("myip_Load()", 1000 * 10);
     }
   </script>
-  <!-- <script defer="defer" src="https://whois.pconline.com.cn/ipJson.jsp?callback=getPcolIP"></script>
-    <script defer="defer" src="https://api-ipv4.ip.sb/jsonip?callback=getIpsbIP"></script> -->
+  <script defer="defer" src="https://whois.pconline.com.cn/ipJson.jsp?callback=getPcolIP"></script>
+    <!-- <script defer="defer" src="https://api-ipv4.ip.sb/jsonip?callback=getIpsbIP"></script> -->
 </html>
