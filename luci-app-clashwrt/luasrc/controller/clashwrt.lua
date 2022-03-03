@@ -19,8 +19,8 @@ function index()
 	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 30).leaf=true
 	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 30).leaf=true
 
-	-- entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
-	-- entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
+	entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
+	entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
 	-- entry({"admin", "services", "clashwrt", "del_start_log"},call("action_del_start_log"))
 	-- entry({"admin", "services", "clashwrt", "close_all_connection"},call("action_close_all_connection"))
 	-- entry({"admin", "services", "clashwrt", "reload_firewall"},call("action_reload_firewall"))
@@ -81,7 +81,7 @@ function index()
 	-- entry({"admin", "services", "clashwrt", "proxy-provider-config"},cbi("clashwrt/proxy-provider-config"), nil).leaf = true
 	-- entry({"admin", "services", "clashwrt", "rule-providers-config"},cbi("clashwrt/rule-providers-config"), nil).leaf = true
 	-- entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
-	-- entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 80).leaf = true
+	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 80).leaf = true
 
 end
 local fs = require "luci.clashwrt"
