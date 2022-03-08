@@ -16,8 +16,11 @@ function index()
 	entry({"admin", "services", "clashwrt", "startlog"},call("action_start")).leaf=true
 
 	entry({"admin", "services", "clashwrt", "op_mode"},cbi("clashwrt/op_mode"), _("Operation Mode"), 30).leaf=true
-	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 30).leaf=true
-	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 30).leaf=true
+	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 40).leaf=true
+	entry({"admin", "services", "clashwrt", "dnsSettings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 50).leaf=true
+	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 60).leaf = true
+	entry({"admin", "services", "clashwrt", "version_update"},cbi("clashwrt/version_update"), _("Version Update"), 70).leaf=true
+	
 
 	entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
 	entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
@@ -29,20 +32,20 @@ function index()
 	-- entry({"admin", "services", "clashwrt", "update_geoip"},call("action_update_geoip"))
 	-- entry({"admin", "services", "clashwrt", "currentversion"},call("action_currentversion"))
 	-- entry({"admin", "services", "clashwrt", "lastversion"},call("action_lastversion"))
-	-- entry({"admin", "services", "clashwrt", "save_corever_branch"},call("action_save_corever_branch"))
-	-- entry({"admin", "services", "clashwrt", "update"},call("action_update"))
+	entry({"admin", "services", "clashwrt", "save_corever_branch"},call("action_save_corever_branch"))
+	entry({"admin", "services", "clashwrt", "update"},call("action_update"))
 	-- entry({"admin", "services", "clashwrt", "update_ma"},call("action_update_ma"))
-	-- entry({"admin", "services", "clashwrt", "opupdate"},call("action_opupdate"))
-	-- entry({"admin", "services", "clashwrt", "coreupdate"},call("action_coreupdate"))
+	entry({"admin", "services", "clashwrt", "cwrtupdate"},call("action_cwrtupdate"))
+	entry({"admin", "services", "clashwrt", "coreupdate"},call("action_coreupdate"))
 	-- entry({"admin", "services", "clashwrt", "ping"}, call("act_ping"))
 	-- entry({"admin", "services", "clashwrt", "download_rule"}, call("action_download_rule"))
 	-- entry({"admin", "services", "clashwrt", "download_netflix_domains"}, call("action_download_netflix_domains"))
 	-- entry({"admin", "services", "clashwrt", "download_disney_domains"}, call("action_download_disney_domains"))
 	-- entry({"admin", "services", "clashwrt", "catch_netflix_domains"}, call("action_catch_netflix_domains"))
 	-- entry({"admin", "services", "clashwrt", "write_netflix_domains"}, call("action_write_netflix_domains"))
-	-- entry({"admin", "services", "clashwrt", "restore"}, call("action_restore_config"))
+	entry({"admin", "services", "clashwrt", "restore"}, call("action_restore_config"))
 	-- entry({"admin", "services", "clashwrt", "backup"}, call("action_backup"))
-	-- entry({"admin", "services", "clashwrt", "remove_all_core"}, call("action_remove_all_core"))
+	entry({"admin", "services", "clashwrt", "remove_all_core"}, call("action_remove_all_core"))
 	-- entry({"admin", "services", "clashwrt", "one_key_update"}, call("action_one_key_update"))
 	entry({"admin", "services", "clashwrt", "one_key_update_check"}, call("action_one_key_update_check"))
 	-- entry({"admin", "services", "clashwrt", "switch_mode"}, call("action_switch_mode"))
@@ -81,7 +84,7 @@ function index()
 	-- entry({"admin", "services", "clashwrt", "proxy-provider-config"},cbi("clashwrt/proxy-provider-config"), nil).leaf = true
 	-- entry({"admin", "services", "clashwrt", "rule-providers-config"},cbi("clashwrt/rule-providers-config"), nil).leaf = true
 	-- entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
-	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 80).leaf = true
+	
 
 end
 local fs = require "luci.clashwrt"
@@ -252,17 +255,17 @@ local function corelv()
 	return core_lv .. "," .. core_tun_lv
 end
 
-local function opcv()
+local function cwrtcv()
 	return luci.sys.exec("sed -n 1p /usr/share/clashwrt/res/clashwrt_version 2>/dev/null")
 end
 
-local function oplv()
+local function cwrtlv()
 	 local new = luci.sys.call(string.format("sh /usr/share/clashwrt/clashwrt_version.sh"))
-	 local oplv = luci.sys.exec("sed -n 1p /tmp/clashwrt_last_version 2>/dev/null")
-   return oplv .. "," .. new
+	 local cwrtlv = luci.sys.exec("sed -n 1p /tmp/clashwrt_last_version 2>/dev/null")
+   return cwrtlv .. "," .. new
 end
 
-local function opup()
+local function cwrtup()
    luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/clashwrt_version.sh >/dev/null 2>&1")
    return luci.sys.call("sh /usr/share/clashwrt/clashwrt_update.sh >/dev/null 2>&1 &")
 end
@@ -839,15 +842,15 @@ function action_dler_login()
 	})
 end
 
-function action_one_key_update_check()
-	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null")
-	luci.http.prepare_content("application/json")
-	luci.http.write_json({
-		corever = corever(),
-		corelv = corelv(),
-		oplv = oplv();
-	})
-end
+-- function action_one_key_update_check()
+-- 	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null")
+-- 	luci.http.prepare_content("application/json")
+-- 	luci.http.write_json({
+-- 		corever = corever(),
+-- 		corelv = corelv(),
+-- 		oplv = oplv();
+-- 	})
+-- end
 
 function action_op_mode()
 	local op_mode = uci:get("clashwrt", "config", "operation_mode")
@@ -926,28 +929,28 @@ function action_update()
 			coremodel = coremodel(),
 			corecv = corecv(),
 			coretuncv = coretuncv(),
-			opcv = opcv(),
+			cwrtcv = cwrtcv(),
 			corever = corever(),
 			release_branch = release_branch(),
 			upchecktime = upchecktime(),
 			corelv = corelv(),
-			oplv = oplv();
+			cwrtlv = cwrtlv();
 	})
 end
 
 function action_update_ma()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
-			oplv = oplv(),
+			cwrtlv = cwrtlv(),
 			corelv = corelv(),
 			corever = corever();
 	})
 end
 
-function action_opupdate()
+function action_cwrtupdate()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({
-			opup = opup();
+		cwrtup = cwrtup();
 	})
 end
 

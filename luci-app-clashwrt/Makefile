@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-clashwrt
-PKG_VERSION:=0.0.1
+PKG_VERSION:=v0.0.1
 PKG_RELEASE:=beta
 PKG_MAINTAINER:=JMVoid <https://github.com/jmvoid/ClashWRT>
 

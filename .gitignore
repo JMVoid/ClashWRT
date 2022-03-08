@@ -38,4 +38,6 @@ luac.out
 *.i*86
 *.x86_64
 *.hex
-
+# scp to remote
+scp2wrt.bash
+.scp2wrt.bash.swp

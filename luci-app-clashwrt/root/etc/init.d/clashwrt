@@ -981,18 +981,18 @@ del_lock() {
 # }
 
 # #配置文件选择
-# config_choose()
-# {
-# if [ -z "$RAW_CONFIG_FILE" ] || [ ! -f "$RAW_CONFIG_FILE" ]; then
-#    CONFIG_NAME=$(ls -lt /etc/openclash/config/ | grep -E '.yaml|.yml' | head -n 1 |awk '{print $9}')
-#    if [ -n "$CONFIG_NAME" ]; then
-#       uci -q set openclash.config.config_path="/etc/openclash/config/$CONFIG_NAME"
-#       uci -q commit openclash
-#       RAW_CONFIG_FILE="/etc/openclash/config/$CONFIG_NAME"
-#       CONFIG_FILE="/etc/openclash/$CONFIG_NAME"
-#    fi
-# fi 2>/dev/null
-# CONFIG_NAME=$(echo "$RAW_CONFIG_FILE" |awk -F '/' '{print $5}' 2>/dev/null)
+config_choose()
+{
+if [ -z "$RAW_CONFIG_FILE" ] || [ ! -f "$RAW_CONFIG_FILE" ]; then
+   CONFIG_NAME=$(ls -lt /etc/clashwrt/config/ | grep -E '.yaml|.yml' | head -n 1 |awk '{print $9}')
+   if [ -n "$CONFIG_NAME" ]; then
+      uci -q set clashwrt.config.config_path="/etc/clashwrt/config/$CONFIG_NAME"
+      uci -q commit clashwrt
+      RAW_CONFIG_FILE="/etc/clashwrt/config/$CONFIG_NAME"
+      CONFIG_FILE="/etc/clashwrt/$CONFIG_NAME"
+   fi
+fi 2>/dev/null
+CONFIG_NAME=$(echo "$RAW_CONFIG_FILE" |awk -F '/' '{print $5}' 2>/dev/null)
 # HISTORY_PATH_OLD="/etc/openclash/history/${CONFIG_NAME%.*}"
 # HISTORY_PATH="/etc/openclash/history/${CONFIG_NAME%.*}.db"
 
@@ -1012,7 +1012,7 @@ del_lock() {
 #       exit 0
 #    fi
 # fi
-# }
+}
 
 # config_check()
 # {
@@ -1137,214 +1137,214 @@ del_lock() {
 #    fi
 # }
 
-# #运行模式处理
-# do_run_mode()
-# {
-#    en_mode=$(uci -q get openclash.config.en_mode)
+#运行模式处理
+do_run_mode()
+{
+   en_mode=$(uci -q get clashwrt.config.en_mode)
   
-#    if [ "$en_mode" = "fake-ip-tun" ]; then
-#       en_mode_tun="1"
-#       en_mode="fake-ip"
-#    fi
+   if [ "$en_mode" = "fake-ip-tun" ]; then
+      en_mode_tun="1"
+      en_mode="fake-ip"
+   fi
     
-#    if [ "$en_mode" = "redir-host-tun" ]; then
-#       en_mode_tun="1"
-#       en_mode="redir-host"
-#    fi
+   if [ "$en_mode" = "redir-host-tun" ]; then
+      en_mode_tun="1"
+      en_mode="redir-host"
+   fi
     
-#    if [ "$en_mode" = "redir-host-mix" ]; then
-#       en_mode_tun="2"
-#       en_mode="redir-host"
-#    fi
+   # if [ "$en_mode" = "redir-host-mix" ]; then
+   #    en_mode_tun="2"
+   #    en_mode="redir-host"
+   # fi
     
-#    if [ "$en_mode" = "fake-ip-mix" ]; then
-#       en_mode_tun="2"
-#       en_mode="fake-ip"
-#    fi
-# }
+   # if [ "$en_mode" = "fake-ip-mix" ]; then
+   #    en_mode_tun="2"
+   #    en_mode="fake-ip"
+   # fi
+}
 
-# do_run_file()
-# {
+do_run_file()
+{
 
-#    if [ "$small_flash_memory" != "1" ]; then
-#       dev_core_path="/etc/openclash/core/clash"
-#       tun_core_path="/etc/openclash/core/clash_tun"
-#       geoip_path="/etc/openclash/Country.mmdb"
-#       chnr_path="/etc/openclash/china_ip_route.ipset"
-#       chnr6_path="/etc/openclash/china_ip6_route.ipset"
-#       mv "/tmp/etc/openclash/Country.mmdb" "$geoip_path" 2>/dev/null
-#       mv "/tmp/etc/openclash/china_ip_route.ipset" "$chnr_path" 2>/dev/null
-#       mv "/tmp/etc/openclash/china_ip6_route.ipset" "$chnr6_path" 2>/dev/null
-#       mv "/tmp/etc/openclash/core/" "/etc/openclash" 2>/dev/null
-#       mv "/tmp/etc/openclash/cache.db" "/etc/openclash/cache.db" 2>/dev/null
-#       rm -rf "/tmp/etc/openclash" 2>/dev/null
-#    else
-#       dev_core_path="/tmp/etc/openclash/core/clash"
-#       tun_core_path="/tmp/etc/openclash/core/clash_tun"
-#       geoip_path="/tmp/etc/openclash/Country.mmdb"
-#       chnr_path="/tmp/etc/openclash/china_ip_route.ipset"
-#       chnr6_path="/tmp/etc/openclash/china_ip6_route.ipset"
-#       CACHE_PATH="/tmp/etc/openclash/cache.db"
-#       mkdir -p /tmp/etc/openclash
-#       [ ! -h "/etc/openclash/Country.mmdb" ] && mv "/etc/openclash/Country.mmdb" "$geoip_path" 2>/dev/null
-#       [ ! -h "/etc/openclash/china_ip_route.ipset" ] && mv "/etc/openclash/china_ip_route.ipset" "$chnr_path" 2>/dev/null
-#       [ ! -h "/etc/openclash/china_ip6_route.ipset" ] && mv "/etc/openclash/china_ip6_route.ipset" "$chnr6_path" 2>/dev/null
-#       mv "/etc/openclash/core/" "/tmp/etc/openclash" 2>/dev/null
-#       [ ! -h "/etc/openclash/cache.db" ] && mv "/etc/openclash/cache.db" "$CACHE_PATH" 2>/dev/null
-#    fi
+   if [ "$small_flash_memory" != "1" ]; then
+      # dev_core_path="/etc/openclash/core/clash"
+      tun_core_path="/etc/clashwrt/core/clash_tun"
+      geoip_path="/etc/clashwrt/Country.mmdb"
+      # chnr_path="/etc/openclash/china_ip_route.ipset"
+      # chnr6_path="/etc/openclash/china_ip6_route.ipset"
+      mv "/tmp/etc/clashwrt/Country.mmdb" "$geoip_path" 2>/dev/null
+      # mv "/tmp/etc/openclash/china_ip_route.ipset" "$chnr_path" 2>/dev/null
+      # mv "/tmp/etc/openclash/china_ip6_route.ipset" "$chnr6_path" 2>/dev/null
+      # mv "/tmp/etc/clashwrt/core/" "/etc/openclash" 2>/dev/null
+      # mv "/tmp/etc/clashwrt/cache.db" "/etc/openclash/cache.db" 2>/dev/null
+      rm -rf "/tmp/etc/openclash" 2>/dev/null
+   else
+      # dev_core_path="/tmp/etc/openclash/core/clash"
+      tun_core_path="/tmp/etc/clashwrt/core/clash_tun"
+      geoip_path="/tmp/etc/clashwrt/Country.mmdb"
+      # chnr_path="/tmp/etc/openclash/china_ip_route.ipset"
+      # chnr6_path="/tmp/etc/openclash/china_ip6_route.ipset"
+      # CACHE_PATH="/tmp/etc/openclash/cache.db"
+      mkdir -p /tmp/etc/openclash
+      [ ! -h "/etc/clashwrt/Country.mmdb" ] && mv "/etc/clashwrt/Country.mmdb" "$geoip_path" 2>/dev/null
+      # [ ! -h "/etc/openclash/china_ip_route.ipset" ] && mv "/etc/openclash/china_ip_route.ipset" "$chnr_path" 2>/dev/null
+      # [ ! -h "/etc/openclash/china_ip6_route.ipset" ] && mv "/etc/openclash/china_ip6_route.ipset" "$chnr6_path" 2>/dev/null
+      mv "/etc/clashwrt/core/" "/tmp/etc/openclash" 2>/dev/null
+      # [ ! -h "/etc/openclash/cache.db" ] && mv "/etc/openclash/cache.db" "$CACHE_PATH" 2>/dev/null
+   fi
     
-#    rm -rf "/etc/openclash/clash" 2>/dev/null
+   rm -rf "/etc/clashwrt/clash" 2>/dev/null
     
-#    if [ -n "$en_mode_tun" ]; then
-#       ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
-#       core_type="TUN"
-#       core_start_log="Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
-#    fi
+   if [ -n "$en_mode_tun" ]; then
+      ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
+      core_type="TUN"
+      core_start_log="Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
+   fi
    
-#    if [ "$rule_source" != "0" ]; then
-#       config_load "openclash"
-#       config_foreach yml_other_rules_get "other_rules" "$CONFIG_NAME"
-#    fi
+   # if [ "$rule_source" != "0" ]; then
+   #    config_load "openclash"
+   #    config_foreach yml_other_rules_get "other_rules" "$CONFIG_NAME"
+   # fi
    
-#    config_load "openclash"
-#    config_set_custom_rule_provider=0
-#    for i in "rule_provider_config" "rule_provider_config" "rule_providers" "game_config"; do
-#       config_foreach custom_rule_provider "$i"
-#       if [ "$config_set_custom_rule_provider" -eq 1 ]; then
-#       	break
-#       fi
-#    done 2>/dev/null
+   # config_load "openclash"
+   # config_set_custom_rule_provider=0
+   # for i in "rule_provider_config" "rule_provider_config" "rule_providers" "game_config"; do
+   #    config_foreach custom_rule_provider "$i"
+   #    if [ "$config_set_custom_rule_provider" -eq 1 ]; then
+   #    	break
+   #    fi
+   # done 2>/dev/null
 
-#    if [ "$proxy_mode" = "script" ] || [ "$config_set_custom_rule_provider" -eq 1 ] || [ "$rule_name" = "ConnersHua" ] || [ "$rule_name" = "lhie1" ] || [ -n "$(ruby_read "$RAW_CONFIG_FILE" "['rules'].grep(/(^RULE-SET,|^SCRIPT,)/)")" ] || [ -n "$(ruby_read "/etc/openclash/custom/openclash_custom_rules.list" "['rules'].grep(/(^RULE-SET,|^SCRIPT,)/)")" ] || [ -n "$(ruby_read "/etc/openclash/custom/openclash_custom_rules_2.list" "['rules'].grep(/(^RULE-SET,|^SCRIPT,)/)")" ]; then
-#       if [ -z "$en_mode_tun" ]; then
-#          rm -rf "/etc/openclash/clash"
-#          ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
-#          core_type="TUN"
-#          core_start_log="Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
-#       fi
-#    fi
+   # if [ "$proxy_mode" = "script" ] || [ "$config_set_custom_rule_provider" -eq 1 ] || [ "$rule_name" = "ConnersHua" ] || [ "$rule_name" = "lhie1" ] || [ -n "$(ruby_read "$RAW_CONFIG_FILE" "['rules'].grep(/(^RULE-SET,|^SCRIPT,)/)")" ] || [ -n "$(ruby_read "/etc/openclash/custom/openclash_custom_rules.list" "['rules'].grep(/(^RULE-SET,|^SCRIPT,)/)")" ] || [ -n "$(ruby_read "/etc/openclash/custom/openclash_custom_rules_2.list" "['rules'].grep(/(^RULE-SET,|^SCRIPT,)/)")" ]; then
+   #    if [ -z "$en_mode_tun" ]; then
+   #       rm -rf "/etc/openclash/clash"
+   #       ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
+   #       core_type="TUN"
+   #       core_start_log="Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
+   #    fi
+   # fi
     
-#    if [ ! -f "/etc/openclash/clash" ] && [ -f "$dev_core_path" ] && [ -z "$core_type" ]; then
-#       ln -s "$dev_core_path" /etc/openclash/clash 2>/dev/null
-#       core_start_log="Tip: No Special Configuration Detected, Use Dev Core to Start..."
-#    fi
+   # if [ ! -f "/etc/openclash/clash" ] && [ -f "$dev_core_path" ] && [ -z "$core_type" ]; then
+   #    ln -s "$dev_core_path" /etc/openclash/clash 2>/dev/null
+   #    core_start_log="Tip: No Special Configuration Detected, Use Dev Core to Start..."
+   # fi
     
-#    if [ ! -f "/etc/openclash/clash" ] && [ -f "$tun_core_path" ]; then
-#       ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
-#       core_type="TUN"
-#       core_start_log="Tip: Detected that the Dev Core is not Installed, Use TUN Core to Start..."
-#    fi
+   # if [ ! -f "/etc/clashwrt/clash" ] && [ -f "$tun_core_path" ]; then
+   #    ln -s "$tun_core_path" /etc/clashwrt/clash 2>/dev/null
+   #    core_type="TUN"
+   #    core_start_log="Tip: Detected that the Dev Core is not Installed, Use TUN Core to Start..."
+   # fi
    
-#    [ ! -f "$CLASH" ] && {
-#       LOG_OUT "Tip: Detected that the Core is not Installed, Ready to Download..."
-#       rm -rf "/tmp/clash_last_version"
-#       /usr/share/openclash/openclash_core.sh "$core_type"
-#       if [ "$core_type" == "TUN" ] && [ ! -f "$tun_core_path" ]; then
-#          start_fail
-#       elif [ -z "$core_type" ] && [ ! -f "$dev_core_path" ]; then
-#          start_fail
-#       else
-#          del_lock
-#          restart
-#          exit 0
-#       fi
-#    }
+   [ ! -f "$CLASH" ] && {
+      LOG_OUT "Tip: Detected that the Core is not Installed, Ready to Download..."
+      rm -rf "/tmp/clash_last_version"
+      /usr/share/openclash/openclash_core.sh "$core_type"
+      if [ "$core_type" == "TUN" ] && [ ! -f "$tun_core_path" ]; then
+         start_fail
+      elif [ -z "$core_type" ] && [ ! -f "$dev_core_path" ]; then
+         start_fail
+      else
+         del_lock
+         restart
+         exit 0
+      fi
+   }
    
-#    [ ! -f "$geoip_path" ] && {
-#       LOG_OUT "Tip: Detected that the GEOIP Database is not Installed, Ready to Download..."
-#       /usr/share/openclash/openclash_ipdb.sh
-#    }
+   [ ! -f "$geoip_path" ] && {
+      LOG_OUT "Tip: Detected that the GEOIP Database is not Installed, Ready to Download..."
+      /usr/share/openclash/openclash_ipdb.sh
+   }
    
-#    if [ "$china_ip_route" = "1" ] || [ "$china_ip6_route" = "1" ] || [ "$disable_udp_quic" = "1" ]; then
-#    	  if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ]; then
-#          LOG_OUT "Tip: Detected that the Chnroute Cidr List is not Installed, Ready to Download..."
-#          /usr/share/openclash/openclash_chnroute.sh
-#       fi
-#    fi
+   if [ "$china_ip_route" = "1" ] || [ "$china_ip6_route" = "1" ] || [ "$disable_udp_quic" = "1" ]; then
+   	  if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ]; then
+         LOG_OUT "Tip: Detected that the Chnroute Cidr List is not Installed, Ready to Download..."
+         /usr/share/openclash/openclash_chnroute.sh
+      fi
+   fi
    
-#    if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ] || [ ! -f "$geoip_path" ]; then
-#       start_fail
-#    fi
+   if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ] || [ ! -f "$geoip_path" ]; then
+      start_fail
+   fi
 
-#    [ ! -x "$tun_core_path" ] && chmod 4755 "$tun_core_path" 2>/dev/null
-#    [ ! -x "$dev_core_path" ] && chmod 4755 "$dev_core_path" 2>/dev/null
+   [ ! -x "$tun_core_path" ] && chmod 4755 "$tun_core_path" 2>/dev/null
+   [ ! -x "$dev_core_path" ] && chmod 4755 "$dev_core_path" 2>/dev/null
 
-#    #fake_ip_filter
-#    if [ "$3" = "fake-ip" ]; then
-#       if [ ! -f "/tmp/openclash_fake_filter.list" ] || [ -n "$(grep "config servers" /etc/config/openclash 2>/dev/null)" ]; then
-#          /usr/share/openclash/openclash_fake_filter.sh
-#       fi
-#       if [ -s "/tmp/openclash_servers_fake_filter.conf" ]; then
-#          mkdir -p /tmp/dnsmasq.d
-#          cp /tmp/openclash_servers_fake_filter.conf /tmp/dnsmasq.d/dnsmasq_openclash.conf
-#       fi
-#    fi
+   #fake_ip_filter
+   if [ "$3" = "fake-ip" ]; then
+      if [ ! -f "/tmp/openclash_fake_filter.list" ] || [ -n "$(grep "config servers" /etc/config/openclash 2>/dev/null)" ]; then
+         /usr/share/openclash/openclash_fake_filter.sh
+      fi
+      if [ -s "/tmp/openclash_servers_fake_filter.conf" ]; then
+         mkdir -p /tmp/dnsmasq.d
+         cp /tmp/openclash_servers_fake_filter.conf /tmp/dnsmasq.d/dnsmasq_openclash.conf
+      fi
+   fi
   
-#    [ -f "$geoip_path" ] && [ "$small_flash_memory" = "1" ] && {
-#       ln -s "$geoip_path" /etc/openclash/Country.mmdb 2>/dev/null
-#    }
+   [ -f "$geoip_path" ] && [ "$small_flash_memory" = "1" ] && {
+      ln -s "$geoip_path" /etc/openclash/Country.mmdb 2>/dev/null
+   }
 
-#    [ -f "$chnr_path" ] && [ "$small_flash_memory" = "1" ] && {
-#       ln -s "$chnr_path" /etc/openclash/china_ip_route.ipset 2>/dev/null
-#    }
+   [ -f "$chnr_path" ] && [ "$small_flash_memory" = "1" ] && {
+      ln -s "$chnr_path" /etc/openclash/china_ip_route.ipset 2>/dev/null
+   }
    
-#    [ -f "$chnr6_path" ] && [ "$small_flash_memory" = "1" ] && {
-#       ln -s "$chnr6_path" /etc/openclash/china_ip6_route.ipset 2>/dev/null
-#    }
+   [ -f "$chnr6_path" ] && [ "$small_flash_memory" = "1" ] && {
+      ln -s "$chnr6_path" /etc/openclash/china_ip6_route.ipset 2>/dev/null
+   }
    
-#    #Resore history cache
-#    if [ -f "$HISTORY_PATH" ] && [ -f "$HISTORY_PATH_OLD" ]; then
-#       if [ "$(date -r $HISTORY_PATH +%s)" -ge "$(date -r $HISTORY_PATH_OLD +%s)" ]; then
-#          cmp -s "$CACHE_PATH" "$HISTORY_PATH"
-#          if [ "$?" -ne "0" ]; then
-#             cp "$HISTORY_PATH" "$CACHE_PATH" 2>/dev/null
-#          fi
-#       else
-#          cmp -s "$CACHE_PATH_OLD" "$HISTORY_PATH_OLD"
-#          if [ "$?" -ne "0" ]; then
-#             cp "$HISTORY_PATH_OLD" "$CACHE_PATH_OLD" 2>/dev/null
-#          fi
-#       fi
-#    else
-#       if [ -f "$HISTORY_PATH" ]; then
-#          cmp -s "$CACHE_PATH" "$HISTORY_PATH"
-#          if [ "$?" -ne "0" ]; then
-#             cp "$HISTORY_PATH" "$CACHE_PATH" 2>/dev/null
-#          fi
-#       fi
-#       if [ -f "$HISTORY_PATH_OLD" ]; then
-#          cmp -s "$CACHE_PATH_OLD" "$HISTORY_PATH_OLD"
-#          if [ "$?" -ne "0" ]; then
-#             cp "$HISTORY_PATH_OLD" "$CACHE_PATH_OLD" 2>/dev/null
-#          fi
-#       fi
-#    fi
-#    [ -f "$CACHE_PATH" ] && [ "$small_flash_memory" = "1" ] && {
-#       ln -s "$CACHE_PATH" /etc/openclash/cache.db 2>/dev/null
-#    }
+   #Resore history cache
+   if [ -f "$HISTORY_PATH" ] && [ -f "$HISTORY_PATH_OLD" ]; then
+      if [ "$(date -r $HISTORY_PATH +%s)" -ge "$(date -r $HISTORY_PATH_OLD +%s)" ]; then
+         cmp -s "$CACHE_PATH" "$HISTORY_PATH"
+         if [ "$?" -ne "0" ]; then
+            cp "$HISTORY_PATH" "$CACHE_PATH" 2>/dev/null
+         fi
+      else
+         cmp -s "$CACHE_PATH_OLD" "$HISTORY_PATH_OLD"
+         if [ "$?" -ne "0" ]; then
+            cp "$HISTORY_PATH_OLD" "$CACHE_PATH_OLD" 2>/dev/null
+         fi
+      fi
+   else
+      if [ -f "$HISTORY_PATH" ]; then
+         cmp -s "$CACHE_PATH" "$HISTORY_PATH"
+         if [ "$?" -ne "0" ]; then
+            cp "$HISTORY_PATH" "$CACHE_PATH" 2>/dev/null
+         fi
+      fi
+      if [ -f "$HISTORY_PATH_OLD" ]; then
+         cmp -s "$CACHE_PATH_OLD" "$HISTORY_PATH_OLD"
+         if [ "$?" -ne "0" ]; then
+            cp "$HISTORY_PATH_OLD" "$CACHE_PATH_OLD" 2>/dev/null
+         fi
+      fi
+   fi
+   [ -f "$CACHE_PATH" ] && [ "$small_flash_memory" = "1" ] && {
+      ln -s "$CACHE_PATH" /etc/openclash/cache.db 2>/dev/null
+   }
    
-#    if [ -z "$_koolshare" ]; then
-#       if ! capsh --is-uid=0 >/dev/null || ! capsh --has-ambient >/dev/null; then
-#         LOG_OUT "Error: Could Not Load The Capsh Library, Please Verify The Capsh Shell Library Work Well"
-#         LOG_OUT "Tip: You Could Download And Re-Install The libcap & libcap-bin Library From The Address Give"
-#         echo "" >> $LOG_FILE
-#         echo "---------- https://mirrors.cloud.tencent.com/lede/snapshots/packages/ ----------" >> $LOG_FILE
-#         echo "" >> $LOG_FILE
-#         sleep 3
-#         start_fail
-#       fi
-#    fi
+   if [ -z "$_koolshare" ]; then
+      if ! capsh --is-uid=0 >/dev/null || ! capsh --has-ambient >/dev/null; then
+        LOG_OUT "Error: Could Not Load The Capsh Library, Please Verify The Capsh Shell Library Work Well"
+        LOG_OUT "Tip: You Could Download And Re-Install The libcap & libcap-bin Library From The Address Give"
+        echo "" >> $LOG_FILE
+        echo "---------- https://mirrors.cloud.tencent.com/lede/snapshots/packages/ ----------" >> $LOG_FILE
+        echo "" >> $LOG_FILE
+        sleep 3
+        start_fail
+      fi
+   fi
    
-#    #创建原始备份
-#    if [ ! -f "$2" ]; then
-#       cp "$1" "$2"
-#    fi
+   #创建原始备份
+   if [ ! -f "$2" ]; then
+      cp "$1" "$2"
+   fi
    
-#    #保存启动内核类型
-#    uci -q set openclash.config.core_type="$core_type"
-#    uci -q commit openclash
+   #保存启动内核类型
+   uci -q set openclash.config.core_type="$core_type"
+   uci -q commit openclash
 
-# }
+}
 
 # #绑定interface防止回环
 # check_interface_name()
@@ -2136,131 +2136,131 @@ del_lock() {
 #    ipset destroy common_ports >/dev/null 2>&1
 # }
 
-# get_config()
-# {
-#    rule_source=$(uci -q get openclash.config.rule_source)
-#    enable_custom_dns=$(uci -q get openclash.config.enable_custom_dns)
-#    enable_custom_clash_rules=$(uci -q get openclash.config.enable_custom_clash_rules) 
-#    da_password=$(uci -q get openclash.config.dashboard_password)
-#    cn_port=$(uci -q get openclash.config.cn_port)
-#    proxy_port=$(uci -q get openclash.config.proxy_port)
-#    tproxy_port=$(uci -q get openclash.config.tproxy_port || echo 7895)
-#    proxy_mode=$(uci -q get openclash.config.proxy_mode)
-#    ipv6_enable=$(uci -q get openclash.config.ipv6_enable)
-#    ipv6_dns=$(uci -q get openclash.config.ipv6_dns || echo 0)
-#    http_port=$(uci -q get openclash.config.http_port)
-#    socks_port=$(uci -q get openclash.config.socks_port)
-#    enable_redirect_dns=$(uci -q get openclash.config.enable_redirect_dns)
-#    lan_ip=$(uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null || ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1)
-#    lan_ip_cidrs=$(ip route | grep "/" | awk '{print $1}' | grep -vE "^198.18" 2>/dev/null)
-#    wan_ip4s=$(ifconfig | grep 'inet addr' | awk '{print $2}' | cut -d: -f2 | grep -vE "(^198.18|^192.168|^127.0)" 2>/dev/null)
-#    wan_ip6s=$(ifconfig | grep 'inet6 addr' | awk '{print $3}' 2>/dev/null)
-#    disable_masq_cache=$(uci -q get openclash.config.disable_masq_cache)
-#    log_level=$(uci -q get openclash.config.log_level)
-#    intranet_allowed=$(uci -q get openclash.config.intranet_allowed)
-#    enable_udp_proxy=$(uci -q get openclash.config.enable_udp_proxy || echo 1)
-#    disable_udp_quic=$(uci -q get openclash.config.disable_udp_quic)
-#    operation_mode=$(uci -q get openclash.config.operation_mode)
-#    lan_ac_mode=$(uci -q get openclash.config.lan_ac_mode)
-#    enable_rule_proxy=$(uci -q get openclash.config.enable_rule_proxy)
-#    stack_type=$(uci -q get openclash.config.stack_type)
-#    china_ip_route=$(uci -q get openclash.config.china_ip_route)
-#    china_ip6_route=$(uci -q get openclash.config.china_ip6_route)
-#    small_flash_memory=$(uci -q get openclash.config.small_flash_memory)
-#    mixed_port=$(uci -q get openclash.config.mixed_port)
-#    interface_name=$(uci -q get openclash.config.interface_name)
-#    common_ports=$(uci -q get openclash.config.common_ports)
-#    dns_port=$(uci -q get openclash.config.dns_port)
-#    tolerance=$(uci -q get openclash.config.tolerance)
-#    custom_fallback_filter=$(uci -q get openclash.config.custom_fallback_filter)
-#    stream_domains_prefetch=$(uci -q get openclash.config.stream_domains_prefetch || echo 0)
-#    append_wan_dns=$(uci -q get openclash.config.append_wan_dns || echo 1)
-#    store_fakeip=$(uci -q get openclash.config.store_fakeip || echo 1)
-#    dns_remote=$(uci -q get openclash.config.dns_remote || echo 1)
-#    _koolshare=$(cat /usr/lib/os-release 2>/dev/null |grep OPENWRT_RELEASE 2>/dev/null |grep -i koolshare 2>/dev/null)
-#    [ -z "$dns_port" ] && dns_port=7874 && uci -q set openclash.config.dns_port=7874
-#    [ "$ipv6_enable" -eq 1 ] && [ "$intranet_allowed" -eq 1 ] && intranet_allowed=0 && uci -q set openclash.config.intranet_allowed=0
-#    uci -q set openclash.config.restricted_mode=0 && uci -q commit openclash
-# }
+get_config()
+{
+   # rule_source=$(uci -q get openclash.config.rule_source)
+   # enable_custom_dns=$(uci -q get openclash.config.enable_custom_dns)
+   # enable_custom_clash_rules=$(uci -q get openclash.config.enable_custom_clash_rules) 
+   da_password=$(uci -q get clashwrt.config.dashboard_password)
+   cn_port=$(uci -q get clashwrt.config.cn_port)
+   proxy_port=$(uci -q get clashwrt.config.proxy_port)
+   tproxy_port=$(uci -q get clashwrt.config.tproxy_port || echo 7895)
+   proxy_mode=$(uci -q get clashwrt.config.proxy_mode)
+   # ipv6_enable=$(uci -q get openclash.config.ipv6_enable)
+   # ipv6_dns=$(uci -q get openclash.config.ipv6_dns || echo 0)
+   http_port=$(uci -q get clashwrt.config.http_port)
+   socks_port=$(uci -q get clashwrt.config.socks_port)
+   enable_redirect_dns=$(uci -q get clashwrt.config.enable_redirect_dns)
+   lan_ip=$(uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null || ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1)
+   lan_ip_cidrs=$(ip route | grep "/" | awk '{print $1}' | grep -vE "^198.18" 2>/dev/null)
+   wan_ip4s=$(ifconfig | grep 'inet addr' | awk '{print $2}' | cut -d: -f2 | grep -vE "(^198.18|^192.168|^127.0)" 2>/dev/null)
+   wan_ip6s=$(ifconfig | grep 'inet6 addr' | awk '{print $3}' 2>/dev/null)
+   disable_masq_cache=$(uci -q get clashwrt.config.disable_masq_cache)
+   # log_level=$(uci -q get openclash.config.log_level)
+   # intranet_allowed=$(uci -q get openclash.config.intranet_allowed)
+   enable_udp_proxy=$(uci -q get clashwrt.config.enable_udp_proxy || echo 1)
+   disable_udp_quic=$(uci -q get clashwrt.config.disable_udp_quic)
+   # operation_mode=$(uci -q get openclash.config.operation_mode)
+   # lan_ac_mode=$(uci -q get openclash.config.lan_ac_mode)
+   enable_rule_proxy=$(uci -q get clashwrt.config.enable_rule_proxy)
+   stack_type=$(uci -q get clashwrt.config.stack_type)
+   # china_ip_route=$(uci -q get openclash.config.china_ip_route)
+   # china_ip6_route=$(uci -q get openclash.config.china_ip6_route)
+   small_flash_memory=$(uci -q get clashwrt.config.small_flash_memory)
+   mixed_port=$(uci -q get clashwrt.config.mixed_port)
+   interface_name=$(uci -q get clashwrt.config.interface_name)
+   common_ports=$(uci -q get clashwrt.config.common_ports)
+   dns_port=$(uci -q get clashwrt.config.dns_port)
+   # tolerance=$(uci -q get openclash.config.tolerance)
+   # custom_fallback_filter=$(uci -q get openclash.config.custom_fallback_filter)
+   # stream_domains_prefetch=$(uci -q get openclash.config.stream_domains_prefetch || echo 0)
+   # append_wan_dns=$(uci -q get openclash.config.append_wan_dns || echo 1)
+   # store_fakeip=$(uci -q get openclash.config.store_fakeip || echo 1)
+   # dns_remote=$(uci -q get openclash.config.dns_remote || echo 1)
+   _koolshare=$(cat /usr/lib/os-release 2>/dev/null |grep OPENWRT_RELEASE 2>/dev/null |grep -i koolshare 2>/dev/null)
+   # [ -z "$dns_port" ] && dns_port=7874 && uci -q set clashwrt.config.dns_port=7874
+   # [ "$ipv6_enable" -eq 1 ] && [ "$intranet_allowed" -eq 1 ] && intranet_allowed=0 && uci -q set openclash.config.intranet_allowed=0
+   # uci -q set openclash.config.restricted_mode=0 && uci -q commit openclash
+}
 
-# start()
-# {
+start()
+{
 
-#    enable=$(uci -q get openclash.config.enable)
-#    [ "$enable" != "1" ] && LOG_OUT "Warning: OpenClash Now Disabled, Need Start From Luci Page, Exit..." && SLOG_CLEAN && del_lock && exit 0
+   enable=$(uci -q get clashwrt.config.enable)
+   [ "$enable" != "1" ] && LOG_OUT "Warning: ClashWRT Now Disabled, Need Start From Luci Page, Exit..." && SLOG_CLEAN && del_lock && exit 0
 
-#    LOG_OUT "OpenClash Start Running..."
-#    config_choose
-#    do_run_mode
+   LOG_OUT "Clashwrt Start Running..."
+   config_choose
+   do_run_mode
    
-#    LOG_OUT "Step 1: Get The Configuration..."
-#    get_config
+   LOG_OUT "Step 1: Get The Configuration..."
+   get_config
    
-#    LOG_OUT "Step 2: Check The Components..."
-#    #检查文件是否存在
-#    do_run_file "$RAW_CONFIG_FILE" "$BACKUP_FILE" "$en_mode"
+   LOG_OUT "Step 2: Check The Components..."
+   #检查文件是否存在
+   do_run_file "$RAW_CONFIG_FILE" "$BACKUP_FILE" "$en_mode"
    
-#    #快速启动判断
-#    check_run_quick
+   #快速启动判断
+   check_run_quick
    
-#    if ! $quick_start; then
-#       LOG_OUT "Step 3: Modify The Config File..."
-#       config_check
-#       config_load "openclash"
-#       config_foreach yml_auth_get "authentication"
-#       yml_auth_custom "$CONFIG_FILE"
-#       yml_dns_custom "$enable_custom_dns" "$CONFIG_FILE" "$append_wan_dns" "$ipv6_dns"
-#       /usr/share/openclash/yml_change.sh 2>/dev/null "$LOGTIME" "$en_mode" "$enable_custom_dns" "$da_password" "$cn_port" "$proxy_port" "$CONFIG_FILE" "$ipv6_enable" "$http_port" "$socks_port" "$lan_ip" "$log_level" "$proxy_mode" "$intranet_allowed" "$en_mode_tun" "$stack_type" "$dns_port" "$core_type" "$mixed_port" "$tproxy_port" "$ipv6_dns" "$store_fakeip" "$stream_domains_prefetch" "$dns_remote"
-#       /usr/share/openclash/yml_rules_change.sh 2>/dev/null "$LOGTIME" "$rule_source" "$enable_custom_clash_rules" "$CONFIG_FILE" "$enable_rule_proxy" "$CONFIG_NAME"
-#       yml_custom_rule_provider
-#       yml_game_custom
-#       yml_provider_path "$CONFIG_FILE" "proxy-providers" "proxy_provider"
-#       yml_provider_path "$CONFIG_FILE" "rule-providers" "rule_provider"
-#       yml_vmess_compatible "$CONFIG_FILE" "proxies"
-#       yml_dns_check "$CONFIG_FILE"  "$FALLBACK_FILTER_FILE"
-#       yml_tolerance_set "$CONFIG_FILE" "$tolerance"
-#    fi
+   if ! $quick_start; then
+      LOG_OUT "Step 3: Modify The Config File..."
+      config_check
+      config_load "openclash"
+      config_foreach yml_auth_get "authentication"
+      yml_auth_custom "$CONFIG_FILE"
+      yml_dns_custom "$enable_custom_dns" "$CONFIG_FILE" "$append_wan_dns" "$ipv6_dns"
+      /usr/share/openclash/yml_change.sh 2>/dev/null "$LOGTIME" "$en_mode" "$enable_custom_dns" "$da_password" "$cn_port" "$proxy_port" "$CONFIG_FILE" "$ipv6_enable" "$http_port" "$socks_port" "$lan_ip" "$log_level" "$proxy_mode" "$intranet_allowed" "$en_mode_tun" "$stack_type" "$dns_port" "$core_type" "$mixed_port" "$tproxy_port" "$ipv6_dns" "$store_fakeip" "$stream_domains_prefetch" "$dns_remote"
+      /usr/share/openclash/yml_rules_change.sh 2>/dev/null "$LOGTIME" "$rule_source" "$enable_custom_clash_rules" "$CONFIG_FILE" "$enable_rule_proxy" "$CONFIG_NAME"
+      yml_custom_rule_provider
+      yml_game_custom
+      yml_provider_path "$CONFIG_FILE" "proxy-providers" "proxy_provider"
+      yml_provider_path "$CONFIG_FILE" "rule-providers" "rule_provider"
+      yml_vmess_compatible "$CONFIG_FILE" "proxies"
+      yml_dns_check "$CONFIG_FILE"  "$FALLBACK_FILTER_FILE"
+      yml_tolerance_set "$CONFIG_FILE" "$tolerance"
+   fi
    
-#    LOG_OUT "Step 4: Start Running The Clash Core..."
-#    start_run_core
+   LOG_OUT "Step 4: Start Running The Clash Core..."
+   start_run_core
    
-#    LOG_OUT "Step 5: Check The Core Status..."
-#    check_core_status
+   LOG_OUT "Step 5: Check The Core Status..."
+   check_core_status
 
-#    #检测proxy_provider配置文件状态
-#    LOG_OUT "Step 6: Wait For The File Downloading..."
-#    yml_provider_check "$CONFIG_FILE" "proxy-providers" "proxies"
-#    yml_provider_check "$CONFIG_FILE" "rule-providers" "payload"
-#    try_restore_start
+   #检测proxy_provider配置文件状态
+   LOG_OUT "Step 6: Wait For The File Downloading..."
+   yml_provider_check "$CONFIG_FILE" "proxy-providers" "proxies"
+   yml_provider_check "$CONFIG_FILE" "rule-providers" "payload"
+   try_restore_start
 
-#    LOG_OUT "Step 7: Set Control Panel..."
-#    ln -s /usr/share/openclash/yacd /www/luci-static/openclash 2>/dev/null
+   LOG_OUT "Step 7: Set Control Panel..."
+   ln -s /usr/share/openclash/yacd /www/luci-static/openclash 2>/dev/null
        
-#    LOG_OUT "Step 8: Set Firewall Rules..."
-#    set_firewall
+   LOG_OUT "Step 8: Set Firewall Rules..."
+   set_firewall
 
-#    LOG_OUT "Step 9: Restart Dnsmasq..."
-#    change_dns "$enable_redirect_dns" "$disable_masq_cache"
-#    /etc/init.d/dnsmasq restart >/dev/null 2>&1
+   LOG_OUT "Step 9: Restart Dnsmasq..."
+   change_dns "$enable_redirect_dns" "$disable_masq_cache"
+   /etc/init.d/dnsmasq restart >/dev/null 2>&1
    
-#    LOG_OUT "Step 10: Add Cron Rules, Start Daemons..."
-#    add_cron
-#    if [ -z "$(uci -q get dhcp.lan.dhcpv6)" ] && [ "$(uci -q get openclash.config.restricted_mode)" != "1" ]; then
-#       LOG_OUT "OpenClash Start Successful!"
-#       sleep 3
-#    elif [ -n "$(uci -q get dhcp.lan.dhcpv6)" ] && [ "$ipv6_enable" -eq 0 ]; then
-#       LOG_OUT "Warning: OpenClash Start Successful, Please Note That Network May Abnormal With IPv6's DHCP Server"
-#       sleep 3
-#    fi
-#    if [ "$(uci -q get openclash.config.restricted_mode)" = "1" ]; then
-#       LOG_OUT "Warning: OpenClash Start Successful With Raw Config File, Please Note That It's Restricted Mode Now"
-#       sleep 3
-#    fi
-#    echo "OpenClash Already Start!"
-#    write_run_quick
-#    SLOG_CLEAN
-#    rm -rf /tmp/yaml_*
-# }
+   LOG_OUT "Step 10: Add Cron Rules, Start Daemons..."
+   add_cron
+   if [ -z "$(uci -q get dhcp.lan.dhcpv6)" ] && [ "$(uci -q get openclash.config.restricted_mode)" != "1" ]; then
+      LOG_OUT "OpenClash Start Successful!"
+      sleep 3
+   elif [ -n "$(uci -q get dhcp.lan.dhcpv6)" ] && [ "$ipv6_enable" -eq 0 ]; then
+      LOG_OUT "Warning: OpenClash Start Successful, Please Note That Network May Abnormal With IPv6's DHCP Server"
+      sleep 3
+   fi
+   if [ "$(uci -q get openclash.config.restricted_mode)" = "1" ]; then
+      LOG_OUT "Warning: OpenClash Start Successful With Raw Config File, Please Note That It's Restricted Mode Now"
+      sleep 3
+   fi
+   echo "OpenClash Already Start!"
+   write_run_quick
+   SLOG_CLEAN
+   rm -rf /tmp/yaml_*
+}
 
 # stop()
 # {
