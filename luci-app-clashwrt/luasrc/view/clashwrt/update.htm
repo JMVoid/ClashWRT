@@ -138,7 +138,10 @@
   // var backup = document.getElementById("backup");
   // var one_key_update = document.getElementById("one_key_update");
   var remove_core = document.getElementById("remove_core");
-  var release_branch = document.getElementById("RELEASE_BRANCH");
+  // var release_branch = document.getElementById("RELEASE_BRANCH");
+  // fix release_branch is master
+  var release_branch = document.createElement("select")
+  release_branch.value = "master"
 
   XHR.get(
     '<%=luci.dispatcher.build_url("admin", "services", "clashwrt", "update")%>',
@@ -213,19 +216,19 @@
         } else {
           core_tun_lv.innerHTML = "<b style=color:red><%:Unknown%></b>";
         }
-        var oplv = status.oplv;
-        var arr_op = oplv.split(",");
-        var oplvis = arr_op[0];
-        var new_op = arr_op[1];
-        op_cv.innerHTML = status.opcv
-          ? "<b style=color:green>" + status.opcv + "</b>"
+        var cwrtlv = status.cwrtlv;
+        var arr_cwrt = cwrtlv.split(",");
+        var cwrtlvis = arr_cwrt[0];
+        var new_cwrt = arr_cwrt[1];
+        cwrt_cv.innerHTML = status.cwrtcv
+          ? "<b style=color:green>" + status.cwrtcv + "</b>"
           : "<b style=color:red><%:Unknown%></b>";
-        if (new_op == "2" && oplvis != "") {
-          op_lv.innerHTML = "<b style=color:green>" + oplvis + "<%:<New>%></b>";
-        } else if (oplvis != "") {
-          op_lv.innerHTML = "<b style=color:green>" + oplvis + "</b>";
+        if (new_cwrt == "2" && cwrtlvis != "") {
+          cwrt_lv.innerHTML = "<b style=color:green>" + cwrtlvis + "<%:<New>%></b>";
+        } else if (cwrtlvis != "") {
+          cwrt_lv.innerHTML = "<b style=color:green>" + cwrtlvis + "</b>";
         } else {
-          op_lv.innerHTML = "<b style=color:red><%:Unknown%></b>";
+          cwrt_lv.innerHTML = "<b style=color:red><%:Unknown%></b>";
         }
       }
     }
@@ -236,7 +239,7 @@
   core_tun_up.innerHTML =
     '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return core_update(this,\'TUN\')"/>';
   cwrt_up.innerHTML =
-    '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return op_update(this)"/>';
+    '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Check And Update%>" onclick="return cwrt_update(this)"/>';
   // ma_core_up.innerHTML =
   //   '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Download%>" onclick="return ma_core_update(this,\'Dev\')"/>';
   ma_core_tun_up.innerHTML =
@@ -245,12 +248,12 @@
     '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Download%>" onclick="return ma_op_update(this)"/>';
   restore.innerHTML =
     '<input type="button" class="btn cbi-button cbi-button-reset" value="<%:Restore Default Config%>" onclick="return restore_config(this)"/>';
-  one_key_update.innerHTML =
-    '<input type="button" class="btn cbi-button cbi-button-reset" value="<%:One Click Check Update%>" onclick="return all_one_key_update(this)"/>';
+  // one_key_update.innerHTML =
+  //   '<input type="button" class="btn cbi-button cbi-button-reset" value="<%:One Click Check Update%>" onclick="return all_one_key_update(this)"/>';
   remove_core.innerHTML =
     '<input type="button" class="btn cbi-button cbi-button-reset" value="<%:Remove Core%>" onclick="return remove_all_core(this)"/>';
-  backup.innerHTML =
-    '<input type="button" class="btn cbi-button cbi-button-reset" value="<%:Backup ClashWRT%>" onclick="return backup_all_file(this)"/>';
+  // backup.innerHTML =
+  //   '<input type="button" class="btn cbi-button cbi-button-reset" value="<%:Backup ClashWRT%>" onclick="return backup_all_file(this)"/>';
 
   function core_update(btn, type) {
     var v = core_version.value;
@@ -383,15 +386,15 @@
         if (x && x.status == 200) {
           XHR.get(
             '<%=luci.dispatcher.build_url("admin", "services", "clashwrt", "update_ma")%>',
-            status.oplv,
+            status.cwrtlv,
             function (x, status) {
               if (x && x.status == 200) {
-                var oplv = status.oplv;
-                var oplvis = oplv.substring(
+                var cwrtlv = status.cwrtlv;
+                var cwrtlvis = oplv.substring(
                   oplv.indexOf("v") + 1,
                   oplv.indexOf(",")
                 );
-                if (oplvis != "") {
+                if (cwrtlvis != "") {
                   if (r == "dev") {
                     url2 =
                       "https://raw.githubusercontent.com/JMVoid/ClashWRT/" +

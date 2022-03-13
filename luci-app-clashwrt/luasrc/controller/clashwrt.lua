@@ -56,8 +56,8 @@ function index()
 	-- entry({"admin", "services", "clashwrt", "dler_login"}, call("action_dler_login"))
 	-- entry({"admin", "services", "clashwrt", "dler_login_info_save"}, call("action_dler_login_info_save"))
 	entry({"admin", "services", "clashwrt", "sub_info_get"}, call("sub_info_get"))
-	-- entry({"admin", "services", "clashwrt", "config_name"}, call("action_config_name"))
-	-- entry({"admin", "services", "clashwrt", "switch_config"}, call("action_switch_config"))
+	entry({"admin", "services", "clashwrt", "config_name"}, call("action_config_name"))
+	entry({"admin", "services", "clashwrt", "switch_config"}, call("action_switch_config"))
 	entry({"admin", "services", "clashwrt", "toolbar_show"}, call("action_toolbar_show"))
 	entry({"admin", "services", "clashwrt", "toolbar_show_sys"}, call("action_toolbar_show_sys"))
 	-- entry({"admin", "services", "clashwrt", "diag_connection"}, call("action_diag_connection"))
@@ -249,10 +249,10 @@ end
 end
 
 local function corelv()
-	luci.sys.call("sh /usr/share/clashwrt/clash_version.sh")
-	local core_lv = luci.sys.exec("sed -n 1p /tmp/clash_last_version 2>/dev/null")
-	local core_tun_lv = luci.sys.exec("sed -n 2p /tmp/clash_last_version 2>/dev/null")
-	return core_lv .. "," .. core_tun_lv
+	luci.sys.call("sh /usr/share/clashwrt/get_clash_core_version.sh")
+	-- local core_lv = luci.sys.exec("sed -n 1p /tmp/clash_last_version 2>/dev/null")
+	local core_tun_lv = luci.sys.exec("sed -n 1p /tmp/clash_last_version 2>/dev/null")
+	return "" .. "," .. core_tun_lv
 end
 
 local function cwrtcv()
@@ -260,13 +260,13 @@ local function cwrtcv()
 end
 
 local function cwrtlv()
-	 local new = luci.sys.call(string.format("sh /usr/share/clashwrt/clashwrt_version.sh"))
+	 local new = luci.sys.call(string.format("sh /usr/share/clashwrt/get_clashwrt_version.sh"))
 	 local cwrtlv = luci.sys.exec("sed -n 1p /tmp/clashwrt_last_version 2>/dev/null")
    return cwrtlv .. "," .. new
 end
 
 local function cwrtup()
-   luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/clashwrt_version.sh >/dev/null 2>&1")
+   luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/get_clashwrt_version.sh >/dev/null 2>&1")
    return luci.sys.call("sh /usr/share/clashwrt/clashwrt_update.sh >/dev/null 2>&1 &")
 end
 
@@ -274,7 +274,7 @@ local function coreup()
 	uci:set("clashwrt", "config", "enable", "1")
 	uci:commit("clashwrt")
 	local type = luci.http.formvalue("core_type")
-	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/clash_version.sh >/dev/null 2>&1")
+	luci.sys.call("rm -rf /tmp/*_last_version 2>/dev/null && sh /usr/share/clashwrt/get_clash_core_version.sh >/dev/null 2>&1")
 	return luci.sys.call(string.format("/usr/share/clashwrt/clashwrt_core.sh '%s' >/dev/null 2>&1 &", type))
 end
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-START_LOG="/tmp/openclash_start.log"
-LOG_FILE="/tmp/openclash.log"
+START_LOG="/tmp/clashwrt_start.log"
+LOG_FILE="/tmp/clashwrt.log"
 		
 LOG_OUT()
 {

@@ -16,7 +16,7 @@ log.template="clashwrt/log"
 log.description = translate("")
 log.rows = 29
 
-m:append(Template("openclash/toolbar_show"))
-m:append(Template("openclash/config_editor"))
+m:append(Template("clashwrt/toolbar_show"))
+m:append(Template("clashwrt/config_editor"))
 
 return m
