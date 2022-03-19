@@ -135,21 +135,21 @@ del_lock() {
 #    rm -rf /tmp/dnsmasq.d/dnsmasq_openclash_custom_domain.conf
 # }
 
-# kill_clash()
-# {
-#    clash_pids=$(pidof clash |sed 's/$//g')
-#    for clash_pid in $clash_pids; do
-#       kill -9 "$clash_pid" 2>/dev/null
-#    done >/dev/null 2>&1
-# }
+kill_clash()
+{
+   clash_pids=$(pidof clash |sed 's/$//g')
+   for clash_pid in $clash_pids; do
+      kill -9 "$clash_pid" 2>/dev/null
+   done >/dev/null 2>&1
+}
 
-# start_fail()
-# {
-#    kill_clash
-#    stop
-#    del_lock
-#    exit 0
-# }
+start_fail()
+{
+   kill_clash
+   stop
+   del_lock
+   exit 0
+}
 
 # yml_dns_check()
 # {
@@ -1177,7 +1177,7 @@ do_run_file()
       # mv "/tmp/etc/openclash/china_ip6_route.ipset" "$chnr6_path" 2>/dev/null
       # mv "/tmp/etc/clashwrt/core/" "/etc/openclash" 2>/dev/null
       # mv "/tmp/etc/clashwrt/cache.db" "/etc/openclash/cache.db" 2>/dev/null
-      rm -rf "/tmp/etc/openclash" 2>/dev/null
+      rm -rf "/tmp/etc/clashwrt" 2>/dev/null
    else
       # dev_core_path="/tmp/etc/openclash/core/clash"
       tun_core_path="/tmp/etc/clashwrt/core/clash_tun"
@@ -1185,21 +1185,21 @@ do_run_file()
       # chnr_path="/tmp/etc/openclash/china_ip_route.ipset"
       # chnr6_path="/tmp/etc/openclash/china_ip6_route.ipset"
       # CACHE_PATH="/tmp/etc/openclash/cache.db"
-      mkdir -p /tmp/etc/openclash
+      mkdir -p /tmp/etc/clashwrt
       [ ! -h "/etc/clashwrt/Country.mmdb" ] && mv "/etc/clashwrt/Country.mmdb" "$geoip_path" 2>/dev/null
       # [ ! -h "/etc/openclash/china_ip_route.ipset" ] && mv "/etc/openclash/china_ip_route.ipset" "$chnr_path" 2>/dev/null
       # [ ! -h "/etc/openclash/china_ip6_route.ipset" ] && mv "/etc/openclash/china_ip6_route.ipset" "$chnr6_path" 2>/dev/null
-      mv "/etc/clashwrt/core/" "/tmp/etc/openclash" 2>/dev/null
+      mv "/etc/clashwrt/core/" "/tmp/etc/clashwrt" 2>/dev/null
       # [ ! -h "/etc/openclash/cache.db" ] && mv "/etc/openclash/cache.db" "$CACHE_PATH" 2>/dev/null
    fi
     
    rm -rf "/etc/clashwrt/clash" 2>/dev/null
     
-   if [ -n "$en_mode_tun" ]; then
-      ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
-      core_type="TUN"
-      core_start_log="Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
-   fi
+   # if [ -n "$en_mode_tun" ]; then
+   #    ln -s "$tun_core_path" /etc/openclash/clash 2>/dev/null
+   #    core_type="TUN"
+   #    core_start_log="Tip: Detected The Exclusive Function of The TUN Core, Use TUN Core to Start..."
+   # fi
    
    # if [ "$rule_source" != "0" ]; then
    #    config_load "openclash"
@@ -1238,7 +1238,7 @@ do_run_file()
    [ ! -f "$CLASH" ] && {
       LOG_OUT "Tip: Detected that the Core is not Installed, Ready to Download..."
       rm -rf "/tmp/clash_last_version"
-      /usr/share/openclash/openclash_core.sh "$core_type"
+      /usr/share/clashwrt/clashwrt_core.sh "$core_type"
       if [ "$core_type" == "TUN" ] && [ ! -f "$tun_core_path" ]; then
          start_fail
       elif [ -z "$core_type" ] && [ ! -f "$dev_core_path" ]; then
@@ -1252,33 +1252,33 @@ do_run_file()
    
    [ ! -f "$geoip_path" ] && {
       LOG_OUT "Tip: Detected that the GEOIP Database is not Installed, Ready to Download..."
-      /usr/share/openclash/openclash_ipdb.sh
+      /usr/share/clashwrt/openclash_ipdb.sh
    }
    
-   if [ "$china_ip_route" = "1" ] || [ "$china_ip6_route" = "1" ] || [ "$disable_udp_quic" = "1" ]; then
-   	  if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ]; then
-         LOG_OUT "Tip: Detected that the Chnroute Cidr List is not Installed, Ready to Download..."
-         /usr/share/openclash/openclash_chnroute.sh
-      fi
-   fi
+   # if [ "$china_ip_route" = "1" ] || [ "$china_ip6_route" = "1" ] || [ "$disable_udp_quic" = "1" ]; then
+   # 	  if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ]; then
+   #       LOG_OUT "Tip: Detected that the Chnroute Cidr List is not Installed, Ready to Download..."
+   #       /usr/share/openclash/openclash_chnroute.sh
+   #    fi
+   # fi
    
-   if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ] || [ ! -f "$geoip_path" ]; then
-      start_fail
-   fi
+   # if [ ! -f "$chnr_path" ] || [ ! -f "$chnr6_path" ] || [ ! -f "$geoip_path" ]; then
+   #    start_fail
+   # fi
 
    [ ! -x "$tun_core_path" ] && chmod 4755 "$tun_core_path" 2>/dev/null
-   [ ! -x "$dev_core_path" ] && chmod 4755 "$dev_core_path" 2>/dev/null
+   # [ ! -x "$dev_core_path" ] && chmod 4755 "$dev_core_path" 2>/dev/null
 
    #fake_ip_filter
-   if [ "$3" = "fake-ip" ]; then
-      if [ ! -f "/tmp/openclash_fake_filter.list" ] || [ -n "$(grep "config servers" /etc/config/openclash 2>/dev/null)" ]; then
-         /usr/share/openclash/openclash_fake_filter.sh
-      fi
-      if [ -s "/tmp/openclash_servers_fake_filter.conf" ]; then
-         mkdir -p /tmp/dnsmasq.d
-         cp /tmp/openclash_servers_fake_filter.conf /tmp/dnsmasq.d/dnsmasq_openclash.conf
-      fi
-   fi
+   # if [ "$3" = "fake-ip" ]; then
+   #    if [ ! -f "/tmp/openclash_fake_filter.list" ] || [ -n "$(grep "config servers" /etc/config/openclash 2>/dev/null)" ]; then
+   #       /usr/share/openclash/openclash_fake_filter.sh
+   #    fi
+   #    if [ -s "/tmp/openclash_servers_fake_filter.conf" ]; then
+   #       mkdir -p /tmp/dnsmasq.d
+   #       cp /tmp/openclash_servers_fake_filter.conf /tmp/dnsmasq.d/dnsmasq_openclash.conf
+   #    fi
+   # fi
   
    [ -f "$geoip_path" ] && [ "$small_flash_memory" = "1" ] && {
       ln -s "$geoip_path" /etc/openclash/Country.mmdb 2>/dev/null
@@ -1341,8 +1341,8 @@ do_run_file()
    fi
    
    #保存启动内核类型
-   uci -q set openclash.config.core_type="$core_type"
-   uci -q commit openclash
+   uci -q set clashwrt.config.core_type="$core_type"
+   uci -q commit clashwrt
 
 }
 
@@ -2201,12 +2201,12 @@ start()
    do_run_file "$RAW_CONFIG_FILE" "$BACKUP_FILE" "$en_mode"
    
    #快速启动判断
-   check_run_quick
+   # check_run_quick
    
    if ! $quick_start; then
       LOG_OUT "Step 3: Modify The Config File..."
       config_check
-      config_load "openclash"
+      # config_load "openclash"
       config_foreach yml_auth_get "authentication"
       yml_auth_custom "$CONFIG_FILE"
       yml_dns_custom "$enable_custom_dns" "$CONFIG_FILE" "$append_wan_dns" "$ipv6_dns"

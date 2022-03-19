@@ -84,6 +84,7 @@ function index()
 	-- entry({"admin", "services", "clashwrt", "proxy-provider-config"},cbi("clashwrt/proxy-provider-config"), nil).leaf = true
 	-- entry({"admin", "services", "clashwrt", "rule-providers-config"},cbi("clashwrt/rule-providers-config"), nil).leaf = true
 	-- entry({"admin", "services", "clashwrt", "config"},form("clashwrt/config"),_("Config Manage"), 70).leaf = true
+	entry({"admin", "services", "openclash", "create_file"}, call("create_file"))
 	
 
 end
@@ -1252,5 +1253,17 @@ function ltn12_popen(command)
 		fdi:close()
 		fdo:close()
 		nixio.exec("/bin/sh", "-c", command)
+	end
+end
+
+function create_file()
+	local dconf = "/usr/share/clashwrt/res/default.yaml"
+	local file_name = luci.http.formvalue("filename")
+	local file_path = luci.http.formvalue("filepath")..file_name
+	fs.copy(dconf, file_path)
+	if fs.isfile(file_path) then
+		return
+	else
+		luci.http.status(500, "Create File Faild")
 	end
 end

@@ -24,7 +24,46 @@ function IsYmlFile(e)
 	return e == ".yml"
 end
 
+function config_check(CONFIG_FILE)
+	local yaml = fs.isfile(CONFIG_FILE)
+	if yaml then
+		yaml = SYS.exec(string.format('ruby -ryaml -E UTF-8 -e "puts YAML.load_file(\'%s\')" 2>/dev/null',CONFIG_FILE))
+		if yaml ~= "false\n" and yaml ~= "" then
+			return "Config Normal"
+		else
+			return "Config Abnormal"
+		end
+	elseif (yaml ~= 0) then
+		return "File Not Exist"
+	end
+end
+
+
 -- section of config files 
+local e,a={}
+for t,o in ipairs(fs.glob("/etc/clashwrt/config/*"))do
+a=fs.stat(o)
+if a then
+e[t]={}
+e[t].name=fs.basename(o)
+-- BACKUP_FILE="/etc/openclash/backup/".. e[t].name
+-- if fs.mtime(BACKUP_FILE) then
+--    e[t].mtime=os.date("%Y-%m-%d %H:%M:%S",fs.mtime(BACKUP_FILE))
+-- else
+--    e[t].mtime=os.date("%Y-%m-%d %H:%M:%S",a.mtime)
+-- end
+if uci:get("clashwrt", "config", "config_path") and string.sub(uci:get("clashwrt", "config", "config_path"), 22, -1) == e[t].name then
+   e[t].state=translate("Enable")
+else
+   e[t].state=translate("Disable")
+end
+e[t].size=fs.filesize(a.size)
+e[t].check=translate(config_check(o))
+e[t].remove=0
+end
+end
+
+-- config file list simleform beginning 
 form=SimpleForm("config_file_list",translate("Config File List"))
 form.reset=false
 form.submit=false
@@ -51,7 +90,7 @@ o.inputstyle="apply"
 Button.render(o,t,a)
 end
 btnis.write=function(a,t)
-fs.unlink("/tmp/Proxy_Group")
+-- fs.unlink("/tmp/Proxy_Group")
 uci:set("clashwrt", "config", "config_path", "/etc/clashwrt/config/"..e[t].name)
 uci:commit("clashwrt")
 HTTP.redirect(luci.dispatcher.build_url("admin", "services", "clashwrt", "config"))
@@ -168,7 +207,40 @@ btnrm.write=function(a,t)
 	if a then table.remove(e,t)end
 	HTTP.redirect(DISP.build_url("admin", "services", "clashwrt","config"))
 end
+
+local t = {
+    {Commit, Create, Apply}
+}
+
+q = form:section(Table, t)
+
+o = q:option(Button, "Commit", " ")
+o.inputtitle = translate("Commit Settings")
+o.inputstyle = "apply"
+o.write = function()
+	-- fs.unlink("/tmp/Proxy_Group")
+  uci:commit("clashwrt")
+end
+
+o = q:option(DummyValue, "Create", " ")
+o.rawhtml = true
+o.template = "clashwrt/input_file_name"
+o.value = "/etc/clashwrt/config/"
+
+o = q:option(Button, "Apply", " ")
+o.inputtitle = translate("Apply Settings")
+o.inputstyle = "apply"
+o.write = function()
+	-- fs.unlink("/tmp/Proxy_Group")
+  uci:set("clashwrt", "config", "enable", 1)
+  uci:commit("clashwrt")
+  SYS.call("/etc/init.d/clashwrt restart >/dev/null 2>&1 &")
+  HTTP.redirect(DISP.build_url("admin", "services", "clashwrt"))
+end
+
 -- end of section config file list
+
+
 
 -- begin of ip test section
 s = SimpleForm("clashwrt")
@@ -206,7 +278,7 @@ o.write = function()
 	SYS.call("/etc/init.d/clashwrt stop >/dev/null 2>&1 &")
 end
 
--- end of section start/sto clash instance
+-- end of section start/stop clash instance
 
 -- begin of developer section
 
@@ -216,5 +288,6 @@ d.reset = false
 d.submit = false
 d:section(SimpleSection).template  = "clashwrt/developer"
 
+form:append(Template("clashwrt/cfg_file_list"));
 
 return m, form, s, ap, d

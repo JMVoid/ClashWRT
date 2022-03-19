@@ -38,7 +38,4 @@ o.write = function()
   HTTP.redirect(DISP.build_url("admin", "services", "clashwrt"))
 end
 
-m:append(Template("clashwrt/config_editor"))
-m:append(Template("clashwrt/toolbar_show"))
-
 return m
