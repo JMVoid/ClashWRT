@@ -13,6 +13,26 @@ m.submit = false
 
 m:section(SimpleSection).template = "clashwrt/status"
 
+function default_config_set(f)
+	local cf = uci:get("clashwrt", "config", "config_path")
+	if cf == "/etc/clashwrt/config/"..f or not cf or cf == "" or not fs.isfile(cf) then
+		-- if CHIF == "1" and cf == "/etc/openclash/config/"..f then
+		-- 	return
+		-- end
+		local fis = fs.glob("/etc/clashwrt/config/*")[1]
+		if fis ~= nil then
+			fcf = fs.basename(fis)
+			if fcf then
+				uci:set("clashwrt", "config", "config_path", "/etc/clashwrt/config/"..fcf)
+				uci:commit("clashwrt")
+			end
+		else
+			uci:set("clashwrt", "config", "config_path", "/etc/clashwrt/config/config.yaml")
+			uci:commit("clashwrt")
+		end
+	end
+end
+
 function IsYamlFile(e)
 	e=e or""
 	local e=string.lower(string.sub(e,-5,-1))
@@ -197,11 +217,11 @@ e.inputstyle="reset"
 Button.render(e,t,a)
 end
 btnrm.write=function(a,t)
-	fs.unlink("/tmp/Proxy_Group")
-	fs.unlink("/etc/clashwrt/backup/"..fs.basename(e[t].name))
-	fs.unlink("/etc/clashwrt/history/"..fs.filename(e[t].name))
-	fs.unlink("/etc/clashwrt/history/"..fs.filename(e[t].name)..".db")
-	fs.unlink("/etc/clashwrt/"..fs.basename(e[t].name))
+	-- fs.unlink("/tmp/Proxy_Group")
+	-- fs.unlink("/etc/clashwrt/backup/"..fs.basename(e[t].name))
+	-- fs.unlink("/etc/clashwrt/history/"..fs.filename(e[t].name))
+	-- fs.unlink("/etc/clashwrt/history/"..fs.filename(e[t].name)..".db")
+	-- fs.unlink("/etc/clashwrt/"..fs.basename(e[t].name))
 	local a=fs.unlink("/etc/clashwrt/config/"..fs.basename(e[t].name))
 	default_config_set(fs.basename(e[t].name))
 	if a then table.remove(e,t)end

@@ -14,7 +14,7 @@ BACKUP_FILE="/etc/clashwrt/backup/$(uci -q get clashwrt.config.config_path |awk 
 CONFIG_FILE="/etc/clashwrt/$(uci -q get clashwrt.config.config_path |awk -F '/' '{print $5}' 2>/dev/null)"
 }
 LOGTIME=$(echo $(date "+%Y-%m-%d %H:%M:%S"))
-CLASH="/etc/clashwrt/clash"
+CLASH="/etc/clashwrt/core/clash_tun"
 CLASH_CONFIG="/etc/clashwrt"
 CRON_FILE="/etc/crontabs/root"
 CACHE_PATH_OLD="/etc/clashwrt/.cache"
@@ -2203,23 +2203,23 @@ start()
    #快速启动判断
    # check_run_quick
    
-   if ! $quick_start; then
-      LOG_OUT "Step 3: Modify The Config File..."
-      config_check
-      # config_load "openclash"
-      config_foreach yml_auth_get "authentication"
-      yml_auth_custom "$CONFIG_FILE"
-      yml_dns_custom "$enable_custom_dns" "$CONFIG_FILE" "$append_wan_dns" "$ipv6_dns"
-      /usr/share/openclash/yml_change.sh 2>/dev/null "$LOGTIME" "$en_mode" "$enable_custom_dns" "$da_password" "$cn_port" "$proxy_port" "$CONFIG_FILE" "$ipv6_enable" "$http_port" "$socks_port" "$lan_ip" "$log_level" "$proxy_mode" "$intranet_allowed" "$en_mode_tun" "$stack_type" "$dns_port" "$core_type" "$mixed_port" "$tproxy_port" "$ipv6_dns" "$store_fakeip" "$stream_domains_prefetch" "$dns_remote"
-      /usr/share/openclash/yml_rules_change.sh 2>/dev/null "$LOGTIME" "$rule_source" "$enable_custom_clash_rules" "$CONFIG_FILE" "$enable_rule_proxy" "$CONFIG_NAME"
-      yml_custom_rule_provider
-      yml_game_custom
-      yml_provider_path "$CONFIG_FILE" "proxy-providers" "proxy_provider"
-      yml_provider_path "$CONFIG_FILE" "rule-providers" "rule_provider"
-      yml_vmess_compatible "$CONFIG_FILE" "proxies"
-      yml_dns_check "$CONFIG_FILE"  "$FALLBACK_FILTER_FILE"
-      yml_tolerance_set "$CONFIG_FILE" "$tolerance"
-   fi
+   # if ! $quick_start; then
+   #    LOG_OUT "Step 3: Modify The Config File..."
+   #    config_check
+   #    # config_load "openclash"
+   #    config_foreach yml_auth_get "authentication"
+   #    yml_auth_custom "$CONFIG_FILE"
+   #    yml_dns_custom "$enable_custom_dns" "$CONFIG_FILE" "$append_wan_dns" "$ipv6_dns"
+   #    /usr/share/openclash/yml_change.sh 2>/dev/null "$LOGTIME" "$en_mode" "$enable_custom_dns" "$da_password" "$cn_port" "$proxy_port" "$CONFIG_FILE" "$ipv6_enable" "$http_port" "$socks_port" "$lan_ip" "$log_level" "$proxy_mode" "$intranet_allowed" "$en_mode_tun" "$stack_type" "$dns_port" "$core_type" "$mixed_port" "$tproxy_port" "$ipv6_dns" "$store_fakeip" "$stream_domains_prefetch" "$dns_remote"
+   #    /usr/share/openclash/yml_rules_change.sh 2>/dev/null "$LOGTIME" "$rule_source" "$enable_custom_clash_rules" "$CONFIG_FILE" "$enable_rule_proxy" "$CONFIG_NAME"
+   #    yml_custom_rule_provider
+   #    yml_game_custom
+   #    yml_provider_path "$CONFIG_FILE" "proxy-providers" "proxy_provider"
+   #    yml_provider_path "$CONFIG_FILE" "rule-providers" "rule_provider"
+   #    yml_vmess_compatible "$CONFIG_FILE" "proxies"
+   #    yml_dns_check "$CONFIG_FILE"  "$FALLBACK_FILTER_FILE"
+   #    yml_tolerance_set "$CONFIG_FILE" "$tolerance"
+   # fi
    
    LOG_OUT "Step 4: Start Running The Clash Core..."
    start_run_core
@@ -2324,16 +2324,17 @@ start()
 # }
 
 
-# restart()
-# {
-#    [ -f "$LOCK_FILE" ] && LOG_OUT "Warning: Multiple Restart Scripts Running, Exit..." && SLOG_CLEAN && exit 0
-#    mkdir -p /tmp/lock
-#    touch $LOCK_FILE
-#    set_lock
-#    stop
-#    start
-#    del_lock
-# }
+restart()
+{
+   LOG_OUT "RSTART RUNNING.....FOR TEST"
+   [ -f "$LOCK_FILE" ] && LOG_OUT "Warning: Multiple Restart Scripts Running, Exit..." && SLOG_CLEAN && exit 0
+   mkdir -p /tmp/lock
+   touch $LOCK_FILE
+   set_lock
+   stop
+   start
+   del_lock
+}
 
 # reload()
 # {
