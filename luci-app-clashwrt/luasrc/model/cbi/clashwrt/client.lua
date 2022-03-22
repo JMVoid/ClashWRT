@@ -111,9 +111,9 @@ Button.render(o,t,a)
 end
 btnis.write=function(a,t)
 -- fs.unlink("/tmp/Proxy_Group")
-uci:set("clashwrt", "config", "config_path", "/etc/clashwrt/config/"..e[t].name)
-uci:commit("clashwrt")
-HTTP.redirect(luci.dispatcher.build_url("admin", "services", "clashwrt", "config"))
+	uci:set("clashwrt", "config", "config_path", "/etc/clashwrt/config/"..e[t].name)
+	uci:commit("clashwrt")
+	HTTP.redirect(luci.dispatcher.build_url("admin", "services", "clashwrt", "client"))
 end
 
 btncp=tb:option(Button,"copy",translate("Copy Config"))

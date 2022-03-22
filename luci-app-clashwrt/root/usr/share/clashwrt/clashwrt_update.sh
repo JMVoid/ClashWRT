@@ -32,12 +32,12 @@ if [ "$(expr "$OP_LV" \> "$OP_CV")" -eq 1 ] && [ -f "$LAST_OPVER" ]; then
    if [ "$RELEASE_BRANCH" = "dev" ]; then
       curl -sL -m 10 --retry 2 https://raw.githubusercontent.com/JMVoid/ClashWRT/"$RELEASE_BRANCH"/luci-app-clashwrt_"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >/dev/null 2>&1
    else
-      if pidof clash >/dev/null; then
+      if pidof clash_tun >/dev/null; then
          curl -sL -m 10 --retry 2 https://github.com/JMVoid/ClashWRT/releases/download/v"$LAST_VER"/luci-app-clashwrt"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >/dev/null 2>&1
       fi
    fi
    
-   if [ "$?" -ne "0" ] || ! pidof clash >/dev/null; then
+   if [ "$?" -ne "0" ] || ! pidof clash_tun >/dev/null; then
       curl -sL -m 10 --retry 2 https://cdn.jsdelivr.net/gh/JMVoid/ClashWRT@"$RELEASE_BRANCH"/luci-app-clashwrt_"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >/dev/null 2>&1
    fi
    

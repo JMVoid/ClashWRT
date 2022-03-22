@@ -103,11 +103,11 @@ else
 end
 
 local function is_running()
-	return luci.sys.call("pidof clash >/dev/null") == 0
+	return luci.sys.call("pidof clash_tun >/dev/null") == 0
 end
 
 local function is_web()
-	return luci.sys.call("pidof clash >/dev/null") == 0
+	return luci.sys.call("pidof clash_tun >/dev/null") == 0
 end
 
 local function restricted_mode()
@@ -724,11 +724,11 @@ end
 end
 
 function action_toolbar_show_sys()
-	local pid = luci.sys.exec("pidof clash |head -1 |tr -d '\n' 2>/dev/null")
+	local pid = luci.sys.exec("pidof clash_tun |head -1 |tr -d '\n' 2>/dev/null")
 	local mem, cpu
 	if pid and pid ~= "" then
 		mem = tonumber(luci.sys.exec(string.format("cat /proc/%s/status 2>/dev/null |grep -w VmRSS |awk '{print $2}'", pid)))
-		cpu = luci.sys.exec(string.format("top -b -n1 |grep -E '%s' 2>/dev/null |grep -v grep |awk '{for (i=1;i<=NF;i++) {if ($i ~ /clash/) break; else cpu=i}}; {print $cpu}' 2>/dev/null", pid))
+		cpu = luci.sys.exec(string.format("top -b -n1 |grep -E '%s' 2>/dev/null |grep -v grep |awk '{for (i=1;i<=NF;i++) {if ($i ~ /clash_tun/) break; else cpu=i}}; {print $cpu}' 2>/dev/null", pid))
 		if mem and cpu then
 			mem = fs.filesize(mem*1024)
 			cpu = string.match(cpu, "%d+")
@@ -747,7 +747,7 @@ function action_toolbar_show_sys()
 end
 
 function action_toolbar_show()
-	local pid = luci.sys.exec("pidof clash |head -1 |tr -d '\n' 2>/dev/null")
+	local pid = luci.sys.exec("pidof clash_tun |head -1 |tr -d '\n' 2>/dev/null")
 	local traffic, connections, connection, up, down, up_total, down_total, mem, cpu
 	if pid and pid ~= "" then
 		local daip = daip()

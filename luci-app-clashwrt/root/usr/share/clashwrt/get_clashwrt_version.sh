@@ -6,10 +6,10 @@ CWRT_CV=$(sed -n 1p /usr/share/clashwrt/res/claswrt_version 2>/dev/null |awk -F 
 CWRT_LV=$(sed -n 1p $LAST_OPVER 2>/dev/null |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}' |awk -F '.' '{print $2$3}' 2>/dev/null)
 
 if [ "$CKTIME" != "$(grep "CheckTime" $LAST_CWRT_VER 2>/dev/null |awk -F ':' '{print $2}')" ]; then
-   if pidof clash >/dev/null; then
+   if pidof clash_tun >/dev/null; then
       curl -sL --connect-timeout 5 --retry 2 https://raw.githubusercontent.com/JMVoid/ClashWRT/"$RELEASE_BRANCH"/version -o $LAST_CWRT_VER >/dev/null 2>&1
    fi
-   if [ "$?" -ne "0" ] || ! pidof clash >/dev/null; then
+   if [ "$?" -ne "0" ] || ! pidof clash_tun >/dev/null; then
       curl -sL --connect-timeout 5 --retry 2 https://cdn.jsdelivr.net/gh/JMVoid/ClashWRT@"$RELEASE_BRANCH"/version -o $LAST_CWRT_VER >/dev/null 2>&1
    fi
    if [ "$?" -eq "0" ] && [ -s "$LAST_CWRT_VER" ]; then

@@ -137,7 +137,7 @@ del_lock() {
 
 kill_clash()
 {
-   clash_pids=$(pidof clash |sed 's/$//g')
+   clash_pids=$(pidof clash_tun |sed 's/$//g')
    for clash_pid in $clash_pids; do
       kill -9 "$clash_pid" 2>/dev/null
    done >/dev/null 2>&1
@@ -1336,55 +1336,55 @@ do_run_file()
    fi
    
    #创建原始备份
-   if [ ! -f "$2" ]; then
-      cp "$1" "$2"
-   fi
+   # if [ ! -f "$2" ]; then
+   #    cp "$1" "$2"
+   # fi
    
    #保存启动内核类型
-   uci -q set clashwrt.config.core_type="$core_type"
-   uci -q commit clashwrt
+   # uci -q set clashwrt.config.core_type="$core_type"
+   # uci -q commit clashwrt
 
 }
 
-# #绑定interface防止回环
-# check_interface_name()
-# {
-#    if [ -n "$interface_name" ] && [ "$interface_name" != "0" ]; then
-#       ruby_edit "$CONFIG_FILE" "['interface-name']='$interface_name'"
-#    else
-#       sed -i "/^interface-name:/d" "$CONFIG_FILE" 2>/dev/null
-#    fi
-# }
+#绑定interface防止回环
+check_interface_name()
+{
+   if [ -n "$interface_name" ] && [ "$interface_name" != "0" ]; then
+      ruby_edit "$CONFIG_FILE" "['interface-name']='$interface_name'"
+   else
+      sed -i "/^interface-name:/d" "$CONFIG_FILE" 2>/dev/null
+   fi
+}
 
-# start_run_core()
-# {
-#    LOG_OUT "$core_start_log"
-#    ulimit -SHn 65535 2>/dev/null
-#    ulimit -v unlimited 2>/dev/null
-#    modprobe tun >/dev/null 2>&1
-#    check_interface_name
-#    config_reload=$(uci -q get openclash.config.config_reload)
-#    if [ -n "$(pidof clash)" ] && [ "$core_type" != "TUN" ] && [ "$config_reload" != "0" ]; then
-#       curl -s --connect-timeout 5 -m 5 -H 'Content-Type: application/json' -H "Authorization: Bearer ${da_password}" -XPUT http://"$lan_ip":"$cn_port"/configs -d "{\"path\": \"$CONFIG_FILE\"}" 2>/dev/null
-#    else
-#       kill_clash
-#       if [ -z "$_koolshare" ]; then
-#          #防止赋权失败
-#          touch "/tmp/openclash.log" 2>/dev/null
-#          chmod o+w /etc/openclash/proxy_provider/* 2>/dev/null
-#          chmod o+w /etc/openclash/rule_provider/* 2>/dev/null
-#          chmod o+w /tmp/openclash.log 2>/dev/null
-#          chown nobody:nogroup /etc/openclash/core/* 2>/dev/null
-#          #使用nobody启动内核方便代理路由自身流量
-#          capabilties="cap_sys_resource,cap_dac_override,cap_net_raw,cap_net_bind_service,cap_net_admin"
-#          capsh --caps="${capabilties}+eip" -- -c "capsh --user=nobody --addamb='${capabilties}' -- -c 'nohup $CLASH -d $CLASH_CONFIG -f \"$CONFIG_FILE\" >> $LOG_FILE 2>&1 &'" >> $LOG_FILE 2>&1
-#       else
-#          nohup $CLASH -d $CLASH_CONFIG -f "$CONFIG_FILE" >> $LOG_FILE 2>&1 &
-#       fi
-#    fi
-#    uci -q set openclash.config.config_reload=1
-#    uci -q commit openclash
-# }
+start_run_core()
+{
+   LOG_OUT "$core_start_log"
+   ulimit -SHn 65535 2>/dev/null
+   ulimit -v unlimited 2>/dev/null
+   modprobe tun >/dev/null 2>&1
+   check_interface_name
+   config_reload=$(uci -q get openclash.config.config_reload)
+   if [ -n "$(pidof clash_tun)" ] && [ "$core_type" != "TUN" ] && [ "$config_reload" != "0" ]; then
+      curl -s --connect-timeout 5 -m 5 -H 'Content-Type: application/json' -H "Authorization: Bearer ${da_password}" -XPUT http://"$lan_ip":"$cn_port"/configs -d "{\"path\": \"$CONFIG_FILE\"}" 2>/dev/null
+   else
+      kill_clash
+      if [ -z "$_koolshare" ]; then
+         #防止赋权失败
+         touch "/tmp/openclash.log" 2>/dev/null
+         chmod o+w /etc/openclash/proxy_provider/* 2>/dev/null
+         chmod o+w /etc/openclash/rule_provider/* 2>/dev/null
+         chmod o+w /tmp/openclash.log 2>/dev/null
+         chown nobody:nogroup /etc/openclash/core/* 2>/dev/null
+         #使用nobody启动内核方便代理路由自身流量
+         capabilties="cap_sys_resource,cap_dac_override,cap_net_raw,cap_net_bind_service,cap_net_admin"
+         capsh --caps="${capabilties}+eip" -- -c "capsh --user=nobody --addamb='${capabilties}' -- -c 'nohup $CLASH -d $CLASH_CONFIG -f \"$CONFIG_FILE\" >> $LOG_FILE 2>&1 &'" >> $LOG_FILE 2>&1
+      else
+         nohup $CLASH -d $CLASH_CONFIG -f "$CONFIG_FILE" >> $LOG_FILE 2>&1 &
+      fi
+   fi
+   uci -q set openclash.config.config_reload=1
+   uci -q commit openclash
+}
 
 # check_core_status()
 # {
@@ -2084,57 +2084,57 @@ do_run_file()
 # config_foreach firewall_rule_exclude "rule"
 # }
 
-# revert_firewall()
-# {
-#    rm -rf /var/etc/openclash.include
+revert_firewall()
+{
+   rm -rf /var/etc/openclash.include
 
-#    ip rule del fwmark "$PROXY_FWMARK" table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
-#    ip route del local 0.0.0.0/0 dev lo table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
+   ip rule del fwmark "$PROXY_FWMARK" table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
+   ip route del local 0.0.0.0/0 dev lo table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
    
-#    ip -6 rule del fwmark "$PROXY_FWMARK" table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
-#    ip -6 route del local ::/0 dev lo table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
+   ip -6 rule del fwmark "$PROXY_FWMARK" table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
+   ip -6 route del local ::/0 dev lo table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
    
-#    #TUN
-#    ip route del default dev utun table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
-#    ip rule del fwmark "$PROXY_FWMARK" table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
-#    ip link set dev utun down >/dev/null 2>&1
-#    ip tuntap del utun mode tun >/dev/null 2>&1
+   #TUN
+   ip route del default dev utun table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
+   ip rule del fwmark "$PROXY_FWMARK" table "$PROXY_ROUTE_TABLE" >/dev/null 2>&1
+   ip link set dev utun down >/dev/null 2>&1
+   ip tuntap del utun mode tun >/dev/null 2>&1
    
-#    for ipt in "iptables -nvL INPUT" "iptables -nvL FORWARD" "iptables -nvL POSTROUTING -t nat" "iptables -nvL OUTPUT -t nat" "iptables -nvL OUTPUT -t mangle" "iptables -nvL PREROUTING -t nat" "iptables -nvL PREROUTING -t mangle" "ip6tables -nvL PREROUTING -t mangle" "ip6tables -nvL OUTPUT -t mangle" "ip6tables -nvL PREROUTING -t nat" "ip6tables -nvL INPUT"; do
-#       for comment in "openclash" "DNS Hijack" "OpenClash"; do
-#          local lines=$($ipt |sed 1,2d |sed -n "/${comment}/=" 2>/dev/null |sort -rn)
-#          if [ -n "$lines" ]; then
-#             for line in $lines; do
-#                $(echo "$ipt" |awk -v OFS=" " '{print $1,$4,$5}' |sed 's/[ ]*$//g') -D $(echo "$ipt" |awk '{print $3}') $line
-#             done
-#          fi
-#       done
-#    done >/dev/null 2>&1
+   for ipt in "iptables -nvL INPUT" "iptables -nvL FORWARD" "iptables -nvL POSTROUTING -t nat" "iptables -nvL OUTPUT -t nat" "iptables -nvL OUTPUT -t mangle" "iptables -nvL PREROUTING -t nat" "iptables -nvL PREROUTING -t mangle" "ip6tables -nvL PREROUTING -t mangle" "ip6tables -nvL OUTPUT -t mangle" "ip6tables -nvL PREROUTING -t nat" "ip6tables -nvL INPUT"; do
+      for comment in "openclash" "DNS Hijack" "OpenClash"; do
+         local lines=$($ipt |sed 1,2d |sed -n "/${comment}/=" 2>/dev/null |sort -rn)
+         if [ -n "$lines" ]; then
+            for line in $lines; do
+               $(echo "$ipt" |awk -v OFS=" " '{print $1,$4,$5}' |sed 's/[ ]*$//g') -D $(echo "$ipt" |awk '{print $3}') $line
+            done
+         fi
+      done
+   done >/dev/null 2>&1
    
-#    for chain in "openclash" "openclash_output" "openclash_post" "openclash_dns_hijack"; do
-#       iptables -t nat -F $chain
-#       iptables -t nat -X $chain
-#       iptables -t mangle -F $chain
-#       iptables -t mangle -X $chain
-#       ip6tables -t mangle -F $chain
-#       ip6tables -t mangle -X $chain
-#    done >/dev/null 2>&1
+   for chain in "openclash" "openclash_output" "openclash_post" "openclash_dns_hijack"; do
+      iptables -t nat -F $chain
+      iptables -t nat -X $chain
+      iptables -t mangle -F $chain
+      iptables -t mangle -X $chain
+      ip6tables -t mangle -F $chain
+      ip6tables -t mangle -X $chain
+   done >/dev/null 2>&1
 
-#    ipset destroy localnetwork6 >/dev/null 2>&1
-#    ipset destroy china_ip6_route >/dev/null 2>&1
-#    ipset destroy lan_ac_white_ipv6s >/dev/null 2>&1
-#    ipset destroy lan_ac_black_ipv6s >/dev/null 2>&1
-#    ipset destroy wan_ac_black_ipv6s >/dev/null 2>&1
+   ipset destroy localnetwork6 >/dev/null 2>&1
+   ipset destroy china_ip6_route >/dev/null 2>&1
+   ipset destroy lan_ac_white_ipv6s >/dev/null 2>&1
+   ipset destroy lan_ac_black_ipv6s >/dev/null 2>&1
+   ipset destroy wan_ac_black_ipv6s >/dev/null 2>&1
    
-#    ipset destroy localnetwork >/dev/null 2>&1
-#    ipset destroy china_ip_route >/dev/null 2>&1
-#    ipset destroy lan_ac_white_ips >/dev/null 2>&1
-#    ipset destroy lan_ac_black_ips >/dev/null 2>&1
-#    ipset destroy lan_ac_white_macs >/dev/null 2>&1
-#    ipset destroy lan_ac_black_macs >/dev/null 2>&1
-#    ipset destroy wan_ac_black_ips >/dev/null 2>&1
-#    ipset destroy common_ports >/dev/null 2>&1
-# }
+   ipset destroy localnetwork >/dev/null 2>&1
+   ipset destroy china_ip_route >/dev/null 2>&1
+   ipset destroy lan_ac_white_ips >/dev/null 2>&1
+   ipset destroy lan_ac_black_ips >/dev/null 2>&1
+   ipset destroy lan_ac_white_macs >/dev/null 2>&1
+   ipset destroy lan_ac_black_macs >/dev/null 2>&1
+   ipset destroy wan_ac_black_ips >/dev/null 2>&1
+   ipset destroy common_ports >/dev/null 2>&1
+}
 
 get_config()
 {
@@ -2198,8 +2198,8 @@ start()
    
    LOG_OUT "Step 2: Check The Components..."
    #检查文件是否存在
-   do_run_file "$RAW_CONFIG_FILE" "$BACKUP_FILE" "$en_mode"
-   
+   # do_run_file "$RAW_CONFIG_FILE" "$BACKUP_FILE" "$en_mode"
+   do_run_file
    #快速启动判断
    # check_run_quick
    
@@ -2262,71 +2262,72 @@ start()
    rm -rf /tmp/yaml_*
 }
 
-# stop()
-# {
+stop()
+{
 
-#    enable=$(uci -q get openclash.config.enable)
+   enable=$(uci -q get clashwrt.config.enable)
 
-#    LOG_OUT "OpenClash Stoping..."
-#    LOG_OUT "Step 1: Backup The Current Groups State..."
-#    /usr/share/openclash/openclash_history_get.sh 2>/dev/null
+   LOG_OUT "ClashWRT Stoping..."
+   # LOG_OUT "Step 1: Backup The Current Groups State..."
+   # /usr/share/openclash/openclash_history_get.sh 2>/dev/null
 
-#    LOG_OUT "Step 2: Delete OpenClash Firewall Rules..."
-#    revert_firewall
+   LOG_OUT "Step 2: Delete OpenClash Firewall Rules..."
+   revert_firewall
 
-#    LOG_OUT "Step 3: Close The OpenClash Daemons..."
-#    watchdog_pids=$(unify_ps_pids "openclash_watchdog.sh")
-#    for watchdog_pid in $watchdog_pids; do
-#       kill -9 "$watchdog_pid" >/dev/null 2>&1
-#    done >/dev/null 2>&1
+   # LOG_OUT "Step 3: Close The OpenClash Daemons..."
+   # watchdog_pids=$(unify_ps_pids "openclash_watchdog.sh")
+   # for watchdog_pid in $watchdog_pids; do
+   #    kill -9 "$watchdog_pid" >/dev/null 2>&1
+   # done >/dev/null 2>&1
    
-#    streaming_unlock_pids=$(unify_ps_pids "openclash_streaming_unlock.lua")
-#    for streaming_unlock_pid in $streaming_unlock_pids; do
-#       kill -9 "$streaming_unlock_pid" >/dev/null 2>&1
-#    done >/dev/null 2>&1
+   # streaming_unlock_pids=$(unify_ps_pids "openclash_streaming_unlock.lua")
+   # for streaming_unlock_pid in $streaming_unlock_pids; do
+   #    kill -9 "$streaming_unlock_pid" >/dev/null 2>&1
+   # done >/dev/null 2>&1
    
-#    LOG_OUT "Step 4: Close The Clash Core Process..."
-#    if [ "$enable" != "1" ]; then
-#       kill_clash
-#    fi
+   LOG_OUT "Step 4: Close The Clash Core Process..."
+   kill_clash
+   # if [ "$enable" != "1" ]; then
+   #    kill_clash
+   # fi
+  
 
-#    LOG_OUT "Step 5: Restart Dnsmasq..."
-#    dns_port=$(uci -q get openclash.config.dns_port)
-#    redirect_dns=$(uci -q get openclash.config.redirect_dns)
-#    masq_cache=$(uci -q get openclash.config.masq_cache)
-#    default_resolvfile=$(uci -q get openclash.config.default_resolvfile)
-#    revert_dns "$redirect_dns" "$masq_cache" "$dns_port" "$enable" "$default_resolvfile"
-#    /etc/init.d/dnsmasq restart >/dev/null 2>&1
+   LOG_OUT "Step 5: Restart Dnsmasq..."
+   dns_port=$(uci -q get clashwrt.config.dns_port)
+   redirect_dns=$(uci -q get clashwrt.config.redirect_dns)
+   masq_cache=$(uci -q get clashwrt.config.masq_cache)
+   default_resolvfile=$(uci -q get clashwrt.config.default_resolvfile)
+   revert_dns "$redirect_dns" "$masq_cache" "$dns_port" "$enable" "$default_resolvfile"
+   /etc/init.d/dnsmasq restart >/dev/null 2>&1
 
-#    LOG_OUT "Step 6: Delete OpenClash Residue File..."
-#    if [ "$enable" != "1" ]; then
-#       rm -rf /www/luci-static/openclash
-#       rm -rf /tmp/clash_last_version
-#       rm -rf /tmp/Proxy_Group
-#       rm -rf /tmp/rules_name
-#       rm -rf /tmp/rule_providers_name
-#       rm -rf /tmp/openclash_fake_filter.list
-#       rm -rf /tmp/openclash_servers_fake_filter.conf
-#       rm -rf /tmp/openclash_last_version
-#       rm -rf /tmp/openclash_config.tmp
-#       rm -rf /tmp/openclash.change
-#       rm -rf /tmp/openclash_debug.log
-#       del_lock
-#       LOG_OUT "OpenClash Already Stop!"
-#       sleep 3
-#       rm -rf $LOG_FILE
-#    fi
+   LOG_OUT "Step 6: Delete OpenClash Residue File..."
+   if [ "$enable" != "1" ]; then
+      rm -rf /www/luci-static/openclash
+      rm -rf /tmp/clash_last_version
+      rm -rf /tmp/Proxy_Group
+      rm -rf /tmp/rules_name
+      rm -rf /tmp/rule_providers_name
+      rm -rf /tmp/openclash_fake_filter.list
+      rm -rf /tmp/openclash_servers_fake_filter.conf
+      rm -rf /tmp/openclash_last_version
+      rm -rf /tmp/openclash_config.tmp
+      rm -rf /tmp/openclash.change
+      rm -rf /tmp/openclash_debug.log
+      del_lock
+      LOG_OUT "OpenClash Already Stop!"
+      sleep 3
+      rm -rf $LOG_FILE
+   fi
    
-#    del_cron
-#    rm -rf /tmp/yaml_*
-#    rm -rf $START_LOG
-#    echo "OpenClash Already Stop!"
-# }
+   del_cron
+   rm -rf /tmp/yaml_*
+   rm -rf $START_LOG
+   echo "OpenClash Already Stop!"
+}
 
 
 restart()
 {
-   LOG_OUT "RSTART RUNNING.....FOR TEST"
    [ -f "$LOCK_FILE" ] && LOG_OUT "Warning: Multiple Restart Scripts Running, Exit..." && SLOG_CLEAN && exit 0
    mkdir -p /tmp/lock
    touch $LOCK_FILE
