@@ -16,10 +16,10 @@ RELEASE_BRANCH=$(uci -q get clashwrt.config.release_branch || echo "master")
 set_lock
 
 if [ "$CKTIME" != "$(grep "CheckTime" $LAST_OPVER 2>/dev/null |awk -F ':' '{print $2}')" ]; then
-	if pidof clash_tun >/dev/null; then
+	if pidof clash >/dev/null; then
       curl -sL --connect-timeout 5 --retry 2 https://raw.githubusercontent.com/JMVoid/ClashWRT/"$RELEASE_BRANCH"/core_version -o $LAST_OPVER >/dev/null 2>&1
    fi
-   if [ "$?" -ne "0" ] || ! pidof clash_tun >/dev/null; then
+   if [ "$?" -ne "0" ] || ! pidof clash >/dev/null; then
       curl -sL --connect-timeout 5 --retry 2 https://cdn.jsdelivr.net/gh/JMVoid/ClashWRT@"$RELEASE_BRANCH"/core_version -o $LAST_OPVER >/dev/null 2>&1
    fi
    if [ "$?" -eq "0" ] && [ -s "$LAST_OPVER" ]; then

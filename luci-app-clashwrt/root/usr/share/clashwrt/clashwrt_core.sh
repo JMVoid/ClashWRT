@@ -121,7 +121,7 @@ if [ "$CORE_CV" != "$CORE_LV" ] || [ -z "$CORE_CV" ]; then
          fi
       
          if [ "$if_restart" -eq 1 ]; then
-      	    clash_pids=$(pidof clash_tun |sed 's/$//g')
+      	    clash_pids=$(pidof clash |sed 's/$//g')
             for clash_pid in $clash_pids; do
                kill -9 "$clash_pid" 2>/dev/null
             done
