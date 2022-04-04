@@ -1,5 +1,5 @@
 #!/bin/sh
-. /usr/share/clashwrt/openclash_ps.sh
+. /usr/share/clashwrt/clashwrt_ps.sh
 . /usr/share/clashwrt/log.sh
 
    set_lock() {
