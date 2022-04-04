@@ -2641,3 +2641,6 @@ msgstr "*远程域名解析"
 
 msgid "Add DNS Remote Support For Redir-Host"
 msgstr "Redir-Host模式强制进行远程域名解析"
+
+msgid "DNS Settings"
+msgstr "DNS 设置"

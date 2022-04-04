@@ -6,8 +6,14 @@ local UTIL = require "luci.util"
 local fs = require "luci.clashwrt"
 local uci = require "luci.model.uci".cursor()
 
-m = Map("clashwrt", translate("DNS Settings"))
+m = Map("clashwrt", translate("Version Update"))
 m.pageaction = false
+
+sul =m:section(SimpleSection, "")
+o = sul:option(FileUpload, "")
+o.template = "clashwrt/upload"
+um = sul:option(DummyValue, "", nil)
+um.template = "clashwrt/dvalue"
 
 s = m:section(TypedSection, "clashwrt")
 s.anonymous = true
