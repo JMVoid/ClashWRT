@@ -44,4 +44,43 @@ o.write = function()
   HTTP.redirect(DISP.build_url("admin", "services", "clashwrt"))
 end
 
+local core_path_mode = uci:get("clashwrt", "config", "small_flash_memory")
+local dir = "/etc/openclash/config/"
+if core_path_mode ~= 1 then
+	dir = "/etc/openclash/config/"
+else
+	dir = "/tmp/etc/openclash/config/"
+end
+
+HTTP.setfilehandler(
+	function(meta, chunk, eof)
+		local fp = HTTP.formvalue("file_type")
+		if not fd then
+			if not meta then return end
+
+			if fp == "country.mmdb" then
+				if meta and chunk then fd = nixio.open(dir .. meta.file, "w") end
+			end
+			if not fd then
+				um.value = translate("upload file error.")
+				return
+			end
+		end
+		if chunk and fd then
+			fd:write(chunk)
+		end
+		if eof and fd then
+			fd:close()
+			fd = nil
+		end
+	end
+)
+
+if HTTP.formvalue("upload") then
+	local f = HTTP.formvalue("ulfile")
+	if #f <= 0 then
+		um.value = translate("No Specify Upload File")
+	end
+end
+
 return m

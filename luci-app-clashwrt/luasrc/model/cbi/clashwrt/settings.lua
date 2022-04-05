@@ -14,11 +14,24 @@ font_off = [[</b>]]
 bold_on  = [[<strong>]]
 bold_off = [[</strong>]]
 
+local lan_ip=SYS.exec("uci -q get network.lan.ipaddr |awk -F '/' '{print $1}' 2>/dev/null |tr -d '\n' || ip addr show 2>/dev/null | grep -w 'inet' | grep 'global' | grep 'brd' | grep -Eo 'inet [0-9\.]+' | awk '{print $2}' | head -n 1 | tr -d '\n'")
+
 m = Map("clashwrt", translate("Operation Mode"))
 m.pageaction = false
 
 s = m:section(TypedSection, "clashwrt")
 s.anonymous = true
+
+local cn_port=SYS.exec("uci get clashwrt.config.cn_port 2>/dev/null |tr -d '\n'")
+o = s:option(Value, "cn_port", translate("Dashboard Port"))
+o.default = 9090
+o.datatype = "port"
+o.rmempty = false
+o.description = translate("Dashboard Address Example:").." "..font_green..bold_on..lan_ip.."/luci-static/openclash、"..lan_ip..':'..cn_port..'/ui'..bold_off..font_off
+
+o = s:option(Value, "dashboard_password", translate("Dashboard Secret"))
+o.rmempty = true
+o.description = translate("Set Dashboard Secret")
 
 o = s:option(ListValue, "interface_name", font_red..bold_on..translate("Bind Network Interface")..bold_off..font_off)
 local de_int = SYS.exec("ip route |grep 'default' |awk '{print $5}' 2>/dev/null") or SYS.exec("/usr/share/clashwrt/clashwrt_get_network.lua 'dhcp'")
@@ -75,5 +88,26 @@ o.default = 7893
 o.datatype = "port"
 o.rmempty = false
 o.description = translate("Please Make Sure Ports Available")
+
+local t = {
+   {Commit, Apply}
+}
+a = m:section(Table, t)
+o = a:option(Button, "Commit", " ")
+o.inputtitle = translate("Commit Settings")
+o.inputstyle = "apply"
+o.write = function()
+ m.uci:commit("clashwrt")
+end
+
+o = a:option(Button, "Apply", " ")
+o.inputtitle = translate("Apply Settings")
+o.inputstyle = "apply"
+o.write = function()
+  m.uci:set("clashwrt", "config", "enable", 1)
+  m.uci:commit("clashwrt")
+  SYS.call("/etc/init.d/clashwrt restart >/dev/null 2>&1 &")
+  HTTP.redirect(DISP.build_url("admin", "services", "clashwrt"))
+end
 
 return m

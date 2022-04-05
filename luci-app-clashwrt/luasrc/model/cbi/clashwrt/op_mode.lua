@@ -72,4 +72,25 @@ o = s:option(Flag, "small_flash_memory", translate("Small Flash Memory"))
 o.description = translate("Move Core And GEOIP Data File To /tmp/etc/openclash For Small Flash Memory Device")
 o.default=0
 
+local t = {
+    {Commit, Apply}
+ }
+ a = m:section(Table, t)
+ o = a:option(Button, "Commit", " ")
+ o.inputtitle = translate("Commit Settings")
+ o.inputstyle = "apply"
+ o.write = function()
+  m.uci:commit("clashwrt")
+ end
+ 
+ o = a:option(Button, "Apply", " ")
+ o.inputtitle = translate("Apply Settings")
+ o.inputstyle = "apply"
+ o.write = function()
+   m.uci:set("clashwrt", "config", "enable", 1)
+   m.uci:commit("clashwrt")
+   SYS.call("/etc/init.d/clashwrt restart >/dev/null 2>&1 &")
+   HTTP.redirect(DISP.build_url("admin", "services", "clashwrt"))
+ end
+
 return m
