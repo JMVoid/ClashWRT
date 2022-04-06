@@ -66,7 +66,7 @@
 				<input type="radio" id="direct" name="radios" value="direct" onclick="return switch_rule_mode(this.value)"/>
 				<label for="direct">Direct</label>
 			</span></td><td width="25%"><%:Control Panel Login Secret%></td><td width="25%" align="left" id="_dase"><%:Collecting data...%></td></tr>
-			<tr><td width="25%"><%:Yacd Control Panel%></td><td width="25%" align="left" id="_web"><%:Collecting data...%></td><td width="25%"><%:Dashboard Control Panel%></td><td width="25%" align="left" id="_webo"><%:Collecting data...%></td></tr>
+			<tr><td width="25%"><%:WebUI Control Panel%></td><td width="25%" align="left" id="_web"><%:Collecting data...%></td></tr>
 		<tr id="tool_label2"><td colspan="4"><p align="center">
 <span>
 &nbsp;&nbsp;<%:Up:%>&nbsp;
@@ -229,7 +229,7 @@
 			}
 			watchdog.innerHTML = status.watchdog ? '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<%:Daemons%>:&nbsp;&nbsp;&nbsp;<b style=color:green><%:Running%></b>' : '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<%:Daemons%>:&nbsp;&nbsp;&nbsp;<b style=color:red><%:Not Running%></b>';
 			dase.innerHTML = status.dase ? "<b style=color:green>"+status.dase+"</b>" : "<b style=color:red>"+"<%:Not Set%>"+"</b>";
-			web.innerHTML = status.web ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Open Panel%>" onclick="return ycad_dashboard(this)"/>' : '<b style=color:red><%:Not Running%></b>';
+			web.innerHTML = status.web ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Open Panel%>" onclick="return webui_dashboard(this)"/>' : '<b style=color:red><%:Not Running%></b>';
 			webo.innerHTML = status.web ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Open Panel%>" onclick="return net_dashboard(this)"/>' : '<b style=color:red><%:Not Running%></b>';
 			close_all_connection.innerHTML = status.clash ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Close All Connections%>" onclick="return b_close_all_connection(this)"/>' : '<b style=color:red><%:Not Running%></b>';
 			reload_firewall.innerHTML = status.clash ? '<input type="button" class="btn cbi-button cbi-button-reload" value="<%:Reload Firewall Rules%>" onclick="return b_reload_firewall(this)"/>' : '<b style=color:red><%:Not Running%></b>';
@@ -626,7 +626,7 @@
         });
     };
     
-    function net_dashboard(btn)
+    function webui_dashboard(btn)
     {
         XHR.get('<%=luci.dispatcher.build_url("admin", "services", "clashwrt", "status")%>', null, function(x, status) {
         btn.disabled = true;
