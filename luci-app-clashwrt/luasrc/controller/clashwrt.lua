@@ -17,10 +17,10 @@ function index()
 
 	entry({"admin", "services", "clashwrt", "op_mode"},cbi("clashwrt/op_mode"), _("Operation Mode"), 30).leaf=true
 	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 40).leaf=true
-	entry({"admin", "services", "clashwrt", "dnsSettings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 50).leaf=true
-	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 60).leaf = true
-	entry({"admin", "services", "clashwrt", "version_update"},cbi("clashwrt/version_update"), _("Version Update"), 70).leaf=true
-	
+	entry({"admin", "services", "clashwrt", "dnsSettings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 60).leaf=true
+	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 70).leaf = true
+	entry({"admin", "services", "clashwrt", "version_update"},cbi("clashwrt/version_update"), _("Version Update"), 80).leaf=true
+	entry({"admin", "services", "clashwrt", "access_control"},cbi("clashwrt/access_control"), _("Access Control"), 90).leaf=true
 
 	entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
 	entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))
