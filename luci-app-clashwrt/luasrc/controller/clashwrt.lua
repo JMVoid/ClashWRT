@@ -7,20 +7,21 @@ function index()
 
 	local page
 	
-	page = entry({"admin", "services", "clashwrt"}, alias("admin", "services", "clashwrt", "client"), _("ClashWRT"), 50)
+	page = entry({"admin", "services", "clashwrt"}, alias("admin", "services", "clashwrt", "client"), _("ClashWRT"))
 	page.dependent = true
 	page.acl_depends = { "luci-app-clashwrt" }
-	entry({"admin", "services", "clashwrt", "client"},form("clashwrt/client"),_("Overviews"), 20).leaf = true
+	entry({"admin", "services", "clashwrt", "client"},form("clashwrt/client"),_("Overviews"), 1).leaf = true
 	entry({"admin", "services", "clashwrt", "status"},call("action_status")).leaf=true
 	entry({"admin", "services", "clashwrt", "state"},call("action_state")).leaf=true
 	entry({"admin", "services", "clashwrt", "startlog"},call("action_start")).leaf=true
 
-	entry({"admin", "services", "clashwrt", "op_mode"},cbi("clashwrt/op_mode"), _("Operation Mode"), 30).leaf=true
-	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 40).leaf=true
-	entry({"admin", "services", "clashwrt", "dnsSettings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 60).leaf=true
-	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 70).leaf = true
-	entry({"admin", "services", "clashwrt", "version_update"},cbi("clashwrt/version_update"), _("Version Update"), 80).leaf=true
-	entry({"admin", "services", "clashwrt", "access_control"},cbi("clashwrt/access_control"), _("Access Control"), 90).leaf=true
+	entry({"admin", "services", "clashwrt", "op_mode"},cbi("clashwrt/op_mode"), _("Operation Mode"), 5).leaf=true
+	entry({"admin", "services", "clashwrt", "settings"},cbi("clashwrt/settings"), _("General Settings"), 10).leaf=true
+	entry({"admin", "services", "clashwrt", "dnsSettings"},cbi("clashwrt/dnsSettings"), _("DNS Settings"), 15).leaf=true
+	entry({"admin", "services", "clashwrt", "access_control"},cbi("clashwrt/access_control"), _("Access Control"), 20).leaf=true
+	entry({"admin", "services", "clashwrt", "log"},cbi("clashwrt/log"),_("Server Logs"), 25).leaf = true
+	entry({"admin", "services", "clashwrt", "version_update"},cbi("clashwrt/version_update"), _("Version Update"), 30).leaf=true
+
 
 	entry({"admin", "services", "clashwrt", "refresh_log"},call("action_refresh_log"))
 	entry({"admin", "services", "clashwrt", "del_log"},call("action_del_log"))

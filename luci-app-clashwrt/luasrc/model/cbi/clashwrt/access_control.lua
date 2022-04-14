@@ -55,12 +55,33 @@ if string.len(SYS.exec("/usr/share/clashwrt/clashwrt_get_network.lua 'gateway6'"
             mac_b:value(n.mac, "%s (%s)" %{ n.mac, n.dest:string() })
             mac_w:value(n.mac, "%s (%s)" %{ n.mac, n.dest:string() })
         end
-end)
+    end)
 end
-end
+
 
 o = s:option(DynamicList, "wan_ac_black_ips", translate("WAN Bypassed Host List"))
 o.datatype = "ipaddr"
 o.description = translate("In The Fake-IP Mode, Only Pure IP Requests Are Supported")
 
+local t = {
+    {Commit, Apply}
+ }
+ a = m:section(Table, t)
+ o = a:option(Button, "Commit", " ")
+ o.inputtitle = translate("Commit Settings")
+ o.inputstyle = "apply"
+ o.write = function()
+  m.uci:commit("clashwrt")
+ end
+ 
+ o = a:option(Button, "Apply", " ")
+ o.inputtitle = translate("Apply Settings")
+ o.inputstyle = "apply"
+ o.write = function()
+   m.uci:set("clashwrt", "config", "enable", 1)
+   m.uci:commit("clashwrt")
+   SYS.call("/etc/init.d/clashwrt restart >/dev/null 2>&1 &")
+   HTTP.redirect(DISP.build_url("admin", "services", "clashwrt"))
+ end
+ 
 return m
