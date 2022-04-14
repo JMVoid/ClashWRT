@@ -34,8 +34,8 @@ define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/root/etc/clashwrt/core
 	mkdir -p $(PKG_BUILD_DIR)/root/usr/share/clashwrt/backup
 	cp -f "$(PKG_BUILD_DIR)/root/etc/config/clashwrt" "$(PKG_BUILD_DIR)/root/usr/share/clashwrt/backup/clashwrt" >/dev/null 2>&1
-	cp -f "$(PKG_BUILD_DIR)/root/etc/clashwrt/custom/clashwrt_custom_fake_filter.list" "$(PKG_BUILD_DIR)/root/usr/share/clashwrt/backup/clashwrt_custom_fake_filter.list" >/dev/null 2>&1
-	cp -f "$(PKG_BUILD_DIR)/root/etc/clashwrt/custom/clashwrt_custom_fallback_filter.yaml" "$(PKG_BUILD_DIR)/root/usr/share/clashwrt/backup/claswrt_custom_fallback_filter.yaml" >/dev/null 2>&1
+	# cp -f "$(PKG_BUILD_DIR)/root/etc/clashwrt/custom/clashwrt_custom_fake_filter.list" "$(PKG_BUILD_DIR)/root/usr/share/clashwrt/backup/clashwrt_custom_fake_filter.list" >/dev/null 2>&1
+	# cp -f "$(PKG_BUILD_DIR)/root/etc/clashwrt/custom/clashwrt_custom_fallback_filter.yaml" "$(PKG_BUILD_DIR)/root/usr/share/clashwrt/backup/claswrt_custom_fallback_filter.yaml" >/dev/null 2>&1
 endef
 
 define Build/Configure
