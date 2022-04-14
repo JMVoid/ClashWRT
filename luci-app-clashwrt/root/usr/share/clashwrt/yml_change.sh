@@ -1,17 +1,8 @@
 #!/bin/sh
-. /usr/share/openclash/ruby.sh
+. /usr/share/clashwrt/ruby.sh
 
-LOG_FILE="/tmp/openclash.log"
+LOG_FILE="/tmp/clashwrt.log"
 LOGTIME=$(echo $(date "+%Y-%m-%d %H:%M:%S"))
-# dns_advanced_setting=$(uci -q get openclash.config.dns_advanced_setting)
-
-# if [ -n "$(ruby_read "$5" "['tun']")" ]; then
-#    uci set openclash.config.config_reload=0
-# else
-#    if [ -n "${11}" ]; then
-#       uci set openclash.config.config_reload=0
-#    fi
-# fi
 
 if [ -z "${11}" ]; then
    en_mode_tun=0
@@ -25,14 +16,7 @@ else
    stack_type=${12}
 fi
 
-# if [ "$(ruby_read "$5" "['external-controller']")" != "$controller_address:$3" ]; then
-#    uci set openclash.config.config_reload=0
-# fi
-    
-# if [ "$(ruby_read "$5" "['secret']")" != "$2" ]; then
-#    uci set openclash.config.config_reload=0
-# fi
-# uci commit openclash
+# echo "yml_change test ${1} $5" >> $LOG_FILE
 
 ruby -ryaml -E UTF-8 -e "
 begin
@@ -46,13 +30,13 @@ begin
    Value['port']=$7;
    Value['socks-port']=$8;
    Value['mixed-port']=${14};
-   Value['mode']='${10}';
-   Value['log-level']='$9';
-   Value['allow-lan']=true;
+   # Value['mode']='${10}';
+   # Value['log-level']='$9';
+   # Value['allow-lan']=true;
    Value['external-controller']='0.0.0.0:$3';
    Value['secret']='$2';
    Value['bind-address']='*';
-   Value['external-ui']='/usr/share/openclash/dashboard';
+   Value['external-ui']='/usr/share/clashwrt/dashboard';
 if not Value.key?('dns') then
    Value_1={'dns'=>{'enable'=>true}}
    Value['dns']=Value_1['dns']
@@ -97,19 +81,19 @@ if not Value.key?('profile') then
 else
    Value['profile']['store-selected']=true
 end;
-if ${17} != 1 then
-   Value['profile']['store-fake-ip']=false
-else
-   Value['profile']['store-fake-ip']=true
-end;
+# if ${17} != 1 then
+#    Value['profile']['store-fake-ip']=false
+# else
+#    Value['profile']['store-fake-ip']=true
+# end;
 rescue Exception => e
 puts '${LOGTIME} Error: Set General Error,【' + e.message + '】'
 end
 begin
 #添加自定义Hosts设置
 if '$1' == 'redir-host' then
-   if File::exist?('/etc/openclash/custom/openclash_custom_hosts.list') then
-      Value_3 = YAML.load_file('/etc/openclash/custom/openclash_custom_hosts.list')
+   if File::exist?('/etc/clashwrt/custom/clashwrt_custom_hosts.list') then
+      Value_3 = YAML.load_file('/etc/clashwrt/custom/clashwrt_custom_hosts.list')
       if Value_3 != false then
          Value['dns']['use-hosts']=true
          if Value.has_key?('hosts') and not Value['hosts'].to_a.empty? then
@@ -127,8 +111,8 @@ end
 begin
 #fake-ip-filter
 if '$1' == 'fake-ip' then
-   if File::exist?('/tmp/openclash_fake_filter.list') then
-     Value_4 = YAML.load_file('/tmp/openclash_fake_filter.list')
+   if File::exist?('/tmp/clashwrt_fake_filter.list') then
+     Value_4 = YAML.load_file('/tmp/clashwrt_fake_filter.list')
      if Value_4 != false then
         if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
            Value_5 = Value_4['fake-ip-filter'].reverse!
@@ -139,15 +123,15 @@ if '$1' == 'fake-ip' then
         Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq
      end
    end
-   if ${18} == 1 then
-      if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
-         Value['dns']['fake-ip-filter'].insert(-1,'+.nflxvideo.net')
-         Value['dns']['fake-ip-filter'].insert(-1,'+.media.dssott.com')
-         Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq
-      else
-         Value['dns'].merge!({'fake-ip-filter'=>['+.nflxvideo.net', '+.media.dssott.com']})
-      end
-   end
+   # if ${18} == 1 then
+   #    if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
+   #       Value['dns']['fake-ip-filter'].insert(-1,'+.nflxvideo.net')
+   #       Value['dns']['fake-ip-filter'].insert(-1,'+.media.dssott.com')
+   #       Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq
+   #    else
+   #       Value['dns'].merge!({'fake-ip-filter'=>['+.nflxvideo.net', '+.media.dssott.com']})
+   #    end
+   # end
 elsif ${19} == 1 then
    if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
       Value['dns']['fake-ip-filter'].insert(-1,'+.*')
@@ -162,8 +146,8 @@ end
 begin
 #nameserver-policy
 if '$dns_advanced_setting' == '1' then
-   if File::exist?('/etc/openclash/custom/openclash_custom_domain_dns_policy.list') then
-     Value_6 = YAML.load_file('/etc/openclash/custom/openclash_custom_domain_dns_policy.list')
+   if File::exist?('/etc/clashwrt/custom/clashwrt_custom_domain_dns_policy.list') then
+     Value_6 = YAML.load_file('/etc/clashwrt/custom/clashwrt_custom_domain_dns_policy.list')
      if Value_6 != false then
         if Value['dns'].has_key?('nameserver-policy') and not Value['dns']['nameserver-policy'].to_a.empty? then
            Value['dns']['nameserver-policy'].merge!(Value_6)
@@ -178,4 +162,4 @@ rescue Exception => e
 puts '${LOGTIME} Error: Set Nameserver-Policy Error,【' + e.message + '】'
 ensure
 File.open('$5','w') {|f| YAML.dump(Value, f)}
-end" 2>/dev/null >> $LOG_FILE
+end" 2>/tmp/yml_change.log >> $LOG_FILE
