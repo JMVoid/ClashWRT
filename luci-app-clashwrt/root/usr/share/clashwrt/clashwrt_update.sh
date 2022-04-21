@@ -1,5 +1,5 @@
 #!/bin/sh
-. /usr/share/openclash/log.sh
+. $IPKG_INSTROOT/usr/share/clashwrt/log.sh
 
 set_lock() {
    exec 878>"/tmp/lock/openclash_update.lock" 2>/dev/null
@@ -30,15 +30,15 @@ set_lock
 if [ "$(expr "$OP_LV" \> "$OP_CV")" -eq 1 ] && [ -f "$LAST_OPVER" ]; then
    LOG_OUT "Start Downloading【ClashWRT - v$LAST_VER】..."
    if [ "$RELEASE_BRANCH" = "dev" ]; then
-      curl -sL -m 10 --retry 2 https://raw.githubusercontent.com/JMVoid/ClashWRT/"$RELEASE_BRANCH"/luci-app-clashwrt_"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >/dev/null 2>&1
+      curl -sL -m 10 --retry 2 https://raw.githubusercontent.com/JMVoid/ClashWRT/"$RELEASE_BRANCH"/luci-app-clashwrt_"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >>"$DEBUG_LOG" 2>&1
    else
       if pidof clash >/dev/null; then
-         curl -sL -m 10 --retry 2 https://github.com/JMVoid/ClashWRT/releases/download/v"$LAST_VER"/luci-app-clashwrt"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >/dev/null 2>&1
+         curl -sL -m 10 --retry 2 https://github.com/JMVoid/ClashWRT/releases/download/v"$LAST_VER"/luci-app-clashwrt"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >>"$DEBUG_LOG" 2>&1
       fi
    fi
    
    if [ "$?" -ne "0" ] || ! pidof clash >/dev/null; then
-      curl -sL -m 10 --retry 2 https://cdn.jsdelivr.net/gh/JMVoid/ClashWRT@"$RELEASE_BRANCH"/luci-app-clashwrt_"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >/dev/null 2>&1
+      curl -sL -m 10 --retry 2 https://cdn.jsdelivr.net/gh/JMVoid/ClashWRT@"$RELEASE_BRANCH"/luci-app-clashwrt_"$LAST_VER"_all.ipk -o /tmp/clashwrt.ipk >>"$DEBUG_LOG" 2>&1
    fi
    
    if [ "$?" -eq "0" ] && [ -s "/tmp/clashwrt.ipk" ]; then
@@ -102,7 +102,7 @@ EOF
       if [ "$(uci get clashwrt.config.config_reload 2>/dev/null)" -eq 0 ]; then
          uci set clashwrt.config.config_reload=1
          uci commit clashwrt
-      	 /etc/init.d/clashwrt restart 2>/dev/null
+      	 /etc/init.d/clashwrt restart 2>>"$DEBUG_LOG"
       fi
    fi
 else
@@ -118,7 +118,7 @@ else
    if [ "$(uci get clashwrt.config.config_reload 2>/dev/null)" -eq 0 ]; then
       uci set clashwrt.config.config_reload=1
       uci commit clashwrt
-      /etc/init.d/clashwrt restart 2>/dev/null
+      /etc/init.d/clashwrt restart 2>>"$DEBUG_LOG"
    fi
 fi
 del_lock

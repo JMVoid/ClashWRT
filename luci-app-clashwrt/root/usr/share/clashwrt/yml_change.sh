@@ -1,7 +1,8 @@
 #!/bin/sh
 . /usr/share/clashwrt/ruby.sh
+. $IPKG_INSTROOT/usr/share/clashwrt/log.sh
 
-LOG_FILE="/tmp/clashwrt.log"
+# LOG_FILE="/tmp/clashwrt.log"
 LOGTIME=$(echo $(date "+%Y-%m-%d %H:%M:%S"))
 
 if [ -z "${11}" ]; then
@@ -30,8 +31,8 @@ begin
    Value['port']=$7;
    Value['socks-port']=$8;
    Value['mixed-port']=${14};
-   # Value['mode']='${10}';
-   # Value['log-level']='$9';
+   Value['mode']='${10}';
+   Value['log-level']='$9';
    # Value['allow-lan']=true;
    Value['external-controller']='0.0.0.0:$3';
    Value['secret']='$2';
@@ -123,15 +124,15 @@ if '$1' == 'fake-ip' then
         Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq
      end
    end
-   # if ${18} == 1 then
-   #    if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
-   #       Value['dns']['fake-ip-filter'].insert(-1,'+.nflxvideo.net')
-   #       Value['dns']['fake-ip-filter'].insert(-1,'+.media.dssott.com')
-   #       Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq
-   #    else
-   #       Value['dns'].merge!({'fake-ip-filter'=>['+.nflxvideo.net', '+.media.dssott.com']})
-   #    end
-   # end
+   if ${18} == 1 then
+      if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
+         Value['dns']['fake-ip-filter'].insert(-1,'+.nflxvideo.net')
+         Value['dns']['fake-ip-filter'].insert(-1,'+.media.dssott.com')
+         Value['dns']['fake-ip-filter']=Value['dns']['fake-ip-filter'].uniq
+      else
+         Value['dns'].merge!({'fake-ip-filter'=>['+.nflxvideo.net', '+.media.dssott.com']})
+      end
+   end
 elsif ${19} == 1 then
    if Value['dns'].has_key?('fake-ip-filter') and not Value['dns']['fake-ip-filter'].to_a.empty? then
       Value['dns']['fake-ip-filter'].insert(-1,'+.*')
@@ -162,4 +163,4 @@ rescue Exception => e
 puts '${LOGTIME} Error: Set Nameserver-Policy Error,【' + e.message + '】'
 ensure
 File.open('$5','w') {|f| YAML.dump(Value, f)}
-end" 2>/tmp/yml_change.log >> $LOG_FILE
+end" 2>&1 >> $LOG_FILE
