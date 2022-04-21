@@ -43,6 +43,16 @@ end
 o:value("0", translate("Disable"))
 o.default=0
 
+
+o = s:option(ListValue, "log_level", translate("Log Level"))
+o.description = translate("Select Clashwrt & Core's Log Level")
+o:value("info", translate("Info Mode"))
+o:value("warning", translate("Warning Mode"))
+o:value("error", translate("Error Mode"))
+o:value("debug", translate("Debug Mode"))
+o:value("silent", translate("Silent Mode"))
+o.default = "silent"
+
 o = s:option(Value, "log_size", translate("Log Size (KB)"))
 o.description = translate("Set Log File Size (KB)")
 o.default=1024
