@@ -2,7 +2,17 @@
 
 START_LOG="/tmp/clashwrt_start.log"
 LOG_FILE="/tmp/clashwrt.log"
-		
+DEBUG_LOG="/dev/null"
+
+debug_log_toggle() {
+   log_level=$(uci -q get clashwrt.config.log_level)
+   if [[ "$log_level" == "debug" ]]; then
+      DEBUG_LOG="$LOG_FILE"
+   fi
+}
+
+debug_log_toggle
+
 LOG_OUT()
 {
 	if [ -n "${1}" ]; then
@@ -21,3 +31,4 @@ SLOG_CLEAN()
 {
 	echo "" > $START_LOG
 }
+
