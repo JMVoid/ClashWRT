@@ -1,6 +1,6 @@
 #!/bin/sh
 . /usr/share/clashwrt/ruby.sh
-. $IPKG_INSTROOT/usr/share/clashwrt/log.sh
+. /usr/share/clashwrt/log.sh
 
 # LOG_FILE="/tmp/clashwrt.log"
 LOGTIME=$(echo $(date "+%Y-%m-%d %H:%M:%S"))
@@ -16,8 +16,6 @@ if [ -z "${12}" ]; then
 else
    stack_type=${12}
 fi
-
-# echo "yml_change test ${1} $5" >> $LOG_FILE
 
 ruby -ryaml -E UTF-8 -e "
 begin

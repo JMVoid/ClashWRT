@@ -1031,9 +1031,9 @@ get_config()
    dns_port=$(uci -q get clashwrt.config.dns_port)
    # tolerance=$(uci -q get openclash.config.tolerance)
    # custom_fallback_filter=$(uci -q get openclash.config.custom_fallback_filter)
-   # stream_domains_prefetch=$(uci -q get openclash.config.stream_domains_prefetch || echo 0)
+   stream_domains_prefetch=$(uci -q get openclash.config.stream_domains_prefetch || echo 0)
    # append_wan_dns=$(uci -q get openclash.config.append_wan_dns || echo 1)
-   # store_fakeip=$(uci -q get openclash.config.store_fakeip || echo 1)
+   store_fakeip=$(uci -q get openclash.config.store_fakeip || echo 1)
    dns_remote=$(uci -q get openclash.config.dns_remote || echo 1)
    _koolshare=$(cat /usr/lib/os-release 2>/dev/null |grep OPENWRT_RELEASE 2>/dev/null |grep -i koolshare 2>/dev/null)
    # [ -z "$dns_port" ] && dns_port=7874 && uci -q set clashwrt.config.dns_port=7874
@@ -1062,7 +1062,7 @@ start()
    LOG_OUT "Step 3: Modify The Config File..."
    LOG_OUT "$en_mode|$da_password|$cn_port|$proxy_port|$CONFIG_FILE|$ipv6_enable|$http_port|$socks_port|$log_level|$proxy_mode|$en_mode_tun|$stack_type|$dns_port|$mixed_port|$tproxy_port|$ipv6_dns|$store_fakeip|$stream_domains_prefetch|$dns_remote"
    config_check
-   /usr/share/clashwrt/yml_change.sh 2>/dev/null "$en_mode" "$da_password" "$cn_port" "$proxy_port" "$CONFIG_FILE" "$ipv6_enable" "$http_port" "$socks_port" "$log_level" "$proxy_mode" "$en_mode_tun" "$stack_type" "$dns_port" "$mixed_port" "$tproxy_port" "$ipv6_dns" "$store_fakeip" "$stream_domains_prefetch" "$dns_remote"
+   /usr/share/clashwrt/yml_change.sh 2>&1 >>$LOG_FILE "$en_mode" "$da_password" "$cn_port" "$proxy_port" "$CONFIG_FILE" "$ipv6_enable" "$http_port" "$socks_port" "$log_level" "$proxy_mode" "$en_mode_tun" "$stack_type" "$dns_port" "$mixed_port" "$tproxy_port" "$ipv6_dns" "$store_fakeip" "$stream_domains_prefetch" "$dns_remote"
    yml_dns_check "$CONFIG_FILE"  "$FALLBACK_FILTER_FILE"
    #    config_check
    #    # config_load "openclash"
