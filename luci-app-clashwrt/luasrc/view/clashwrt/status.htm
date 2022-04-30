@@ -668,13 +668,14 @@
     
 	XHR.get('<%=luci.dispatcher.build_url("admin", "services", "clashwrt", "currentversion")%>', null, function(x, status) {
 	     if ( x && x.status == 200 ) {
-	        clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" height="21px">';
+			 console.log("version x=", status.currentversion)
+	        clashversion.innerHTML = '<img id="currentver" src="'+status.currentversion+'" alt="currentversion" height="21px">';
 	     }
-	  });
+	});
 
 	//   XHR.get('<%=luci.dispatcher.build_url("admin", "services", "clashwrt", "currentversion")%>', null, function(x, status) {
 	//      if ( x && x.status == 200 ) {
-	//         clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" height="21px" onload="return clashversion_check()" onclick="return go_update()">';
+	//         clashversion.innerHTML = '<img id="currentver" src="'+status.currentversion+'" alt="currentversion" height="21px" onload="return clashversion_check()" onclick="return go_update()">';
 	//      }
 	//   });
 
@@ -694,7 +695,7 @@
     {
        XHR.get('<%=luci.dispatcher.build_url("admin", "services", "clashwrt", "currentversion")%>', null, function(x, status) {
 	        if ( x && x.status == 200 ) {
-             clashversion.innerHTML = '<img id="currenntver" src="'+status.currentversion+'" alt="currentversion" height="21px" onclick="return go_update()">';
+             clashversion.innerHTML = '<img id="currentver" src="'+status.currentversion+'" alt="currentversion" height="21px" onclick="return go_update()">';
 	        }
 	     });
     };
@@ -742,7 +743,7 @@
           }
           if(rdmdl==7)
           {
-             startlog.innerHTML = '<b><font><%:Tip: openlash will check the configuration file parameters to ensure that it works properly%></font></b>';
+             startlog.innerHTML = '<b><font><%:Tip: ClashWRT will check the configuration file parameters to ensure that it works properly%></font></b>';
           }
           if(rdmdl==8)
           {
